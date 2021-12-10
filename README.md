@@ -1,4 +1,4 @@
-# V02NFT >> the first little step of the big long journey to crypto-driven endurance sports communities
+# V02NFT:: the first little step of the big long journey to crypto-driven endurance sports communities
 
 ## Summary
 A minimal example of using a Node backend (server for API, proxy, & routing) with a [React frontend](https://github.com/facebookincubator/create-react-app). create-react-app with a Node server on Heroku.
