@@ -1,10 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from 'react-router-dom';
 import AccountNavbar from "../AccountNavbar";
 import bgImage from '../../img/account/signin-img.jpg';
 
 
 const Signin = () => {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  
+  const handleSubmit = (e) => {
+      e.preventDefault();
+      alert(`Submitted: ${email} ${password}`)
+  }
+
+
   useEffect(() => document.getElementById('root').style.background = '#f7f7fc')
   return (
     <>
@@ -29,13 +39,13 @@ const Signin = () => {
                       <div className="view show" id="signin-view">
                         <h1 className="h2">Sign in</h1>
                         <p className="fs-ms text-muted mb-4">Sign in to your account using email and password provided during registration.</p>
-                        <form className="needs-validation" novalidate>
+                        <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" novalidate>
                           <div className="input-group mb-3"><i className="ai-mail position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-                            <input className="form-control rounded" type="email" placeholder="Email" required/>
+                            <input value={email} onChange={e => setEmail(e.target.value)} className="form-control rounded" type="email" placeholder="Email" required/>
                           </div>
                           <div className="input-group mb-3"><i className="ai-lock position-absolute top-50 start-0 translate-middle-y ms-3"></i>
                             <div className="password-toggle w-100">
-                              <input className="form-control" type="password" placeholder="Password" required/>
+                              <input value={password} onChange={e => setPassword(e.target.value)} className="form-control" type="password" placeholder="Password" required/>
                               <label className="password-toggle-btn" aria-label="Show/hide password">
                                 <input className="password-toggle-check" type="checkbox"/><span className="password-toggle-indicator"></span>
                               </label>
@@ -43,8 +53,10 @@ const Signin = () => {
                           </div>
                           <div className="d-flex justify-content-between align-items-center mb-3 pb-1">
                             <div className="form-check">
-                              <input className="form-check-input" type="checkbox" id="keep-signed-2"/>
+                              {/*  
+                              <input onChange={e => setKeepmesignedin(e.target.value)} className="form-check-input" type="checkbox" id="keep-signed-2"/>
                               <label className="form-check-label" for="keep-signed-2">Keep me signed in</label>
+                              */}
                             </div><a className="nav-link-style fs-ms" href="password-recovery.html">Forgot password?</a>
                           </div>
                           <button className="btn btn-primary d-block w-100" type="submit">Sign in</button>

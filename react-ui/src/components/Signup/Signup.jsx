@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from 'react-router-dom';
 import AccountNavbar from "../AccountNavbar";
 import bgImage from '../../img/account/signin-img.jpg';
@@ -6,6 +6,19 @@ import bgImage from '../../img/account/signin-img.jpg';
 
 const Signup = () => {
   useEffect(() => document.getElementById('root').style.background = '#f7f7fc')
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmpassword, setConfirmpassword] = useState("");
+
+  
+  const handleSubmit = (e) => {
+      e.preventDefault();
+      alert(`Submitted: ${name} ${email} ${password} ${confirmpassword}`)
+  }
+
+
   return (
     <>
       <AccountNavbar />
@@ -29,16 +42,16 @@ const Signup = () => {
                       <div className="view show" id="signup-view">
                         <h1 className="h2">Sign up</h1>
                         <p className="fs-ms text-muted mb-4">Registration takes less than a minute but gives you full control over your orders.</p>
-                        <form className="needs-validation" novalidate>
+                        <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" novalidate>
                           <div className="mb-3">
-                            <input className="form-control" type="text" placeholder="Full name" required/>
+                            <input value={name} onChange={e => setName(e.target.value)} className="form-control" type="text" placeholder="Full name" required/>
                           </div>
                           <div className="mb-3">
-                            <input className="form-control" type="text" placeholder="Email" required/>
+                            <input value={email} onChange={e => setEmail(e.target.value)} className="form-control" type="text" placeholder="Email" required/>
                           </div>
                           <div className="input-group mb-3">
                             <div className="password-toggle w-100">
-                              <input className="form-control" type="password" placeholder="Password" required/>
+                              <input value={password} onChange={e => setPassword(e.target.value)} className="form-control" type="password" placeholder="Password" required/>
                               <label className="password-toggle-btn" aria-label="Show/hide password">
                                 <input className="password-toggle-check" type="checkbox"/><span className="password-toggle-indicator"></span>
                               </label>
@@ -46,7 +59,7 @@ const Signup = () => {
                           </div>
                           <div className="input-group mb-3">
                             <div className="password-toggle w-100">
-                              <input className="form-control" type="password" placeholder="Confirm password" required/>
+                              <input value={confirmpassword} onChange={e => setConfirmpassword(e.target.value)} className="form-control" type="password" placeholder="Confirm password" required/>
                               <label className="password-toggle-btn" aria-label="Show/hide password">
                                 <input className="password-toggle-check" type="checkbox"/><span className="password-toggle-indicator"></span>
                               </label>
