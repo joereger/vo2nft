@@ -18,9 +18,9 @@ const Intro = () => (
           <div className="col-xl-6 col-lg-5 d-flex justify-content-end">
             <div className="pt-2 mx-auto mb-5 mb-lg-0 ms-lg-0 me-xl-7 text-center text-lg-start" style={{maxWidth: '495px'}}>
               <h1 className="display-4 text-light pb-2">
-                <span className="fw-light">Workouts to </span>NFTs!
+                <span className="fw-light">Workouts to </span>NFTs.
               </h1>
-              <p className="h4 fw-light text-light opacity-70 line-height-base">And you will find everything you need to build a great looking website.</p>
+              <p className="h4 fw-light text-light opacity-70 line-height-base">Connect your endurance sports app and we'll create NFTs for your community to engage with.  You'll make royalties off of any downstream sales.</p>
               <a className="d-inline-flex align-items-center text-decoration-none pt-2 mt-4 mb-5" href="#demos" data-scroll>
                 <span className="btn btn-icon rounded-circle border-light flex-shrink-0 px-3">
                   <i className="ai-arrow-down h4 text-light my-1"></i>
