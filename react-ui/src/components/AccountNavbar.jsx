@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom';
-import logoDark from '../../img/logo/logo-dark.png';
-import logoLight from '../../img/logo/logo-light.png';
-import logoIcon from '../../img/logo/logo-icon.png';
-import main from '../../img/dashboard/avatar/main-sm.jpg';
+import logoDark from '../img/logo/logo-dark.png';
+import logoLight from '../img/logo/logo-light.png';
+import logoIcon from '../img/logo/logo-icon.png';
+import main from '../img/dashboard/avatar/main-sm.jpg';
 import { useEffect } from 'react';
 
 const AccountNavbar = () => {
@@ -44,6 +44,7 @@ const AccountNavbar = () => {
     }
   });
   return (
+    <>
   <header className="header navbar navbar-expand-lg navbar-dark navbar-floating navbar-sticky" data-fixed-element>
     <div className="container px-0 px-xl-3">
       <button className="navbar-toggler ms-n2 me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#primaryMenu">
@@ -66,6 +67,12 @@ const AccountNavbar = () => {
             </li>
             <li className="nav-item">
               <NavLink className="ps-3 nav-link" to="/account-profile" activeclassname="active">Account Profile</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="ps-3 nav-link" to="/Signin" activeclassname="active">Sign In</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="ps-3 nav-link" to="/Signup" activeclassname="active">Sign Up</NavLink>
             </li>
           </ul>
         </div>
@@ -128,6 +135,15 @@ const AccountNavbar = () => {
       </div>
     </div>
   </header>
+
+  <div className="position-relative bg-gradient" style={{height: '480px'}}>
+  <div className="shape shape-bottom shape-slant bg-secondary d-none d-lg-block">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 260">
+      <polygon fill="currentColor" points="0,257 0,260 3000,260 3000,0"></polygon>
+    </svg>
+  </div>
+  </div>
+</>
 )};
 
 export default AccountNavbar;

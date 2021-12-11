@@ -11,6 +11,8 @@ import Home from "./components/Home/Home";
 import AccountProfile from "./components/Account Profile/AccountProfile";
 import ScrollUp from "./components/ScrollUp";
 import NotFound from "./components/NotFound";
+import Signin from "./components/Signin/Signin";
+import Signup from "./components/Signup/Signup";
 
 
 class App extends Component {
@@ -72,6 +74,8 @@ class App extends Component {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/account-profile" element={<AccountProfile />} />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ScrollUp/>

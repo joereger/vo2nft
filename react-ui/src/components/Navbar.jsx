@@ -66,6 +66,12 @@ const Navbar = ({ bg }) => {
             <li className="nav-item">
               <NavLink className="ps-3 nav-link" to="/account-profile" activeclassname="active">Account Profile</NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink className="ps-3 nav-link" to="/Signin" activeclassname="active">Sign In</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="ps-3 nav-link" to="/Signup" activeclassname="active">Sign Up</NavLink>
+            </li>
           </ul>
         </div>
       </div>
