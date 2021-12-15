@@ -12,11 +12,38 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
 
+  const [responseData, setResponseData] = useState(null);
+
   
   const handleSubmit = (e) => {
       e.preventDefault();
-      alert(`Submitted: ${name} ${email} ${password} ${confirmpassword}`)
+
+      console.log(`Signup Submitted: ${name} ${email} ${password} ${confirmpassword}`)
+
+      return fetch('/api/signup', {
+          method: 'POST',
+          body: JSON.stringify({ name, email, password, confirmpassword }),
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      }).then(response => {
+          if (response.status >= 200 && response.status < 300) {
+            //return(response);
+            console.log("Signup: received a response");
+            response.json().then(json => {
+              console.log(json);
+            });
+            //do something here to tell user it's all good, redirect to dash?
+          } else {
+            console.log('Signup: Somthing blew up');
+          }
+      }).catch(err => err);
+
   }
+
+  
+
+  
 
 
   return (
