@@ -12,9 +12,10 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
 
+  const [isAlertOn, setIsAlertOn] = useState(false);
+  const [alertText, setAlertText] = useState("");
   const [responseData, setResponseData] = useState(null);
 
-  
   const handleSubmit = (e) => {
       e.preventDefault();
 
@@ -35,16 +36,19 @@ const Signup = () => {
             });
             //do something here to tell user it's all good, redirect to dash?
           } else {
-            console.log('Signup: Somthing blew up');
+            response.json().then(json => {
+              console.log(json);
+              console.log('Signup: Somthing blew up message='+json.message);
+              setAlertText(json.message);
+              setIsAlertOn(true);
+            });
+            
           }
       }).catch(err => err);
 
   }
 
   
-
-  
-
 
   return (
     <>
@@ -67,6 +71,13 @@ const Signup = () => {
           
                       {/* Sign Up View */}
                       <div className="view show" id="signup-view">
+
+                      {isAlertOn 
+                            ? <div class="alert d-flex alert-primary" role="alert"><i class="ai-bell fs-xl me-3"></i><div> {alertText} </div></div>
+                            : ''
+                      }
+
+                    
                         <h1 className="h2">Sign up</h1>
                         <p className="fs-ms text-muted mb-4">Registration takes less than a minute but gives you full control over your orders.</p>
                         <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" novalidate>

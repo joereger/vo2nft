@@ -3,6 +3,8 @@ const db = require('../models/index.js');
 exports.signup = function(req, res){
     console.log('/api/signup called in signup.js email='+req.body.email);
 
+    //TODO this validation doesn't work.  it'll log out that passwords don't match before it logs out that the email doesn't appear to exist.  i need to make these synchronous
+
     //Email can't be blank
     if (req.body.email==null || req.body.email==''){
         //res.set('Content-Type', 'application/json');
@@ -16,9 +18,7 @@ exports.signup = function(req, res){
     try {
         const User = db.sequelize.models.User;
         User.count({ where: { email: req.body.email } }).then(usercount => {
-            if (usercount>0){
-                //res.set('Content-Type', 'application/json');
-                //res.send('{"message":"Email already exists"}');   
+            if (usercount>0){ 
                 console.log("Signup.js Email already exists "+req.body.email);
                 res.set('Content-Type', 'application/json');
                 return res.send(400, { message: "Oops, that email already exists.  Consider logging in instead?" });
@@ -35,6 +35,7 @@ exports.signup = function(req, res){
 
     //Verify that passwords match
     if (req.body.password!=req.body.confirmpassword){
+        console.log("Signup: passwords don't match"); 
         res.set('Content-Type', 'application/json');
         return res.send(400, { message: "Whoopsie, looks like your passwords don't match.  Please try again." });    
     } else {
