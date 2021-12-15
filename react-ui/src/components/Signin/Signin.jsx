@@ -8,10 +8,42 @@ const Signin = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
+
+
+  const [isAlertOn, setIsAlertOn] = useState(false);
+  const [alertText, setAlertText] = useState("");
+  const [responseData, setResponseData] = useState(null);
+
   const handleSubmit = (e) => {
       e.preventDefault();
-      alert(`Submitted: ${email} ${password}`)
+
+      console.log(`Signin Submitted: ${email} ${password}`)
+
+      return fetch('/api/signin', {
+          method: 'POST',
+          body: JSON.stringify({ email, password }),
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      }).then(response => {
+          if (response.status >= 200 && response.status < 300) {
+            //return(response);
+            console.log("Signin: received a response");
+            response.json().then(json => {
+              console.log(json);
+            });
+            //do something here to tell user it's all good, redirect to dash?
+          } else {
+            response.json().then(json => {
+              console.log(json);
+              console.log('Signin: Somthing blew up message='+json.message);
+              setAlertText(json.message);
+              setIsAlertOn(true);
+            });
+            
+          }
+      }).catch(err => err);
+
   }
 
 
@@ -35,8 +67,13 @@ const Signin = () => {
                 <div className="w-100 pt-3">
                   <div className="row">
                     <div className="col-lg-9 col-md-6 offset-lg-1">
-                      {/* Sign In View */}
                       <div className="view show" id="signin-view">
+
+                      {isAlertOn 
+                            ? <div class="alert d-flex alert-primary" role="alert"><i class="ai-bell fs-xl me-3"></i><div> {alertText} </div></div>
+                            : ''
+                      }
+
                         <h1 className="h2">Sign in</h1>
                         <p className="fs-ms text-muted mb-4">Sign in to your account using email and password provided during registration.</p>
                         <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" novalidate>
