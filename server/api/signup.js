@@ -1,9 +1,7 @@
 const db = require('../models/index.js');
 
-exports.signup = function(req, res){
+exports.signup = async function(req, res){
     console.log('/api/signup called in signup.js email='+req.body.email);
-
-    //TODO this validation doesn't work.  it'll log out that passwords don't match before it logs out that the email doesn't appear to exist.  i need to make these synchronous
 
     //Email can't be blank
     if (req.body.email==null || req.body.email==''){
@@ -17,7 +15,9 @@ exports.signup = function(req, res){
     //See if this email is already in use
     try {
         const User = db.sequelize.models.User;
-        User.count({ where: { email: req.body.email } }).then(usercount => {
+        usercount = await User.count({ where: { email: req.body.email } });
+        
+        //.then(usercount => {
             if (usercount>0){ 
                 console.log("Signup.js Email already exists "+req.body.email);
                 res.set('Content-Type', 'application/json');
@@ -25,7 +25,7 @@ exports.signup = function(req, res){
             } else {
                 console.log("Signup.js Email doesn't appear to exist:  "+req.body.email);    
             }  
-        })
+        //})
     } catch (error){
         console.error('Signup failed: ', error);
         res.set('Content-Type', 'application/json');
@@ -46,12 +46,11 @@ exports.signup = function(req, res){
     try {
         var passHash = "xxx"; //TODO implement Passport/password hashing
         const User = db.sequelize.models.User;
-        User.create({ email: req.body.email, password_hash: passHash }, { fields: [ 'email', 'password_hash',  ] }).then(user => {
-            //User is saved, can use it here
-            console.log(user.get({
-              plain: true
-            }))
-          })
+        user = await User.create({ email: req.body.email, password_hash: passHash }, { fields: [ 'email', 'password_hash',  ] })
+        //User is saved, can use it here
+        console.log(user.get({
+            plain: true
+        }))
     } catch (error){
         console.error('Signup failed: ', error);
         res.set('Content-Type', 'application/json');

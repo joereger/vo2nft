@@ -3,9 +3,6 @@ const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 
-//Database
-//const db = require('./models/index.js');
-
 //Environment
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5001;
@@ -30,19 +27,6 @@ if (!isDev && cluster.isMaster) {
 
   // Priority serve any static files, specifically the React-UI frontend
   app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
-
-  // try {
-  //   const User = db.sequelize.models.User;
-  //   //const jane = User.create({ email: "jane@jane.com", password_hash: 'aaaaaaa' });
-  //   console.log('User.id='+ User.id);
-  // } catch (error){
-  //   console.error('Failed User insert: ', error);
-  // }
-  
-  //Use to reset db, only in development, destructive operation
-  //console.log('SEQUALIZE START force sync() db schema');
-  //db.sequelize.sync({ force: true });
-  //console.log('SEQUALIZE END force sync() db schema');
 
   //API Requests
   app.post('/api/signup', require('./api/signup.js').signup);

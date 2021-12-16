@@ -1,9 +1,7 @@
 const db = require('../models/index.js');
 
-exports.signin = function(req, res){
+exports.signin = async function(req, res){
     console.log('/api/signin called in signin.js email='+req.body.email);
-
-    //TODO this validation doesn't work.  it'll log out that passwords don't match before it logs out that the email doesn't appear to exist.  i need to make these synchronous
 
     //Email can't be blank
     if (req.body.email==null || req.body.email==''){
@@ -41,9 +39,6 @@ exports.signin = function(req, res){
         return res.send(500, { message: "Durn, an unspecified server error has occurred.  This isn't your fault.  Please try again." });
     }
     
-
-   
-
     res.set('Content-Type', 'application/json');
     res.send('{"message":"Signin Successful"}');
 };
