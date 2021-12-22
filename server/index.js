@@ -3,9 +3,25 @@ const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 
+//Auth
+const cors = require("cors")
+const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
+
 //Environment
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5001;
+
+//Auth .env
+if (process.env.NODE_ENV !== 'production') {
+  // Load environment variables from .env file in non-prod environments
+  require("dotenv").config()
+}
+
+//Auth Whitelist Domains
+const whitelist = process.env.WHITELISTED_DOMAINS
+  ? process.env.WHITELISTED_DOMAINS.split(",")
+  : []
 
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
@@ -24,6 +40,23 @@ if (!isDev && cluster.isMaster) {
   //Middleware to handle submissions
   app.use(express.json()); 
   app.use(express.urlencoded());
+
+  //Auth
+  app.use(bodyParser.json())
+  app.use(cookieParser(process.env.COOKIE_SECRET))
+
+  //Auth CORS
+  const corsOptions = {
+    origin: function (origin, callback) {
+      if (!origin || whitelist.indexOf(origin) !== -1) {
+        callback(null, true)
+      } else {
+        callback(new Error("Not allowed by CORS"))
+      }
+    },
+    credentials: true,
+  }
+  app.use(cors(corsOptions))
 
   // Priority serve any static files, specifically the React-UI frontend
   app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
