@@ -14,8 +14,22 @@ module.exports = {
         unique: true
       },
       password_hash: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.TEXT
+      },
+      password_salt: {
+        type: Sequelize.TEXT
+      },
+      activation_key: {
+        type: Sequelize.STRING
+      },
+      reset_password_key: {
+          type: Sequelize.STRING
+      },
+      verified: {
+          type: Sequelize.BOOLEAN
+      },
+      refresh_token: { 
+          type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,
