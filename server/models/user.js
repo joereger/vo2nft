@@ -2,6 +2,9 @@
 const {
   Model
 } = require('sequelize');
+
+const passportLocalSequelize = require('passport-local-sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -22,10 +25,21 @@ module.exports = (sequelize, DataTypes) => {
     password_hash: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    password_salt: {
+      type: DataTypes.STRING,
+      allowNull: false,
     }
   }, {
     sequelize,
     modelName: 'User',
   });
+
+  passportLocalSequelize.attachToUser(User, {
+    usernameField: 'email',
+    hashField: 'password_hash',
+    saltField: 'password_salt'
+  });
+
   return User;
 };

@@ -64,7 +64,6 @@ if (!isDev && cluster.isMaster) {
   //API Requests
   app.post('/api/signup', require('./api/signup.js').signup);
   app.post('/api/signin', require('./api/signin.js').signin);
-  
 
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', function(request, response) {
