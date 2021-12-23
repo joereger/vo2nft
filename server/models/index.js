@@ -33,8 +33,9 @@ fs
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
-    console.log('SEQUELIZE ASSOCIATING MNODEL['+modelName+'] to db');
+    console.log('SEQUELIZE BEFORE ASSOCIATING MODEL['+modelName+'] to db');
     db[modelName].associate(db);
+    console.log('SEQUELIZE AFTER ASSOCIATING MODEL['+modelName+'] to db');
   }
 });
 

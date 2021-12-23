@@ -58,7 +58,6 @@ module.exports = (sequelize, DataTypes) => {
     return values;
   }
 
-
   passportLocalSequelize.attachToUser(User, {
     usernameField: 'email',
     hashField: 'password_hash',
@@ -84,6 +83,7 @@ module.exports = (sequelize, DataTypes) => {
     activationError: 'Email activation required',
     noSaltValueStoredError: 'Authentication not possible. No salt value stored in db.'
   });
+  
 
   return User;
 };

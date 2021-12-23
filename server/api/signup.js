@@ -1,5 +1,4 @@
 const db = require('../models/index.js');
-
 const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../auth/authenticate")
 
 exports.signup = async function(req, res){
@@ -46,7 +45,7 @@ exports.signup = async function(req, res){
 
     //Register with auth strategies using User.register(var1=user, var2=password, var3=function)
     try {
-        
+
         const User = db.sequelize.models.User;
         await User.register(
             User.build({ email: req.body.email }),
@@ -58,6 +57,7 @@ exports.signup = async function(req, res){
                 res.set('Content-Type', 'application/json');
                 return res.send(500, { message: "Durn, an unspecified server error has occurred.  This isn't your fault.  Please try again." });
               } else {
+
                 //Generate a refresh token and save it on user
                 const token = getToken({ _id: user.id })
                 const refreshToken = getRefreshToken({ _id: user.id })

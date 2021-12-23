@@ -2,11 +2,13 @@ const express = require('express');
 const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
+const passport = require("passport");
 
 //Auth
 const cors = require("cors")
 const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
+
 
 //Environment
 const isDev = process.env.NODE_ENV !== 'production';
@@ -58,12 +60,19 @@ if (!isDev && cluster.isMaster) {
   }
   app.use(cors(corsOptions))
 
+  require("./auth/authenticate")
+  require("./auth/jwt-strategy")
+  require("./auth/local-strategy")
+  app.use(passport.initialize())
+  //app.use(passport.session());
+
+  
   // Priority serve any static files, specifically the React-UI frontend
   app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
 
   //API Requests
   app.post('/api/signup', require('./api/signup.js').signup);
-  app.post('/api/signin', require('./api/signin.js').signin);
+  app.post('/api/signin', passport.authenticate("local"), require('./api/signin.js').signin);
 
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', function(request, response) {

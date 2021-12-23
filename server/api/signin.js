@@ -1,44 +1,42 @@
 const db = require('../models/index.js');
+const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../auth/authenticate");
+const user = require('../models/user.js');
 
-exports.signin = async function(req, res){
-    console.log('/api/signin called in signin.js email='+req.body.email);
+exports.signin = async function(req, res, next){
+    console.log('/api/signin AUTHED PROPERLY in signin.js email='+req.body.email);
 
-    //Email can't be blank
-    if (req.body.email==null || req.body.email==''){
-        console.log('Email cannot be blank'); 
-        res.set('Content-Type', 'application/json');
-        return res.send(400, { message: "Doh, the email can't be blank." });
-    }
+    //Generate a refresh token and save it on user
+    const token = getToken({ _id: req.user.id });
+    const refreshToken = getRefreshToken({ _id: req.user.id });
+    console.log("getRefreshToken() = "+ refreshToken);
 
-    //Find this user
-    try {
-        const User = db.sequelize.models.User;
-        const user =  User.findOne({
-            where: {
-              email: req.body.email
-            }
-        });
-        if(user === null){
-            console.log("Signup.js no User found for email "+req.body.email);
-            res.set('Content-Type', 'application/json');
-            return res.send(400, { message: "Sorry, user not found or password incorrect.  Please try again." });
+    //If this refreshToken isn't yet in req.user.refresh_token, add it and save user
+    console.log("req.user.refresh_token="+req.user.refresh_token);
+    if (Array.isArray(req.user.refresh_token)){
+        console.log("req.user.refresh_token IS an array");
+        if (req.user.refresh_token.indexOf(refreshToken)<0){
+            console.log("TOKEN NOT YET SAVED");
+            const temp_refresh_token = req.user.refresh_token;
+            temp_refresh_token.push(refreshToken);
+            req.user.refresh_token = temp_refresh_token;
+            req.user.save();
+            console.log("req.user.refresh_token="+req.user.refresh_token);
         } else {
-            //Verify password
-            if (user.password != req.body.password){
-                console.log("Signup.js password not correct for email:"+req.body.email+" password:"+req.body.password);
-                res.set('Content-Type', 'application/json');
-                return res.send(400, { message: "Sorry, user not found or password incorrect.  Please try again." });
-            } else {
-
-            }
+            console.log("TOKEN ALREADY SAVED");
         }
-        
-    } catch (error){
-        console.error('Signin failed: ', error);
-        res.set('Content-Type', 'application/json');
-        return res.send(500, { message: "Durn, an unspecified server error has occurred.  This isn't your fault.  Please try again." });
+    } else {
+        console.log("req.user.refresh_token NOT an array");
+        const temp_refresh_token = [];
+        temp_refresh_token.push(refreshToken);
+        req.user.refresh_token = temp_refresh_token;
+        req.user.save();
+        console.log("req.user.refresh_token="+req.user.refresh_token);
     }
+
+    //Respond to client including refreshToken as cookie
+    res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
+    return res.send({ message: "Sweet!  Signin was successful!", success: true, token })
     
-    res.set('Content-Type', 'application/json');
-    res.send('{"message":"Signin Successful"}');
+    
+   
 };
