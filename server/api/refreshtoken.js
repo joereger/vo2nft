@@ -26,7 +26,6 @@ exports.refreshtoken = async function(req, res){
                     //console.log("found user where id="+user.id);
                     //console.log("user.refreshToken="+JSON.stringify(user.refresh_token, null, 2));
 
-
                     if (Array.isArray(user.refresh_token)){
                         //console.log("user.refresh_token IS an array");
                         const tokenIndex = user.refresh_token.indexOf(refreshToken);

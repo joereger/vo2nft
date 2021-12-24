@@ -11,24 +11,30 @@ opts.secretOrKey = process.env.JWT_SECRET
 // i.e., to fetch user details from the JWT.
 passport.use(
   new JwtStrategy(opts, function (jwt_payload, done) {
+    console.log("jwt-strategy.js called");
     // Check against the DB only if necessary.
     // This can be avoided if i don't want to fetch user details in each request.
     try{
         const User = db.sequelize.models.User;
-        const user =  User.findOne({
+        const user = User.findOne({
             where: {
               id: jwt_payload._id
             }
-        });
-        if (err) {
-            return done(err, false)
+        }).then( () => {
+          if (user) {
+              console.log("jwt-strategy found User.id="+user.id);
+              return done(null, user)
+          } else {
+            console.log("jwt-strategy couldn't find user"); 
+              return done(null, false)
+              // or you could create a new account
+          }
         }
-        if (user) {
-            return done(null, user)
-        } else {
-            return done(null, false)
-            // or you could create a new account
-        }
+        );
+        // if (err) {
+        //     return done(err, false)
+        // }
+        
     } catch (error){
         console.error('JWT-strategy failed: ', error);
         return done(null, false)

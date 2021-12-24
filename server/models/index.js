@@ -14,10 +14,10 @@ if (config.use_env_variable) {
   //        "development": { "use_env_variable": "DATABASE_URL"}
   // and then it'll pull the entire connection string from the environment variable DATABASE_URL
   // which will be hella easy in Heroku
-  console.log('SEQUELIZE USING config.use_env_variable');
+  console.log('Sequelize USING config.use_env_variable');
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
-  console.log('SEQUELIZE NOT using config.use_env_variable');
+  console.log('Sequelize NOT using config.use_env_variable');
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
@@ -33,9 +33,8 @@ fs
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
-    console.log('SEQUELIZE BEFORE ASSOCIATING MODEL['+modelName+'] to db');
+    console.log('Sequelize associating \u001b[32m'+modelName+'\u001b[0m to db');
     db[modelName].associate(db);
-    console.log('SEQUELIZE AFTER ASSOCIATING MODEL['+modelName+'] to db');
   }
 });
 
