@@ -1,18 +1,21 @@
-import { useEffect, useState } from "react";
+//import { useEffect, useState } from "react";
+import React, { useContext, useState, useEffect } from "react"
 import { NavLink } from 'react-router-dom';
 import AccountNavbar from "../AccountNavbar";
 import bgImage from '../../img/account/signin-img.jpg';
+import { UserContext } from "../UserContext"
+//import { useNavigate } from "react-router-dom"
 
 
 const Signin = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-
   const [isAlertOn, setIsAlertOn] = useState(false);
   const [alertText, setAlertText] = useState("");
   const [responseData, setResponseData] = useState(null);
+
+  const [userContext, setUserContext] = useContext(UserContext)
 
   const handleSubmit = (e) => {
       e.preventDefault();
@@ -21,6 +24,7 @@ const Signin = () => {
 
       return fetch('/api/signin', {
           method: 'POST',
+          credentials: "include",
           body: JSON.stringify({ email, password }),
           headers: {
               'Content-Type': 'application/json'
@@ -28,11 +32,23 @@ const Signin = () => {
       }).then(response => {
           if (response.status >= 200 && response.status < 300) {
             //return(response);
-            console.log("Signin: received a response");
+            console.log("Signin: received a response; user is authed and token will be stored");
             response.json().then(json => {
               console.log(json);
+              //Save the token in the UserContext
+              setUserContext(oldValues => {
+                return { ...oldValues, token: json.token }
+              })
+              console.log("token set token="+json.token);
+              setIsAlertOn(false);
+              //Redirect user somewhere
+              //let navigate = useNavigate();
+              //navigate("/account-profile");
             });
-            //do something here to tell user it's all good, redirect to dash?
+          } else if (response.status >= 400 && response.status < 600){
+            console.log("/api/signin 401 unauthorized");
+            setAlertText("Sorry, the login authorities tell me that your request is unauthorized.  Please try again or consider resetting your password.");
+            setIsAlertOn(true);
           } else {
             response.json().then(json => {
               console.log(json);
