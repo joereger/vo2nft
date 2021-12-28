@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import React, { useContext, useState, useEffect } from "react"
 import { NavLink } from 'react-router-dom';
 import AccountNavbar from "../AccountNavbar";
 import bgImage from '../../img/account/signin-img.jpg';
+import { useNavigate, useParams } from "react-router-dom"
+import { UserContext } from "../UserContext"
 
 
 const Signup = () => {
   useEffect(() => document.getElementById('root').style.background = '#f7f7fc')
 
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
@@ -16,14 +17,17 @@ const Signup = () => {
   const [alertText, setAlertText] = useState("");
   const [responseData, setResponseData] = useState(null);
 
+  const [userContext, setUserContext] = useContext(UserContext)
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
       e.preventDefault();
 
-      console.log(`Signup Submitted: ${name} ${email} ${password} ${confirmpassword}`)
+      console.log(`Signup Submitted: ${email} ${password} ${confirmpassword}`)
 
       return fetch('/api/signup', {
           method: 'POST',
-          body: JSON.stringify({ name, email, password, confirmpassword }),
+          body: JSON.stringify({ email, password, confirmpassword }),
           headers: {
               'Content-Type': 'application/json'
           }
@@ -33,8 +37,15 @@ const Signup = () => {
             console.log("Signup: received a response");
             response.json().then(json => {
               console.log(json);
+              //Save the token in the UserContext
+              setUserContext(oldValues => {
+                return { ...oldValues, token: json.token }
+              })
+              console.log("token set token="+json.token);
+              setIsAlertOn(false);
+              //Redirect user
+              navigate("/account-profile");
             });
-            //do something here to tell user it's all good, redirect to dash?
           } else {
             response.json().then(json => {
               console.log(json);
@@ -81,9 +92,6 @@ const Signup = () => {
                         <h1 className="h2">Sign up</h1>
                         <p className="fs-ms text-muted mb-4">Registration takes less than a minute but gives you full control over your orders.</p>
                         <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" novalidate>
-                          <div className="mb-3">
-                            <input value={name} onChange={e => setName(e.target.value)} className="form-control" type="text" placeholder="Full name" required/>
-                          </div>
                           <div className="mb-3">
                             <input value={email} onChange={e => setEmail(e.target.value)} className="form-control" type="text" placeholder="Email" required/>
                           </div>

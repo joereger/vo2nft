@@ -42,7 +42,7 @@ const Signin = () => {
               })
               console.log("token set token="+json.token);
               setIsAlertOn(false);
-              //Redirect user somewhere
+              //Redirect user
               navigate("/account-profile");
             });
           } else if (response.status >= 400 && response.status < 600){
