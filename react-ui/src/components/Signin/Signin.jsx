@@ -4,8 +4,7 @@ import { NavLink } from 'react-router-dom';
 import AccountNavbar from "../AccountNavbar";
 import bgImage from '../../img/account/signin-img.jpg';
 import { UserContext } from "../UserContext"
-//import { useNavigate } from "react-router-dom"
-
+import { useNavigate, useParams } from "react-router-dom"
 
 const Signin = () => {
 
@@ -16,6 +15,8 @@ const Signin = () => {
   const [responseData, setResponseData] = useState(null);
 
   const [userContext, setUserContext] = useContext(UserContext)
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
       e.preventDefault();
@@ -42,8 +43,7 @@ const Signin = () => {
               console.log("token set token="+json.token);
               setIsAlertOn(false);
               //Redirect user somewhere
-              //let navigate = useNavigate();
-              //navigate("/account-profile");
+              navigate("/account-profile");
             });
           } else if (response.status >= 400 && response.status < 600){
             console.log("/api/signin 401 unauthorized");
