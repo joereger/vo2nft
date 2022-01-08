@@ -1,7 +1,7 @@
 {
-  "name": "heroku-cra-node",
-  "version": "3.0.0",
-  "description": "How to use create-react-app with a custom Node API on Heroku",
+  "name": "vo2nft-node-backend",
+  "version": "0.0.1",
+  "description": "Vo2NFT node backend service",
   "engines": {
     "node": "10.x"
   },

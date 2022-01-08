@@ -8,6 +8,7 @@ import MobileFriendly from './components/MobileFriendly';
 import Footer from './Footer';
 
 const Home = () => {
+
   return (
     <>
       <Navbar bg="dark"/>

@@ -8,10 +8,10 @@ exports.signin = async function(req, res, next){
     //Generate a refresh token and save it on user
     const token = getToken({ _id: req.user.id });
     const refreshToken = getRefreshToken({ _id: req.user.id });
-    console.log("getRefreshToken() = "+ refreshToken);
+    //console.log("getRefreshToken() = "+ refreshToken);
 
     //If this refreshToken isn't yet in req.user.refresh_token, add it and save user
-    console.log("req.user.refresh_token="+req.user.refresh_token);
+    //console.log("req.user.refresh_token="+req.user.refresh_token);
     if (Array.isArray(req.user.refresh_token)){
         console.log("req.user.refresh_token IS an array");
         if (req.user.refresh_token.indexOf(refreshToken)<0){
@@ -20,6 +20,7 @@ exports.signin = async function(req, res, next){
             temp_refresh_token.push(refreshToken);
             req.user.refresh_token = temp_refresh_token;
             req.user.save();
+            console.log("getRefreshToken() = "+ refreshToken);
             console.log("req.user.refresh_token="+req.user.refresh_token);
         } else {
             console.log("TOKEN ALREADY SAVED");
@@ -30,13 +31,14 @@ exports.signin = async function(req, res, next){
         temp_refresh_token.push(refreshToken);
         req.user.refresh_token = temp_refresh_token;
         req.user.save();
+        console.log("getRefreshToken() = "+ refreshToken);
         console.log("req.user.refresh_token="+req.user.refresh_token);
     }
 
     //Respond to client including refreshToken as cookie
     res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
+    //res.cookie("refreshToken", refreshToken)
     return res.send({ message: "Sweet!  Signin was successful!", success: true, token })
-    
     
    
 };

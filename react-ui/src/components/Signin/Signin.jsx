@@ -12,18 +12,17 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const [isAlertOn, setIsAlertOn] = useState(false);
   const [alertText, setAlertText] = useState("");
-  const [responseData, setResponseData] = useState(null);
+  const navigate = useNavigate();
 
   const [userContext, setUserContext] = useContext(UserContext)
-
-  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
       e.preventDefault();
 
       console.log(`Signin Submitted: ${email} ${password}`)
+      console.log("BEFORE SIGNIN userContext="+JSON.stringify(userContext));
 
-      return fetch('/api/signin', {
+      return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/signin', {
           method: 'POST',
           credentials: "include",
           body: JSON.stringify({ email, password }),
@@ -41,6 +40,10 @@ const Signin = () => {
                 return { ...oldValues, token: json.token }
               })
               console.log("token set token="+json.token);
+
+              
+              console.log("AFTER SIGNIN/ABOUT TO REDIRECT userContext="+JSON.stringify(userContext));
+              
               setIsAlertOn(false);
               //Redirect user
               navigate("/account-profile");
@@ -131,14 +134,6 @@ const Signin = () => {
 
         </div>
       </div>
-
-
-          
- 
-
-
-    
-
 
     </>
   )
