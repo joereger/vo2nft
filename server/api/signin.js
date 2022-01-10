@@ -8,7 +8,8 @@ exports.signin = async function(req, res, next){
     //Generate a refresh token and save it on user
     const token = getToken({ _id: req.user.id });
     const refreshToken = getRefreshToken({ _id: req.user.id });
-    //console.log("getRefreshToken() = "+ refreshToken);
+    console.log("SIGNIN getToken() = "+ token);
+    console.log("SIGNIN getRefreshToken() = "+ refreshToken);
 
     //If this refreshToken isn't yet in req.user.refresh_token, add it and save user
     //console.log("req.user.refresh_token="+req.user.refresh_token);
@@ -37,7 +38,6 @@ exports.signin = async function(req, res, next){
 
     //Respond to client including refreshToken as cookie
     res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
-    //res.cookie("refreshToken", refreshToken)
     return res.send({ message: "Sweet!  Signin was successful!", success: true, token })
     
    

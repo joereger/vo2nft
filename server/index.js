@@ -78,7 +78,7 @@ if (!isDev && cluster.isMaster) {
   app.post('/api/signin', passport.authenticate("local"), require('./api/signin.js').signin);
   app.post('/api/refreshtoken', require('./api/refreshtoken.js').refreshtoken);
   app.post('/api/signout', verifyUser, require('./api/signout.js').signout);
-  app.post('/api/user', verifyUser, require('./api/user.js').user);
+  app.get('/api/me', verifyUser, require('./api/me.js').me);
 
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', function(request, response) {

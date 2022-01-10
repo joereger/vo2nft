@@ -3,8 +3,8 @@ const jwt = require("jsonwebtoken");
 const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../auth/authenticate");
 
 exports.refreshtoken = async function(req, res){
-    console.log('/API/REFRESHTOKEN called >>>');
-    //console.log('/api/refreshtoken req.headers='+JSON.stringify(req.headers));
+    console.log('/API/REFRESHTOKEN called >>>>>>>>>>>>>>>>>');
+    console.log('/api/refreshtoken req.headers='+JSON.stringify(req.headers));
 
     const { signedCookies = {} } = req
     const { refreshToken } = signedCookies

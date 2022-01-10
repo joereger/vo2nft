@@ -20,8 +20,13 @@ passport.use(
             where: {
               id: jwt_payload._id
             }
-        }).then( () => {
+        //}).then( () => {
+        //  if (user) {
+        }).then(
+          user => {
           if (user) {
+
+
               console.log("jwt-strategy found User.id="+user.id);
               return done(null, user)
           } else {

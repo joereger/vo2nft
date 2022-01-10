@@ -2,9 +2,12 @@ import { NavLink } from 'react-router-dom';
 import logoDark from '../img/logo/logo-dark.png';
 import logoLight from '../img/logo/logo-light.png';
 import logoIcon from '../img/logo/logo-icon.png';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
+import { UserContext } from "./UserContext"
 
 const Navbar = ({ bg }) => {
+  const [userContext] = useContext(UserContext)
+
   useEffect(() => {
     let navbar = document.querySelector('.navbar-sticky');
     if (navbar == null) return;
@@ -66,12 +69,27 @@ const Navbar = ({ bg }) => {
             <li className="nav-item">
               <NavLink className="ps-3 nav-link" to="/account-profile" activeclassname="active">Account Profile</NavLink>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <NavLink className="ps-3 nav-link" to="/signin" activeclassname="active">Sign In</NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="ps-3 nav-link" to="/signup" activeclassname="active">Sign Up</NavLink>
-            </li>
+            </li> */}
+
+            {!userContext.token  
+              ? <li className="nav-item">
+                <NavLink className="ps-3 nav-link" to="/signin" activeclassname="active">Sign In</NavLink>
+              </li>
+              : null
+            }
+
+            {!userContext.token 
+              ? <li className="nav-item">
+                <NavLink className="ps-3 nav-link" to="/signup" activeclassname="active">Sign Up</NavLink>
+              </li>
+              : null
+            }
+
           </ul>
         </div>
       </div>

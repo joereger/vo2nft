@@ -91,7 +91,7 @@ const Signup = () => {
                     
                         <h1 className="h2">Sign up</h1>
                         <p className="fs-ms text-muted mb-4">Registration takes less than a minute but gives you full control over your orders.</p>
-                        <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" novalidate>
+                        <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" noValidate>
                           <div className="mb-3">
                             <input value={email} onChange={e => setEmail(e.target.value)} className="form-control" type="text" placeholder="Email" required/>
                           </div>

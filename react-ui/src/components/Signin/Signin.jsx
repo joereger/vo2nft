@@ -95,7 +95,7 @@ const Signin = () => {
 
                         <h1 className="h2">Sign in</h1>
                         <p className="fs-ms text-muted mb-4">Sign in to your account using email and password provided during registration.</p>
-                        <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" novalidate>
+                        <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" noValidate>
                           <div className="input-group mb-3"><i className="ai-mail position-absolute top-50 start-0 translate-middle-y ms-3"></i>
                             <input value={email} onChange={e => setEmail(e.target.value)} className="form-control rounded" type="email" placeholder="Email" required/>
                           </div>

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import { useCallback, useContext, useEffect } from "react"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import SimpleStorageContract from "./contracts/SimpleStorage.json";
-import getWeb3 from "./getWeb3";
+//import SimpleStorageContract from "./contracts/SimpleStorage.json";
+//import getWeb3 from "./getWeb3";
 import "./App.css";
 import Home from "./components/Home/Home";
 import AccountProfile from "./components/Account Profile/AccountProfile";
@@ -9,28 +10,20 @@ import ScrollUp from "./components/ScrollUp";
 import NotFound from "./components/NotFound";
 import Signin from "./components/Signin/Signin";
 import Signup from "./components/Signup/Signup";
-
-import { useCallback, useContext, useEffect, useState } from "react"
 import { UserContext } from "./components/UserContext"
-
-
-
-//class App extends Component {
 
 function App() {
   //state = { storageValue: 0, web3: null, accounts: null, contract: null };
   const [userContext, setUserContext] = useContext(UserContext)
   console.log("APP BEFORE userContext="+JSON.stringify(userContext));
 
-  //BEGIN UserContext
+  //Timer to check refreshToken in the background and on page load
   const verifyUser = useCallback(() => {
 
-    //TODO core problem is that userContext doesn't seem to work properly here, it's always null
-    console.log("APP VERIFYUSER REFRESH TOKEN userContext="+JSON.stringify(userContext));
-
-    console.log("APP VERIFYUSER REFRESH TOKEN userContext.token="+userContext.token);
+    //console.log("APP VERIFYUSER REFRESH TOKEN userContext="+JSON.stringify(userContext));
+    //console.log("APP VERIFYUSER REFRESH TOKEN userContext.token="+userContext.token);
     
-    
+    //REFRESH THE TOKEN
     fetch(process.env.REACT_APP_API_ENDPOINT + "/api/refreshToken", {
       method: "POST",
       credentials: "include",
@@ -41,12 +34,14 @@ function App() {
     }).then(async response => {
       if (response.ok) {
         const data = await response.json()
-        console.log("response.ok to saving token in UserContext data.token="+data.token);
+        console.log("response.OK so saving token in UserContext data.token="+data.token);
         setUserContext(oldValues => {
           return { ...oldValues, token: data.token }
         })
       } else {
         console.log("response NOT ok so setting token null in UserContext");
+        //TODO figure out why this happens, mixed with the rest of the successful calls
+        console.log(this);
         // setUserContext(oldValues => {
         //   return { ...oldValues, token: null }
         // })
@@ -55,40 +50,17 @@ function App() {
       //setTimeout(verifyUser, 5 * 60 * 1000) //5 minutes
       setTimeout(verifyUser, 30 * 1000) //30 seconds
     })
-  }, [setUserContext]) 
+  }, []) 
 
+
+  //Hook to load verifyUser at page load time
   useEffect( () => {
-    console.log("APP.js useEffect()");
+    console.log("USE EFFECT IS LIGHTING UP VERIFYUSER()");
     verifyUser()
-  }, [verifyUser]);
-  //END UserContext 
+  //}, [verifyUser]);
+  }, []);
   
-  // getToken = () => {
-  //   console.log("getToken() called");
-  //   fetch("'/api/refreshToken", {
-  //     method: "POST",
-  //     credentials: "include",
-  //     headers: { "Content-Type": "application/json" },
-  //   }).then(async response => {
-  //     if (response.ok) {
-  //       console.log("response.ok to saving token in UserContext");
-  //       const data = await response.json()
-  //       setUserContext(oldValues => {
-  //         return { ...oldValues, token: data.token }
-  //       })
-  //     } else {
-  //       console.log("response NOT ok so setting token null in UserContext");
-  //       setUserContext(oldValues => {
-  //         return { ...oldValues, token: null }
-  //       })
-  //     }
-  //     // call refreshToken every 5 minutes to renew the authentication token.
-  //     setTimeout(this, 5 * 60 * 1000)
-  //   })
-  // }
-
   // componentDidMount = async () => {
-
   //   console.log("setInterval() on this.props.getToken");
   //   setTimeout(() => {
   //     this.getToken();
@@ -96,8 +68,6 @@ function App() {
   //       this.getToken();
   //     }, 3000);  
   //   }, 3000);
-
-
     // try {
     //   // Get network provider and web3 instance.
     //   const web3 = await getWeb3();
@@ -138,16 +108,6 @@ function App() {
     // this.setState({ storageValue: response });
   //};
 
-  //render() {
-    // if (!this.state.web3) {
-    //   return  (
-    //     <div className="page-loading active">
-    //       <div className="page-loading-inner">
-    //         <div className="page-spinner"></div><span>Loading...</span>
-    //       </div>
-    //     </div>
-    //   );
-    // }
     return (
       <BrowserRouter>
         <Routes>
@@ -160,7 +120,6 @@ function App() {
         <ScrollUp/>
       </BrowserRouter>
     );
-  //}
 }
 
 export default App;

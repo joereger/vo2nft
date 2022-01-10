@@ -10,7 +10,7 @@ const Footer = () => (
       <div className="row justify-content-center">
         <div className="col-lg-6 col-md-7 pb-md-4 text-center">
           <h4 className="text-light mb-grid-gutter">Subscribe to Newsletter</h4>
-          <form className="subscription-form validate" action="https://studio.us12.list-manage.com/subscribe/post?u=c7103e2c981361a6639545bd5&amp;amp;id=29ca296126" method="post" name="mc-embedded-subscribe-form" target="_blank" novalidate>
+          <form className="subscription-form validate" action="https://studio.us12.list-manage.com/subscribe/post?u=c7103e2c981361a6639545bd5&amp;amp;id=29ca296126" method="post" name="mc-embedded-subscribe-form" target="_blank" noValidate>
             <div className="input-group flex-nowrap"><i className="ai-mail position-absolute top-50 start-0 translate-middle-y text-muted ms-3"></i>
               <input className="form-control rounded-start" type="email" name="EMAIL" placeholder="Your email" />
               <button className="btn btn-primary" type="submit" name="subscribe">Subscribe*</button>
