@@ -15,7 +15,7 @@ import { UserContext } from "./components/UserContext"
 function App() {
   //state = { storageValue: 0, web3: null, accounts: null, contract: null };
   const [userContext, setUserContext] = useContext(UserContext)
-  console.log("APP BEFORE userContext="+JSON.stringify(userContext));
+  //console.log("APP BEFORE userContext="+JSON.stringify(userContext));
 
   //Timer to check refreshToken in the background and on page load
   const verifyUser = useCallback(() => {
@@ -40,11 +40,10 @@ function App() {
         })
       } else {
         console.log("response NOT ok so setting token null in UserContext");
-        //TODO figure out why this happens, mixed with the rest of the successful calls
         console.log(this);
-        // setUserContext(oldValues => {
-        //   return { ...oldValues, token: null }
-        // })
+        setUserContext(oldValues => {
+           return { ...oldValues, token: null }
+        })
       }
       //Call refreshToken every 5 minutes to renew the authentication token.
       //setTimeout(verifyUser, 5 * 60 * 1000) //5 minutes
