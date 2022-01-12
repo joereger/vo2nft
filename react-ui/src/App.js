@@ -1,4 +1,3 @@
-import React, { Component } from "react";
 import { useCallback, useContext, useEffect } from "react"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 //import SimpleStorageContract from "./contracts/SimpleStorage.json";
@@ -11,6 +10,7 @@ import NotFound from "./components/NotFound";
 import Signin from "./components/Signin/Signin";
 import Signup from "./components/Signup/Signup";
 import { UserContext } from "./components/UserContext"
+import RequireAuth from "./RequireAuth";
 
 function App() {
   //state = { storageValue: 0, web3: null, accounts: null, contract: null };
@@ -111,9 +111,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/account-profile" element={<AccountProfile />} />
           <Route exact path="/signin" element={<Signin />} />
           <Route exact path="/signup" element={<Signup />} />
+          <Route exact path="/account-profile" element={<RequireAuth><AccountProfile /></RequireAuth>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ScrollUp/>
