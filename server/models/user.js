@@ -22,6 +22,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true
     },
+    name: {
+      type: DataTypes.STRING
+    },
     password_hash: {
       type: DataTypes.TEXT
     },
@@ -86,6 +89,5 @@ module.exports = (sequelize, DataTypes) => {
     noSaltValueStoredError: 'Authentication not possible. No salt value stored in db.'
   });
   
-
   return User;
 };

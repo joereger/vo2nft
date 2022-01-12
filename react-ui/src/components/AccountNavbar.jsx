@@ -99,19 +99,19 @@ const AccountNavbar = () => {
       </div>
       <div className="d-flex align-items-center order-lg-3 ms-lg-auto">
         <div className="navbar-tool dropdown">
-          <a className="navbar-tool-icon-box" href="account-profile.html">
-            <img className="navbar-tool-icon-box-img" src={main} alt="Avatar" />
-          </a>
-          <a className="navbar-tool-label dropdown-toggle" href="account-profile.html"><small>Hello,</small>Amanda</a>
+          <NavLink className="navbar-tool-icon-box" to="/account-profile">
+            <img className="navbar-tool-icon-box-img" src={main} alt="" />
+          </NavLink>
+          <NavLink className="navbar-tool-label dropdown-toggle" to="/account-profile"><small>Hello,</small>User</NavLink>
           <ul className="dropdown-menu dropdown-menu-end" style={{width: '15rem'}}>
             <li>
-              <a className="dropdown-item d-flex align-items-center" href="dashboard-orders.html">
-                <i className="ai-shopping-bag fs-base opacity-60 me-2"></i>
-                Orders<span className="nav-indicator"></span>
-                <span className="ms-auto fs-xs text-muted">2</span>
-              </a>
+              <NavLink className="dropdown-item d-flex align-items-center" to="/account-profile">
+                <i className="ai-users fs-base opacity-60 me-2"></i>
+                Account Profile
+                {/* <span className="ms-auto fs-xs text-muted">2</span> */}
+              </NavLink>
             </li>
-            <li className="dropdown-divider"></li>
+            {/* <li className="dropdown-divider"></li>
             <li>
               <a className="dropdown-item d-flex align-items-center" href="dashboard-sales.html">
                 <i className="ai-dollar-sign fs-base opacity-60 me-2"></i>
@@ -143,7 +143,7 @@ const AccountNavbar = () => {
               <a className="dropdown-item d-flex align-items-center" href="dashboard-favorites.html">
                 <i className="ai-heart fs-base opacity-60 me-2"></i>Favorites<span className="ms-auto fs-xs text-muted">6</span>
               </a>
-            </li>
+            </li> */}
             <li className="dropdown-divider"></li>
             <li>
               <a className="dropdown-item d-flex align-items-center" href="signin-illustration.html">

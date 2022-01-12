@@ -62,6 +62,7 @@ exports.signup = async function(req, res){
                 const token = getToken({ _id: user.id })
                 const refreshToken = getRefreshToken({ _id: user.id })
                 user.refresh_token = [refreshToken];
+                user.name = req.body.name;
                 user.save();
 
                 //Respond to client including refreshToken as cookie

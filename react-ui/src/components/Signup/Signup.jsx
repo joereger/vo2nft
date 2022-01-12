@@ -9,6 +9,7 @@ import { UserContext } from "../UserContext"
 const Signup = () => {
   useEffect(() => document.getElementById('root').style.background = '#f7f7fc')
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
@@ -27,7 +28,7 @@ const Signup = () => {
 
       return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/signup', {
           method: 'POST',
-          body: JSON.stringify({ email, password, confirmpassword }),
+          body: JSON.stringify({ email, password, confirmpassword, name }),
           headers: {
               'Content-Type': 'application/json'
           }
@@ -92,6 +93,9 @@ const Signup = () => {
                         <h1 className="h2">Sign up</h1>
                         <p className="fs-ms text-muted mb-4">Registration takes less than a minute but gives you full control over your orders.</p>
                         <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" noValidate>
+                          <div className="mb-3">
+                            <input value={name} onChange={e => setName(e.target.value)} className="form-control" type="text" placeholder="Name" required/>
+                          </div>
                           <div className="mb-3">
                             <input value={email} onChange={e => setEmail(e.target.value)} className="form-control" type="text" placeholder="Email" required/>
                           </div>

@@ -1,5 +1,8 @@
 'use strict';
 
+//Generate a skeleton migration via command line:
+//npx sequelize-cli migration:generate --name migration-skeleton
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     /**
