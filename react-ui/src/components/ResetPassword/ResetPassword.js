@@ -10,29 +10,35 @@ const ResetPassword = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  //const [resetPasswordKey, setResetPasswordKey] = useState("");
   const [isAlertOn, setIsAlertOn] = useState(false);
   const [alertText, setAlertText] = useState("");
   const navigate = useNavigate();
 
   const [userContext, setUserContext] = useContext(UserContext)
 
+  //Collect the reset password key from the URL
+  const { resetPasswordKeyParam } = useParams();
+
+
   const handleSubmit = (e) => {
       e.preventDefault();
 
-      console.log(`Login Submitted: ${email} ${password}`)
-      console.log("BEFORE LOGIN userContext="+JSON.stringify(userContext));
+      
 
-      return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/login', {
+      console.log(`/API/RESETPASSWORD Submitted: ${email} ${password} ${resetPasswordKeyParam}`)
+      //console.log("BEFORE LOGIN userContext="+JSON.stringify(userContext));
+
+      return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/resetpassword', {
           method: 'POST',
           credentials: "include",
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ email, password, resetPasswordKeyParam }),
           headers: {
               'Content-Type': 'application/json'
           }
       }).then(response => {
           if (response.status >= 200 && response.status < 300) {
-            //return(response);
-            console.log("LOGIN: received a response; user is authed and token will be stored");
+            console.log("/API/RESETPASSWORD: received a response; user password is reset");
             response.json().then(json => {
               console.log(json);
               //Save the token in the UserContext
@@ -43,23 +49,22 @@ const ResetPassword = () => {
               setUserContext(oldValues => {
                 return { ...oldValues, user: json.user }
               })
-              console.log("token set token="+json.token);
-
-              
-              console.log("AFTER LOGIN/ABOUT TO REDIRECT userContext="+JSON.stringify(userContext));
+              console.log("/API/RESETPASSWORD: token set token="+json.token);
+              console.log("/API/RESETPASSWORD: AFTER LOGIN/ABOUT TO REDIRECT userContext="+JSON.stringify(userContext));
               
               setIsAlertOn(false);
+
               //Redirect user
               navigate("/account-profile");
             });
           } else if (response.status >= 400 && response.status < 600){
-            console.log("/api/login 401 unauthorized");
-            setAlertText("Sorry, the login authorities tell me that your request is unauthorized.  Please try again or consider resetting your password.");
+            console.log("/API/RESETPASSWORD: /api/login 401 unauthorized");
+            setAlertText("Sorry, the login authorities tell me that your request is not authorized.  Please try again.");
             setIsAlertOn(true);
           } else {
             response.json().then(json => {
               console.log(json);
-              console.log('LOGIN: Somthing blew up message='+json.message);
+              console.log('/API/RESETPASSWORD:: Somthing blew up message='+json.message);
               setAlertText(json.message);
               setIsAlertOn(true);
             });
@@ -74,8 +79,7 @@ const ResetPassword = () => {
   return (
     <>
       <AccountNavbar />
-
-          
+   
       {/*  
       <div className="d-none d-md-block position-absolute w-50 h-100 bg-size-cover" style={{top: "0px", right: "0px", backgroundImage: "url(" + bgImage + ")" }}></div>
       */} 
@@ -98,7 +102,7 @@ const ResetPassword = () => {
                       }
 
                         <h1 className="h2">Reset Password</h1>
-                        <p className="fs-ms text-muted mb-4">Please choose a new password.</p>
+                        <p className="fs-ms text-muted mb-4">Please enter your email address and set a new password.</p>
                         <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" noValidate>
                           <div className="input-group mb-3"><i className="ai-mail position-absolute top-50 start-0 translate-middle-y ms-3"></i>
                             <input value={email} onChange={e => setEmail(e.target.value)} className="form-control rounded" type="email" placeholder="Email" required/>
@@ -111,15 +115,7 @@ const ResetPassword = () => {
                               </label>
                             </div>
                           </div>
-                          <div className="d-flex justify-content-between align-items-center mb-3 pb-1">
-                            <div className="form-check">
-                              {/*  
-                              <input onChange={e => setKeepmesignedin(e.target.value)} className="form-check-input" type="checkbox" id="keep-signed-2"/>
-                              <label className="form-check-label" for="keep-signed-2">Keep me signed in</label>
-                              */}
-                            </div><a className="nav-link-style fs-ms" href="password-recovery.html">Forgot password?</a>
-                          </div>
-                          <button className="btn btn-primary d-block w-100" type="submit">Log in</button>
+                          <button className="btn btn-primary d-block w-100" type="submit">Reset Password</button>
                           <p className="fs-sm pt-3 mb-0">Don't have an account? <NavLink className="fw-medium" to="/Signup" activeclassname="active">Sign Up</NavLink></p>
                           
                         </form>

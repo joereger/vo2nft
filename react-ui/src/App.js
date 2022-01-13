@@ -120,7 +120,7 @@ function App() {
           <Route exact path="/signup" element={<Signup />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/forgot-password" element={<ForgotPassword />} />
-          <Route exact path="/reset-password" element={<ResetPassword />} />
+          <Route exact path="/reset-password/:resetPasswordKeyParam" element={<ResetPassword />} />
           <Route exact path="/account-profile" element={<RequireAuth><AccountProfile /></RequireAuth>} />
           <Route path="*" element={<NotFound />} />
         </Routes>

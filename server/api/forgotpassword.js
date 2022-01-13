@@ -6,9 +6,7 @@ sendgridMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 exports.forgotpassword = async function(req, res, next){
     console.log('/API/FORGOTPASSWORD: email='+req.body.email);
-
-    try {
-        
+    try {   
         const User = db.sequelize.models.User;
         User.findOne({
             where: {
