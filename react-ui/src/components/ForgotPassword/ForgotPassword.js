@@ -6,10 +6,9 @@ import bgImage from '../../img/account/signin-img.jpg';
 import { UserContext } from "../UserContext"
 import { useNavigate, useParams } from "react-router-dom"
 
-const Login = () => {
+const ForgotPassword = () => {
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [isAlertOn, setIsAlertOn] = useState(false);
   const [alertText, setAlertText] = useState("");
   const navigate = useNavigate();
@@ -19,13 +18,13 @@ const Login = () => {
   const handleSubmit = (e) => {
       e.preventDefault();
 
-      console.log(`Login Submitted: ${email} ${password}`)
+      console.log(`Resetpassword Submitted: ${email}`)
       console.log("BEFORE LOGIN userContext="+JSON.stringify(userContext));
 
-      return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/login', {
+      return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/forgotpassword', {
           method: 'POST',
           credentials: "include",
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ email }),
           headers: {
               'Content-Type': 'application/json'
           }
@@ -34,32 +33,18 @@ const Login = () => {
             //return(response);
             console.log("LOGIN: received a response; user is authed and token will be stored");
             response.json().then(json => {
-              console.log(json);
-              //Save the token in the UserContext
-              setUserContext(oldValues => {
-                return { ...oldValues, token: json.token }
-              })
-              //Save the user in the UserContext
-              setUserContext(oldValues => {
-                return { ...oldValues, user: json.user }
-              })
-              console.log("token set token="+json.token);
-
-              
-              console.log("AFTER LOGIN/ABOUT TO REDIRECT userContext="+JSON.stringify(userContext));
-              
-              setIsAlertOn(false);
-              //Redirect user
-              navigate("/account-profile");
+                console.log(json);
+                setAlertText("Got it, thanks.  If an account exists for that email address we'll send you an email with a password reset link.");
+                setIsAlertOn(true);
             });
           } else if (response.status >= 400 && response.status < 600){
-            console.log("/api/login 401 unauthorized");
+            console.log("/api/forgotpassword 401 unauthorized");
             setAlertText("Sorry, the login authorities tell me that your request is unauthorized.  Please try again or consider resetting your password.");
             setIsAlertOn(true);
           } else {
             response.json().then(json => {
               console.log(json);
-              console.log('LOGIN: Somthing blew up message='+json.message);
+              console.log('FORGOTPASSWORD: Somthing blew up message='+json.message);
               setAlertText(json.message);
               setIsAlertOn(true);
             });
@@ -97,30 +82,14 @@ const Login = () => {
                             : ''
                       }
 
-                        <h1 className="h2">Log in</h1>
-                        <p className="fs-ms text-muted mb-4">Sign in to your account using email and password provided during registration.</p>
+                        <h1 className="h2">Forgot your password?</h1>
+                        <p className="fs-ms text-muted mb-4">We've got you covered.  Enter your email address and we'll send you a password reset link.</p>
                         <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" noValidate>
                           <div className="input-group mb-3"><i className="ai-mail position-absolute top-50 start-0 translate-middle-y ms-3"></i>
                             <input value={email} onChange={e => setEmail(e.target.value)} className="form-control rounded" type="email" placeholder="Email" required/>
                           </div>
-                          <div className="input-group mb-3"><i className="ai-lock position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-                            <div className="password-toggle w-100">
-                              <input value={password} onChange={e => setPassword(e.target.value)} className="form-control" type="password" placeholder="Password" required/>
-                              <label className="password-toggle-btn" aria-label="Show/hide password">
-                                <input className="password-toggle-check" type="checkbox"/><span className="password-toggle-indicator"></span>
-                              </label>
-                            </div>
-                          </div>
-                          <div className="d-flex justify-content-between align-items-center mb-3 pb-1">
-                            <div className="form-check">
-                              {/*  
-                              <input onChange={e => setKeepmesignedin(e.target.value)} className="form-check-input" type="checkbox" id="keep-signed-2"/>
-                              <label className="form-check-label" for="keep-signed-2">Keep me signed in</label>
-                              */}
-                            </div><NavLink className="nav-link-style fs-ms" to="/forgot-password">Forgot password?</NavLink>
-                          </div>
-                          <button className="btn btn-primary d-block w-100" type="submit">Log in</button>
-                          <p className="fs-sm pt-3 mb-0">Don't have an account? <NavLink className="fw-medium" to="/Signup" activeclassname="active">Sign Up</NavLink></p>
+                          <button className="btn btn-primary d-block w-100" type="submit">Reset Password</button>
+                          <p className="fs-sm pt-3 mb-0">Have an account already? <NavLink className="fw-medium" to="/Login" activeclassname="active">Log In</NavLink></p>
                           
                         </form>
                       </div>
@@ -143,4 +112,4 @@ const Login = () => {
   )
 }
 
-export default Login;
+export default ForgotPassword;

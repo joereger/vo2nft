@@ -6,7 +6,7 @@ import bgImage from '../../img/account/signin-img.jpg';
 import { UserContext } from "../UserContext"
 import { useNavigate, useParams } from "react-router-dom"
 
-const Login = () => {
+const ResetPassword = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -97,8 +97,8 @@ const Login = () => {
                             : ''
                       }
 
-                        <h1 className="h2">Log in</h1>
-                        <p className="fs-ms text-muted mb-4">Sign in to your account using email and password provided during registration.</p>
+                        <h1 className="h2">Reset Password</h1>
+                        <p className="fs-ms text-muted mb-4">Please choose a new password.</p>
                         <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" noValidate>
                           <div className="input-group mb-3"><i className="ai-mail position-absolute top-50 start-0 translate-middle-y ms-3"></i>
                             <input value={email} onChange={e => setEmail(e.target.value)} className="form-control rounded" type="email" placeholder="Email" required/>
@@ -117,7 +117,7 @@ const Login = () => {
                               <input onChange={e => setKeepmesignedin(e.target.value)} className="form-check-input" type="checkbox" id="keep-signed-2"/>
                               <label className="form-check-label" for="keep-signed-2">Keep me signed in</label>
                               */}
-                            </div><NavLink className="nav-link-style fs-ms" to="/forgot-password">Forgot password?</NavLink>
+                            </div><a className="nav-link-style fs-ms" href="password-recovery.html">Forgot password?</a>
                           </div>
                           <button className="btn btn-primary d-block w-100" type="submit">Log in</button>
                           <p className="fs-sm pt-3 mb-0">Don't have an account? <NavLink className="fw-medium" to="/Signup" activeclassname="active">Sign Up</NavLink></p>
@@ -143,4 +143,4 @@ const Login = () => {
   )
 }
 
-export default Login;
+export default ResetPassword;

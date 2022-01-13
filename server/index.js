@@ -77,6 +77,8 @@ if (!isDev && cluster.isMaster) {
   app.post('/api/signup', require('./api/signup.js').signup);
   app.post('/api/login', passport.authenticate("local"), require('./api/login.js').login);
   app.post('/api/refreshtoken', require('./api/refreshtoken.js').refreshtoken);
+  app.post('/api/forgotpassword', require('./api/forgotpassword.js').forgotpassword);
+  app.get('/api/resetpassword', require('./api/resetpassword.js').resetpassword);
   app.post('/api/signout', verifyUser, require('./api/signout.js').signout);
   app.get('/api/me', verifyUser, require('./api/me.js').me);
 

@@ -1,9 +1,12 @@
 'use strict';
 const {
-  Model
+  Model, INET
 } = require('sequelize');
 
 const passportLocalSequelize = require('passport-local-sequelize');
+const { Sequelize } = require('.');
+const { DATE } = require('sequelize');
+const { INTEGER } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -37,6 +40,12 @@ module.exports = (sequelize, DataTypes) => {
     reset_password_key: {
         type: DataTypes.STRING
     },
+    reset_password_expiration: {
+        type: DATE
+    },
+    reset_password_count: {
+        type: INTEGER
+    },
     verified: {
         type: DataTypes.BOOLEAN
     },
@@ -60,6 +69,7 @@ module.exports = (sequelize, DataTypes) => {
     delete values.refresh_token;
     delete values.password_hash;
     delete values.password_salt;
+    delete values.reset_password_expiration;
     return values;
   }
 
