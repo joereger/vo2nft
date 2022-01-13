@@ -6,7 +6,7 @@ import bgImage from '../../img/account/signin-img.jpg';
 import { UserContext } from "../UserContext"
 import { useNavigate, useParams } from "react-router-dom"
 
-const Signin = () => {
+const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,10 +19,10 @@ const Signin = () => {
   const handleSubmit = (e) => {
       e.preventDefault();
 
-      console.log(`Signin Submitted: ${email} ${password}`)
-      console.log("BEFORE SIGNIN userContext="+JSON.stringify(userContext));
+      console.log(`Login Submitted: ${email} ${password}`)
+      console.log("BEFORE LOGIN userContext="+JSON.stringify(userContext));
 
-      return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/signin', {
+      return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/login', {
           method: 'POST',
           credentials: "include",
           body: JSON.stringify({ email, password }),
@@ -32,30 +32,34 @@ const Signin = () => {
       }).then(response => {
           if (response.status >= 200 && response.status < 300) {
             //return(response);
-            console.log("Signin: received a response; user is authed and token will be stored");
+            console.log("LOGIN: received a response; user is authed and token will be stored");
             response.json().then(json => {
               console.log(json);
               //Save the token in the UserContext
               setUserContext(oldValues => {
                 return { ...oldValues, token: json.token }
               })
+              //Save the user in the UserContext
+              setUserContext(oldValues => {
+                return { ...oldValues, user: json.user }
+              })
               console.log("token set token="+json.token);
 
               
-              console.log("AFTER SIGNIN/ABOUT TO REDIRECT userContext="+JSON.stringify(userContext));
+              console.log("AFTER LOGIN/ABOUT TO REDIRECT userContext="+JSON.stringify(userContext));
               
               setIsAlertOn(false);
               //Redirect user
               navigate("/account-profile");
             });
           } else if (response.status >= 400 && response.status < 600){
-            console.log("/api/signin 401 unauthorized");
+            console.log("/api/login 401 unauthorized");
             setAlertText("Sorry, the login authorities tell me that your request is unauthorized.  Please try again or consider resetting your password.");
             setIsAlertOn(true);
           } else {
             response.json().then(json => {
               console.log(json);
-              console.log('Signin: Somthing blew up message='+json.message);
+              console.log('LOGIN: Somthing blew up message='+json.message);
               setAlertText(json.message);
               setIsAlertOn(true);
             });
@@ -93,7 +97,7 @@ const Signin = () => {
                             : ''
                       }
 
-                        <h1 className="h2">Sign in</h1>
+                        <h1 className="h2">Log in</h1>
                         <p className="fs-ms text-muted mb-4">Sign in to your account using email and password provided during registration.</p>
                         <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" noValidate>
                           <div className="input-group mb-3"><i className="ai-mail position-absolute top-50 start-0 translate-middle-y ms-3"></i>
@@ -115,7 +119,7 @@ const Signin = () => {
                               */}
                             </div><a className="nav-link-style fs-ms" href="password-recovery.html">Forgot password?</a>
                           </div>
-                          <button className="btn btn-primary d-block w-100" type="submit">Sign in</button>
+                          <button className="btn btn-primary d-block w-100" type="submit">Log in</button>
                           <p className="fs-sm pt-3 mb-0">Don't have an account? <NavLink className="fw-medium" to="/Signup" activeclassname="active">Sign Up</NavLink></p>
                           
                         </form>
@@ -139,4 +143,4 @@ const Signin = () => {
   )
 }
 
-export default Signin;
+export default Login;

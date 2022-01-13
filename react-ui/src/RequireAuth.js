@@ -16,7 +16,7 @@ function RequireAuth({ children }) {
     return authed === true
       ? children
       : <Navigate
-          to="/signin"
+          to="/login"
           replace
           state={{ path: location.pathname }}
         />;

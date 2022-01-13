@@ -59,10 +59,10 @@ const AccountNavbar = () => {
         <img className="d-lg-none" src={logoIcon} alt="Around" width="58" />
       </NavLink>
       <div className="offcanvas offcanvas-collapse order-lg-2" id="primaryMenu">
-        <div className="offcanvas-header navbar-shadow">
+        {/* <div className="offcanvas-header navbar-shadow">
           <h5 className="mt-1 mb-0">Menu</h5>
           <button className="btn-close lead" type="button" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
+        </div> */}
         <div className="offcanvas-body">
           <ul className="navbar-nav">
             <li className="nav-item mb-4 mb-lg-0 me-3">
@@ -74,7 +74,7 @@ const AccountNavbar = () => {
 
             {!userContext.token 
               ? <li className="nav-item">
-                <NavLink className="ps-3 nav-link" to="/signin" activeclassname="active">Sign In</NavLink>
+                <NavLink className="ps-3 nav-link" to="/login" activeclassname="active">Sign In</NavLink>
               </li>
               : null
             }
@@ -88,7 +88,7 @@ const AccountNavbar = () => {
 
 
               {/* <li className="nav-item">
-                <NavLink className="ps-3 nav-link" to="/signin" activeclassname="active">Sign In</NavLink>
+                <NavLink className="ps-3 nav-link" to="/login" activeclassname="active">Sign In</NavLink>
               </li> */}
               {/* <li className="nav-item">
                 <NavLink className="ps-3 nav-link" to="/signup" activeclassname="active">Sign Up</NavLink>
@@ -102,7 +102,7 @@ const AccountNavbar = () => {
           <NavLink className="navbar-tool-icon-box" to="/account-profile">
             <img className="navbar-tool-icon-box-img" src={main} alt="" />
           </NavLink>
-          <NavLink className="navbar-tool-label dropdown-toggle" to="/account-profile"><small>Hello,</small>User</NavLink>
+          <NavLink className="navbar-tool-label dropdown-toggle" to="/account-profile"><small>Hello,</small>{userContext.user && userContext.user.name}</NavLink>
           <ul className="dropdown-menu dropdown-menu-end" style={{width: '15rem'}}>
             <li>
               <NavLink className="dropdown-item d-flex align-items-center" to="/account-profile">

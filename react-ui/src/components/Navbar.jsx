@@ -70,7 +70,7 @@ const Navbar = ({ bg }) => {
               <NavLink className="ps-3 nav-link" to="/account-profile" activeclassname="active">Account Profile</NavLink>
             </li>
             {/* <li className="nav-item">
-              <NavLink className="ps-3 nav-link" to="/signin" activeclassname="active">Sign In</NavLink>
+              <NavLink className="ps-3 nav-link" to="/login" activeclassname="active">Sign In</NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="ps-3 nav-link" to="/signup" activeclassname="active">Sign Up</NavLink>
@@ -78,7 +78,7 @@ const Navbar = ({ bg }) => {
 
             {!userContext.token  
               ? <li className="nav-item">
-                <NavLink className="ps-3 nav-link" to="/signin" activeclassname="active">Sign In</NavLink>
+                <NavLink className="ps-3 nav-link" to="/login" activeclassname="active">Log In</NavLink>
               </li>
               : null
             }

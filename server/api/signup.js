@@ -67,7 +67,7 @@ exports.signup = async function(req, res){
 
                 //Respond to client including refreshToken as cookie
                 res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
-                return res.send({ message: "Yay!  Signup was successful!", success: true, token })
+                return res.send({ message: "Yay!  Signup was successful!", success: true, token, user: user })
               }
             }
           )

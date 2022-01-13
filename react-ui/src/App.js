@@ -7,7 +7,7 @@ import Home from "./components/Home/Home";
 import AccountProfile from "./components/Account Profile/AccountProfile";
 import ScrollUp from "./components/ScrollUp";
 import NotFound from "./components/NotFound";
-import Signin from "./components/Signin/Signin";
+import Login from "./components/Login/Login";
 import Signup from "./components/Signup/Signup";
 import { UserContext } from "./components/UserContext"
 import RequireAuth from "./RequireAuth";
@@ -38,6 +38,10 @@ function App() {
         setUserContext(oldValues => {
           return { ...oldValues, token: data.token }
         })
+        setUserContext(oldValues => {
+          return { ...oldValues, user: data.user }
+        })
+        
       } else {
         console.log("response NOT ok so setting token null in UserContext");
         console.log(this);
@@ -111,7 +115,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/signin" element={<Signin />} />
+          <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<Signup />} />
           <Route exact path="/account-profile" element={<RequireAuth><AccountProfile /></RequireAuth>} />
           <Route path="*" element={<NotFound />} />

@@ -2,14 +2,14 @@ const db = require('../models/index.js');
 const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../auth/authenticate");
 const user = require('../models/user.js');
 
-exports.signin = async function(req, res, next){
-    console.log('/api/signin AUTHED PROPERLY in signin.js email='+req.body.email);
+exports.login = async function(req, res, next){
+    console.log('/api/login AUTHED PROPERLY in login.js email='+req.body.email);
 
     //Generate a refresh token and save it on user
     const token = getToken({ _id: req.user.id });
     const refreshToken = getRefreshToken({ _id: req.user.id });
-    console.log("SIGNIN getToken() = "+ token);
-    console.log("SIGNIN getRefreshToken() = "+ refreshToken);
+    console.log("LOGIN getToken() = "+ token);
+    console.log("LOGIN getRefreshToken() = "+ refreshToken);
 
     //If this refreshToken isn't yet in req.user.refresh_token, add it and save user
     //console.log("req.user.refresh_token="+req.user.refresh_token);
@@ -38,7 +38,7 @@ exports.signin = async function(req, res, next){
 
     //Respond to client including refreshToken as cookie
     res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
-    return res.send({ message: "Sweet!  Signin was successful!", success: true, token })
+    return res.send({ message: "Sweet!  Log in was successful!", success: true, token, user: req.user })
     
    
 };

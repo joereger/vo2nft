@@ -75,7 +75,7 @@ if (!isDev && cluster.isMaster) {
 
   //API Routes
   app.post('/api/signup', require('./api/signup.js').signup);
-  app.post('/api/signin', passport.authenticate("local"), require('./api/signin.js').signin);
+  app.post('/api/login', passport.authenticate("local"), require('./api/login.js').login);
   app.post('/api/refreshtoken', require('./api/refreshtoken.js').refreshtoken);
   app.post('/api/signout', verifyUser, require('./api/signout.js').signout);
   app.get('/api/me', verifyUser, require('./api/me.js').me);

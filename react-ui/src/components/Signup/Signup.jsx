@@ -28,6 +28,7 @@ const Signup = () => {
 
       return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/signup', {
           method: 'POST',
+          credentials: "include",
           body: JSON.stringify({ email, password, confirmpassword, name }),
           headers: {
               'Content-Type': 'application/json'
@@ -41,6 +42,10 @@ const Signup = () => {
               //Save the token in the UserContext
               setUserContext(oldValues => {
                 return { ...oldValues, token: json.token }
+              })
+              //Save the user in the UserContext
+              setUserContext(oldValues => {
+                return { ...oldValues, user: json.user }
               })
               console.log("token set token="+json.token);
               setIsAlertOn(false);
@@ -116,7 +121,7 @@ const Signup = () => {
                             </div>
                           </div>
                           <button className="btn btn-primary d-block w-100" type="submit">Sign up</button>
-                          <p className="fs-sm pt-3 mb-0">Already have an account? <NavLink className="fw-medium" to="/Signin" activeclassname="active">Sign In</NavLink></p>
+                          <p className="fs-sm pt-3 mb-0">Already have an account? <NavLink className="fw-medium" to="/Login" activeclassname="active">Log In</NavLink></p>
                         </form>
                       </div>
 

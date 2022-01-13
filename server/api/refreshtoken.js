@@ -53,7 +53,7 @@ exports.refreshtoken = async function(req, res){
                                     console.log("the user has been saved, returning refreshToken in cookie"); 
                                     console.log('/API/REFRESHTOKEN done, returning refreshToken to browser <<<');
                                     res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS)
-                                    return res.send({ success: true, token })  
+                                    return res.send({ success: true, token, user })  
                                 }       
                             )  
  
