@@ -146,9 +146,9 @@ const AccountNavbar = () => {
             </li> */}
             <li className="dropdown-divider"></li>
             <li>
-              <a className="dropdown-item d-flex align-items-center" href="signin-illustration.html">
-                <i className="ai-log-out fs-base opacity-60 me-2"></i>Sign out
-              </a>
+              <NavLink className="dropdown-item d-flex align-items-center" to="/Logout">
+                <i className="ai-log-out fs-base opacity-60 me-2"></i>Log out
+              </NavLink>
             </li>
           </ul>
         </div>

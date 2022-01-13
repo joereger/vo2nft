@@ -8,6 +8,7 @@ import AccountProfile from "./components/Account Profile/AccountProfile";
 import ScrollUp from "./components/ScrollUp";
 import NotFound from "./components/NotFound";
 import Login from "./components/Login/Login";
+import Logout from "./components/Logout/Logout";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 import Signup from "./components/Signup/Signup";
@@ -119,6 +120,7 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route exact path="/signup" element={<Signup />} />
           <Route exact path="/login" element={<Login />} />
+          <Route exact path="/logout" element={<Logout />} />
           <Route exact path="/forgot-password" element={<ForgotPassword />} />
           <Route exact path="/reset-password/:resetPasswordKeyParam" element={<ResetPassword />} />
           <Route exact path="/account-profile" element={<RequireAuth><AccountProfile /></RequireAuth>} />
