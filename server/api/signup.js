@@ -48,7 +48,7 @@ exports.signup = async function(req, res){
 
         const User = db.sequelize.models.User;
         await User.register(
-            User.build({ email: req.body.email }),
+            User.build({ email: req.body.email, username: req.body.username }),
             req.body.password,
             (err, user) => {
               if (err) {
@@ -63,6 +63,7 @@ exports.signup = async function(req, res){
                 const refreshToken = getRefreshToken({ _id: user.id })
                 user.refresh_token = [refreshToken];
                 user.name = req.body.name;
+                user.username = req.body.username;
                 user.save();
 
                 //Respond to client including refreshToken as cookie

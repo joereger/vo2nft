@@ -12,6 +12,7 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
 
   const [isAlertOn, setIsAlertOn] = useState(false);
@@ -29,7 +30,7 @@ const Signup = () => {
       return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/signup', {
           method: 'POST',
           credentials: "include",
-          body: JSON.stringify({ email, password, confirmpassword, name }),
+          body: JSON.stringify({ email, password, confirmpassword, name, username }),
           headers: {
               'Content-Type': 'application/json'
           }
@@ -103,6 +104,9 @@ const Signup = () => {
                           </div>
                           <div className="mb-3">
                             <input value={email} onChange={e => setEmail(e.target.value)} className="form-control" type="text" placeholder="Email" required/>
+                          </div>
+                          <div className="mb-3">
+                            <input value={username} onChange={e => setUsername(e.target.value)} className="form-control" type="text" placeholder="Username" required/>
                           </div>
                           <div className="input-group mb-3">
                             <div className="password-toggle w-100">

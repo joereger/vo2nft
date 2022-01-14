@@ -53,8 +53,8 @@ function App() {
         })
       }
       //Call refreshToken every 5 minutes to renew the authentication token.
-      //setTimeout(verifyUser, 5 * 60 * 1000) //5 minutes
-      setTimeout(verifyUser, 30 * 1000) //30 seconds
+      setTimeout(verifyUser, 5 * 60 * 1000) //5 minutes
+      //setTimeout(verifyUser, 30 * 1000) //30 seconds
     })
   }, []) 
 
