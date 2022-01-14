@@ -13,7 +13,7 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [confirmpassword, setConfirmpassword] = useState("");
+  //const [confirmpassword, setConfirmpassword] = useState("");
 
   const [isAlertOn, setIsAlertOn] = useState(false);
   const [alertText, setAlertText] = useState("");
@@ -30,7 +30,7 @@ const Signup = () => {
       return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/signup', {
           method: 'POST',
           credentials: "include",
-          body: JSON.stringify({ email, password, confirmpassword, name, username }),
+          body: JSON.stringify({ email, password, name, username }),
           headers: {
               'Content-Type': 'application/json'
           }
@@ -97,7 +97,7 @@ const Signup = () => {
 
                     
                         <h1 className="h2">Sign up</h1>
-                        <p className="fs-ms text-muted mb-4">Registration takes less than a minute but gives you full control over your orders.</p>
+                        <p className="fs-ms text-muted mb-4">Takes less than a minute but gives you access to a world of endurance sports NFTs.</p>
                         <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" noValidate>
                           <div className="mb-3">
                             <input value={name} onChange={e => setName(e.target.value)} className="form-control" type="text" placeholder="Name" required/>
@@ -116,14 +116,14 @@ const Signup = () => {
                               </label>
                             </div>
                           </div>
-                          <div className="input-group mb-3">
+                          {/* <div className="input-group mb-3">
                             <div className="password-toggle w-100">
                               <input value={confirmpassword} onChange={e => setConfirmpassword(e.target.value)} className="form-control" type="password" placeholder="Confirm password" required/>
                               <label className="password-toggle-btn" aria-label="Show/hide password">
                                 <input className="password-toggle-check" type="checkbox"/><span className="password-toggle-indicator"></span>
                               </label>
                             </div>
-                          </div>
+                          </div> */}
                           <button className="btn btn-primary d-block w-100" type="submit">Sign up</button>
                           <p className="fs-sm pt-3 mb-0">Already have an account? <NavLink className="fw-medium" to="/Login" activeclassname="active">Log In</NavLink></p>
                         </form>

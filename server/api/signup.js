@@ -35,13 +35,13 @@ exports.signup = async function(req, res){
     
 
     //Verify that passwords match
-    if (req.body.password!=req.body.confirmpassword){
-        console.log("Signup: passwords don't match"); 
-        res.set('Content-Type', 'application/json');
-        return res.send(400, { message: "Whoopsie, looks like your passwords don't match.  Please try again." });    
-    } else {
-        console.log("Signup: passwords match");    
-    }
+    // if (req.body.password!=req.body.confirmpassword){
+    //     console.log("Signup: passwords don't match"); 
+    //     res.set('Content-Type', 'application/json');
+    //     return res.send(400, { message: "Whoopsie, looks like your passwords don't match.  Please try again." });    
+    // } else {
+    //     console.log("Signup: passwords match");    
+    // }
 
     //Register with auth strategies using User.register(var1=user, var2=password, var3=function)
     try {
