@@ -25,7 +25,7 @@ const Signup = () => {
   const handleSubmit = (e) => {
       e.preventDefault();
 
-      console.log(`Signup Submitted: ${email} ${password} ${confirmpassword}`)
+      console.log(`Signup Submitted: ${email} ${password}`)
 
       return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/signup', {
           method: 'POST',
@@ -106,7 +106,10 @@ const Signup = () => {
                             <input value={email} onChange={e => setEmail(e.target.value)} className="form-control" type="text" placeholder="Email" required/>
                           </div>
                           <div className="mb-3">
-                            <input value={username} onChange={e => setUsername(e.target.value)} className="form-control" type="text" placeholder="Username" required/>
+                            <div class="input-group">
+                              <span class="input-group-text">@</span>
+                              <input value={username} onChange={e => setUsername(e.target.value)} className="form-control" type="text" placeholder="Username" required/>
+                            </div>
                           </div>
                           <div className="input-group mb-3">
                             <div className="password-toggle w-100">
