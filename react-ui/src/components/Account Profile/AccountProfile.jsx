@@ -1,13 +1,12 @@
 import React, { useEffect, useContext } from "react";
 import AccountNavbar from "../AccountNavbar";
-import ProfileInfo from "./Profile Info/ProfileInfo";
+import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import SideBar from "./SideBar";
 
 const AccountProfile = () => {
-//class AccountProfile extends React.Component {
-  useEffect(() => document.getElementById('root').style.background = '#f7f7fc')
-  //console.log("ACCOUNT PROFILE userContext="+JSON.stringify(userContext));
 
+  
+  useEffect(() => document.getElementById('root').style.background = '#f7f7fc')
   return(
     <>
       <AccountNavbar />

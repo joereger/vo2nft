@@ -8,23 +8,15 @@ import { useNavigate, useParams } from "react-router-dom"
 
 const ChangePassword = () => {
 
-  //const [email, setEmail] = useState("");
-  //const [originalPassword, setOriginalPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  //const [resetPasswordKey, setResetPasswordKey] = useState("");
   const [isAlertOn, setIsAlertOn] = useState(false);
   const [alertText, setAlertText] = useState("");
   const navigate = useNavigate();
-
   const [userContext, setUserContext] = useContext(UserContext)
-
 
   const handleSubmit = (e) => {
       e.preventDefault();
-
-
       console.log(`/API/CHANGEPASSWORD Submitted: ${newPassword}`)
-      //console.log("BEFORE LOGIN userContext="+JSON.stringify(userContext));
 
       return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/changepassword', {
           method: 'POST',
@@ -102,14 +94,6 @@ const ChangePassword = () => {
                         <h1 className="h2">Change Password</h1>
                         <p className="fs-ms text-muted mb-4">Please enter your current password and set a new password.</p>
                         <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" noValidate>
-                          {/* <div className="input-group mb-3"><i className="ai-lock position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-                            <div className="password-toggle w-100">
-                              <input value={originalPassword} onChange={e => setOriginalPassword(e.target.value)} className="form-control" type="password" placeholder="Current Password" required/>
-                              <label className="password-toggle-btn" aria-label="Show/hide password">
-                                <input className="password-toggle-check" type="checkbox"/><span className="password-toggle-indicator"></span>
-                              </label>
-                            </div>
-                          </div> */}
                           <div className="input-group mb-3"><i className="ai-lock position-absolute top-50 start-0 translate-middle-y ms-3"></i>
                             <div className="password-toggle w-100">
                               <input value={newPassword} onChange={e => setNewPassword(e.target.value)} className="form-control" type="password" placeholder="New Password" required/>
@@ -123,9 +107,6 @@ const ChangePassword = () => {
                         </form>
                       </div>
                       
-
-
-
                     </div>
                   </div>
                 </div>

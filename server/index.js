@@ -82,6 +82,7 @@ if (!isDev && cluster.isMaster) {
   app.post('/api/resetpassword', require('./api/resetpassword.js').resetpassword);
   app.post('/api/changepassword', verifyUser, require('./api/changepassword.js').changepassword);
   app.get('/api/me', verifyUser, require('./api/me.js').me);
+  app.post('/api/me', verifyUser, require('./api/me.js').meUpdate);
 
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', function(request, response) {

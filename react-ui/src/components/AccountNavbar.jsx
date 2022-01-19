@@ -68,9 +68,9 @@ const AccountNavbar = () => {
             <li className="nav-item mb-4 mb-lg-0 me-3">
               <NavLink className="ps-3 nav-link" to="/" activeclassname="active">Home</NavLink>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <NavLink className="ps-3 nav-link" to="/account-profile" activeclassname="active">Account Profile</NavLink>
-            </li>
+            </li> */}
 
             {!userContext.token 
               ? <li className="nav-item">

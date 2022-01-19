@@ -38,8 +38,6 @@ exports.changepassword = async function(req, res, next){
                         }
                     })
 
-
-
                 } else {
                     console.log("/API/CHANGEPASSWORD: user not found");
                 }
