@@ -5,6 +5,7 @@ import logoIcon from '../img/logo/logo-icon.png';
 import main from '../img/dashboard/avatar/main-sm.jpg';
 import { useEffect, useContext } from 'react';
 import { UserContext } from "./UserContext"
+import NavbarUserDropdown from './NavbarUserDropdown';
 
 const AccountNavbar = () => {
   const [userContext] = useContext(UserContext)
@@ -65,12 +66,7 @@ const AccountNavbar = () => {
         </div> */}
         <div className="offcanvas-body">
           <ul className="navbar-nav">
-            <li className="nav-item mb-4 mb-lg-0 me-3">
-              <NavLink className="ps-3 nav-link" to="/" activeclassname="active">Home</NavLink>
-            </li>
-            {/* <li className="nav-item">
-              <NavLink className="ps-3 nav-link" to="/account-profile" activeclassname="active">Account Profile</NavLink>
-            </li> */}
+            
 
             {!userContext.token 
               ? <li className="nav-item">
@@ -97,71 +93,16 @@ const AccountNavbar = () => {
           </ul>
         </div>
       </div>
-      <div className="d-flex align-items-center order-lg-3 ms-lg-auto">
-        <div className="navbar-tool dropdown">
-          <NavLink className="navbar-tool-icon-box" to="/account-profile">
-            <img className="navbar-tool-icon-box-img" src={main} alt="" />
-          </NavLink>
-          <NavLink className="navbar-tool-label dropdown-toggle" to="/account-profile"><small>Hello,</small>{userContext.user && userContext.user.name}</NavLink>
-          <ul className="dropdown-menu dropdown-menu-end" style={{width: '15rem'}}>
-            <li>
-              <NavLink className="dropdown-item d-flex align-items-center" to="/account-profile">
-                <i className="ai-users fs-base opacity-60 me-2"></i>
-                Account Profile
-                {/* <span className="ms-auto fs-xs text-muted">2</span> */}
-              </NavLink>
-            </li>
-            {/* <li className="dropdown-divider"></li>
-            <li>
-              <a className="dropdown-item d-flex align-items-center" href="dashboard-sales.html">
-                <i className="ai-dollar-sign fs-base opacity-60 me-2"></i>
-                Sales<span className="ms-auto fs-xs text-muted">$735.00</span>
-              </a>
-            </li>
-            <li className="dropdown-divider"></li>
-            <li>
-              <a className="dropdown-item d-flex align-items-center" href="dashboard-messages.html">
-                <i className="ai-message-square fs-base opacity-60 me-2"></i>
-                Messages<span className="nav-indicator"></span>
-                <span className="ms-auto fs-xs text-muted">1</span>
-              </a>
-            </li>
-            <li className="dropdown-divider"></li>
-            <li>
-              <a className="dropdown-item d-flex align-items-center" href="dashboard-followers.html">
-                <i className="ai-users fs-base opacity-60 me-2"></i>Followers<span className="ms-auto fs-xs text-muted">34</span>
-              </a>
-            </li>
-            <li className="dropdown-divider"></li>
-            <li>
-              <a className="dropdown-item d-flex align-items-center" href="dashboard-reviews.html">
-                <i className="ai-star fs-base opacity-60 me-2"></i>Reviews<span className="ms-auto fs-xs text-muted">15</span>
-              </a>
-            </li>
-            <li className="dropdown-divider"></li>
-            <li>
-              <a className="dropdown-item d-flex align-items-center" href="dashboard-favorites.html">
-                <i className="ai-heart fs-base opacity-60 me-2"></i>Favorites<span className="ms-auto fs-xs text-muted">6</span>
-              </a>
-            </li> */}
-            <li className="dropdown-divider"></li>
-            <li>
-              <NavLink className="dropdown-item d-flex align-items-center" to="/Logout">
-                <i className="ai-log-out fs-base opacity-60 me-2"></i>Log out
-              </NavLink>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <NavbarUserDropdown />
     </div>
   </header>
 
   <div className="position-relative bg-gradient" style={{height: '480px'}}>
-  <div className="shape shape-bottom shape-slant bg-secondary d-none d-lg-block">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 260">
-      <polygon fill="currentColor" points="0,257 0,260 3000,260 3000,0"></polygon>
-    </svg>
-  </div>
+    <div className="shape shape-bottom shape-slant bg-secondary d-none d-lg-block">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 260">
+        <polygon fill="currentColor" points="0,257 0,260 3000,260 3000,0"></polygon>
+      </svg>
+    </div>
   </div>
 </>
 )};

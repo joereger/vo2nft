@@ -2,8 +2,10 @@ import { NavLink } from 'react-router-dom';
 import logoDark from '../img/logo/logo-dark.png';
 import logoLight from '../img/logo/logo-light.png';
 import logoIcon from '../img/logo/logo-icon.png';
+import main from '../img/dashboard/avatar/main-sm.jpg';
 import { useEffect, useContext } from 'react';
 import { UserContext } from "./UserContext"
+import NavbarUserDropdown from './NavbarUserDropdown';
 
 const Navbar = ({ bg }) => {
   const [userContext] = useContext(UserContext)
@@ -63,18 +65,7 @@ const Navbar = ({ bg }) => {
         </div>
         <div className="offcanvas-body">
           <ul className="navbar-nav">
-            <li className="nav-item mb-4 mb-lg-0 me-3">
-              <NavLink className="ps-3 nav-link" to="/" activeclassname="active">Home</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="ps-3 nav-link" to="/account-profile" activeclassname="active">Account Profile</NavLink>
-            </li>
-            {/* <li className="nav-item">
-              <NavLink className="ps-3 nav-link" to="/login" activeclassname="active">Sign In</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="ps-3 nav-link" to="/signup" activeclassname="active">Sign Up</NavLink>
-            </li> */}
+
 
             {!userContext.token  
               ? <li className="nav-item">
@@ -93,6 +84,40 @@ const Navbar = ({ bg }) => {
           </ul>
         </div>
       </div>
+
+
+      <NavbarUserDropdown />
+      {/* {userContext.token 
+        ?
+          <div className="d-flex align-items-center order-lg-3 ms-lg-auto">
+            <div className="navbar-tool dropdown">
+              <NavLink className="navbar-tool-icon-box" to="/account-profile">
+                <img className="navbar-tool-icon-box-img" src={main} alt="" />
+              </NavLink>
+              <NavLink className="navbar-tool-label dropdown-toggle" to="/account-profile"><small>Hello,</small>{userContext.user && userContext.user.name}</NavLink>
+              <ul className="dropdown-menu dropdown-menu-end" style={{width: '15rem'}}>
+                <li>
+                  <NavLink className="dropdown-item d-flex align-items-center" to="/account-profile">
+                    <i className="ai-users fs-base opacity-60 me-2"></i>
+                    Account Profile
+                  </NavLink>
+                </li>
+                
+                <li className="dropdown-divider"></li>
+                <li>
+                  <NavLink className="dropdown-item d-flex align-items-center" to="/Logout">
+                    <i className="ai-log-out fs-base opacity-60 me-2"></i>Log out
+                  </NavLink>
+                </li>
+              </ul>
+            </div>
+          </div>
+        : null
+      } */}
+
+
+
+
     </div>
   </header>
 )};

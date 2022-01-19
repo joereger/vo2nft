@@ -7,8 +7,6 @@ const SideBar = () => {
 
   const [userContext, setUserContext] = useContext(UserContext)
 
-
-
   return(
     <div className="col-lg-4 mb-4 mb-lg-0">
       <div className="bg-light rounded-3 shadow-lg">
