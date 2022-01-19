@@ -47,9 +47,9 @@ exports.meUpdate = async function(req, res, next){
          } 
 
         //TODO validation of name not null and not too long
-        if (!req.body.name || req.body.name.length < 1){
+        if (!req.body.name || req.body.name.length < 1 || req.body.name.length > 60){
             res.set('Content-Type', 'application/json');
-            return res.send(400, { message: "Sorry, your name is required and must be at least one character in length." });
+            return res.send(400, { message: "Sorry, your name is required and must be at least one character in length and less than 60." });
         }
 
         //Update the user
