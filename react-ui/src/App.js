@@ -11,6 +11,7 @@ import Login from "./components/Login/Login";
 import Logout from "./components/Logout/Logout";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
+import ChangePassword from "./components/ChangePassword/ChangePassword";
 import Signup from "./components/Signup/Signup";
 import { UserContext } from "./components/UserContext"
 import RequireAuth from "./RequireAuth";
@@ -123,6 +124,7 @@ function App() {
           <Route exact path="/logout" element={<Logout />} />
           <Route exact path="/forgot-password" element={<ForgotPassword />} />
           <Route exact path="/reset-password/:resetPasswordKeyParam" element={<ResetPassword />} />
+          <Route exact path="/change-password" element={<RequireAuth><ChangePassword /></RequireAuth>} />
           <Route exact path="/account-profile" element={<RequireAuth><AccountProfile /></RequireAuth>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
