@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom';
-import logoDark from '../img/logo/logo-dark.png';
-import logoLight from '../img/logo/logo-light.png';
+import logoDark from '../img/Vo2NFT-logo-v01.png'
+import logoLight from '../img/Vo2NFT-logo-v01.png'
 import logoIcon from '../img/logo/logo-icon.png';
-import main from '../img/dashboard/avatar/main-sm.jpg';
+import main from '../img/avatar.png';
 import { useEffect, useContext } from 'react';
 import { UserContext } from "./UserContext"
 import NavbarUserDropdown from './NavbarUserDropdown';

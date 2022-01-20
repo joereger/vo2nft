@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import { NavLink } from 'react-router-dom';
-import main from '../../img/dashboard/avatar/main.jpg';
+import main from '../../img/avatar.png';
 import { UserContext } from "../UserContext"
 
 const SideBar = () => {
