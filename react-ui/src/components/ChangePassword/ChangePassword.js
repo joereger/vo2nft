@@ -18,7 +18,7 @@ const ChangePassword = () => {
       e.preventDefault();
       console.log(`/API/CHANGEPASSWORD Submitted: ${newPassword}`)
 
-      return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/changepassword', {
+      return fetch(process.env.REACT_APP_NODE_URI + '/api/changepassword', {
           method: 'POST',
           credentials: "include",
           body: JSON.stringify({ newPassword }),

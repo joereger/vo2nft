@@ -22,7 +22,7 @@ const Login = () => {
       console.log(`Login Submitted: ${email} ${password}`)
       console.log("BEFORE LOGIN userContext="+JSON.stringify(userContext));
 
-      return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/login', {
+      return fetch(process.env.REACT_APP_NODE_URI + '/api/login', {
           method: 'POST',
           credentials: "include",
           body: JSON.stringify({ email, password }),

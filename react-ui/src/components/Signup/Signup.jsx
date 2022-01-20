@@ -27,7 +27,7 @@ const Signup = () => {
 
       console.log(`Signup Submitted: ${email} ${password}`)
 
-      return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/signup', {
+      return fetch(process.env.REACT_APP_NODE_URI + '/api/signup', {
           method: 'POST',
           credentials: "include",
           body: JSON.stringify({ email, password, name, username }),

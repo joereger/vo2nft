@@ -29,7 +29,7 @@ const ResetPassword = () => {
       console.log(`/API/RESETPASSWORD Submitted: ${email} ${password} ${resetPasswordKeyParam}`)
       //console.log("BEFORE LOGIN userContext="+JSON.stringify(userContext));
 
-      return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/resetpassword', {
+      return fetch(process.env.REACT_APP_NODE_URI + '/api/resetpassword', {
           method: 'POST',
           credentials: "include",
           body: JSON.stringify({ email, password, resetPasswordKeyParam }),

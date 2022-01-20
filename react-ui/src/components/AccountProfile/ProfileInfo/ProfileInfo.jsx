@@ -15,7 +15,7 @@ const ProfileInfo = () => {
   useEffect(() => {
       console.log("Loading User profile info");
     
-      fetch(process.env.REACT_APP_API_ENDPOINT + '/api/me', {
+      fetch(process.env.REACT_APP_NODE_URI + '/api/me', {
           method: 'GET',
           credentials: "include",
           headers: {
@@ -37,7 +37,7 @@ const ProfileInfo = () => {
                 //setIsAlertOn(false);
             });
           } else if (response.status >= 400 && response.status < 600){
-            console.log("/api/forgotpassword 401 unauthorized");
+            console.log("/api/me 401 unauthorized");
             setAlertText("Sorry, the login authorities tell me that your request is unauthorized.  Please try again or consider resetting your password.");
             setIsAlertOn(true);
           } else {
@@ -59,7 +59,7 @@ const ProfileInfo = () => {
     console.log(`ME UPDATE Submitted: ${email}`)
     console.log("BEFORE ME UPDATE userContext="+JSON.stringify(userContext));
 
-    return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/me', {
+    return fetch(process.env.REACT_APP_NODE_URI + '/api/me', {
         method: 'POST',
         credentials: "include",
         body: JSON.stringify({ email, username, name }),
@@ -73,6 +73,10 @@ const ProfileInfo = () => {
           console.log("ME UPDATE: received a response; user is authed and token will be stored");
           response.json().then(json => {
               console.log(json);
+              setUserContext(oldValues => {
+                return { ...oldValues, user: json.user }
+              })
+
               setAlertText("Saved.  Thanks!");
               setIsAlertOn(true);
           });

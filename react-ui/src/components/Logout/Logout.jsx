@@ -20,7 +20,7 @@ const Logout = () => {
       console.log(`LOGOUT Submitted`)
       console.log("BEFORE LOGOUT userContext="+JSON.stringify(userContext));
 
-      return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/logout', {
+      return fetch(process.env.REACT_APP_NODE_URI + '/api/logout', {
           method: 'GET',
           credentials: "include",
           headers: {

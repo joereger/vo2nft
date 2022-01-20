@@ -21,7 +21,7 @@ const ForgotPassword = () => {
       console.log(`Resetpassword Submitted: ${email}`)
       console.log("BEFORE LOGIN userContext="+JSON.stringify(userContext));
 
-      return fetch(process.env.REACT_APP_API_ENDPOINT + '/api/forgotpassword', {
+      return fetch(process.env.REACT_APP_NODE_URI + '/api/forgotpassword', {
           method: 'POST',
           credentials: "include",
           body: JSON.stringify({ email }),

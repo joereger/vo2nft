@@ -4,10 +4,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 //import getWeb3 from "./getWeb3";
 import "./App.css";
 import Home from "./components/Home/Home";
-import AccountProfile from "./components/Account Profile/AccountProfile";
+import AccountProfile from "./components/AccountProfile/AccountProfile";
 import ScrollUp from "./components/ScrollUp";
 import NotFound from "./components/NotFound";
 import Login from "./components/Login/Login";
+import ConnectStrava from "./components/Strava/ConnectStrava";
 import Logout from "./components/Logout/Logout";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
@@ -28,7 +29,7 @@ function App() {
     //console.log("APP VERIFYUSER REFRESH TOKEN userContext.token="+userContext.token);
     
     //REFRESH THE TOKEN
-    fetch(process.env.REACT_APP_API_ENDPOINT + "/api/refreshToken", {
+    fetch(process.env.REACT_APP_NODE_URI + "/api/refreshToken", {
       method: "POST",
       credentials: "include",
       headers: { 
@@ -124,6 +125,7 @@ function App() {
           <Route exact path="/logout" element={<Logout />} />
           <Route exact path="/forgot-password" element={<ForgotPassword />} />
           <Route exact path="/reset-password/:resetPasswordKeyParam" element={<ResetPassword />} />
+          <Route exact path="/connect-strava" element={<ConnectStrava />} />
           <Route exact path="/change-password" element={<RequireAuth><ChangePassword /></RequireAuth>} />
           <Route exact path="/account-profile" element={<RequireAuth><AccountProfile /></RequireAuth>} />
           <Route path="*" element={<NotFound />} />
