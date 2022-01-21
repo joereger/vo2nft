@@ -9,6 +9,7 @@ import ScrollUp from "./components/ScrollUp";
 import NotFound from "./components/NotFound";
 import Login from "./components/Login/Login";
 import ConnectStrava from "./components/Strava/ConnectStrava";
+import StravaCallback from "./components/Strava/StravaCallback";
 import Logout from "./components/Logout/Logout";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
@@ -126,6 +127,7 @@ function App() {
           <Route exact path="/forgot-password" element={<ForgotPassword />} />
           <Route exact path="/reset-password/:resetPasswordKeyParam" element={<ResetPassword />} />
           <Route exact path="/connect-strava" element={<ConnectStrava />} />
+          <Route exact path="/strava-callback" element={<StravaCallback />} />
           <Route exact path="/change-password" element={<RequireAuth><ChangePassword /></RequireAuth>} />
           <Route exact path="/account-profile" element={<RequireAuth><AccountProfile /></RequireAuth>} />
           <Route path="*" element={<NotFound />} />

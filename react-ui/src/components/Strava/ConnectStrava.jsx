@@ -29,7 +29,7 @@ const ConnectStrava = () => {
 
     console.log("stravaAuthUrl="+stravaAuthUrl);
     //Redirect user
-    //window.location.replace(stravaAuthUrl);
+    window.location.replace(stravaAuthUrl);
   }
 
 

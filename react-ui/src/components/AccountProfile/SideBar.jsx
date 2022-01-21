@@ -31,6 +31,7 @@ const SideBar = () => {
           <h3 className="d-block bg-secondary fs-sm fw-semibold text-muted mb-0 px-4 py-3">Account settings</h3>
             <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/account-profile">Profile info</NavLink>
             <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/change-password">Change Password</NavLink>
+            <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/connect-strava">Connect Strava</NavLink>
             {/* <a className="d-flex align-items-center nav-link-style px-4 py-3 border-top" href="account-payment.html">Payment methods</a>
             <div className="d-flex align-items-center border-top"><a className="d-block w-100 nav-link-style px-4 py-3" href="account-notifications.html">Notifications</a>
               <div className="ms-auto px-3">

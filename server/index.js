@@ -80,6 +80,7 @@ if (!isDev && cluster.isMaster) {
   app.post('/api/refreshtoken', require('./api/refreshtoken.js').refreshtoken);
   app.post('/api/forgotpassword', require('./api/forgotpassword.js').forgotpassword);
   app.post('/api/resetpassword', require('./api/resetpassword.js').resetpassword);
+  app.post('/api/strava_convert_code_to_access_token', require('./api/stravaconvertcodetoaccesstoken.js').strava_convert_code_to_access_token);
   app.post('/api/changepassword', verifyUser, require('./api/changepassword.js').changepassword);
   app.get('/api/me', verifyUser, require('./api/me.js').me);
   app.post('/api/me', verifyUser, require('./api/me.js').meUpdate);
