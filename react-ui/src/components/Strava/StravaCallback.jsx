@@ -111,8 +111,7 @@ const StravaCallback = () => {
   return (
     <>
       <AccountNavbar />
-
-          
+   
       {/*  
       <div className="d-none d-md-block position-absolute w-50 h-100 bg-size-cover" style={{top: "0px", right: "0px", backgroundImage: "url(" + bgImage + ")" }}></div>
       */} 
