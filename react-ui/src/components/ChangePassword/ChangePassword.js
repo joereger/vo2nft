@@ -31,10 +31,6 @@ const ChangePassword = () => {
             console.log("/API/CHANGEPASSWORD: received a response; user password is reset");
             response.json().then(json => {
               console.log(json);
-              //Save the token in the UserContext
-              // setUserContext(oldValues => {
-              //   return { ...oldValues, token: json.token }
-              // })
               //Save the user in the UserContext
               setUserContext(oldValues => {
                 return { ...oldValues, user: json.user }

@@ -9,7 +9,7 @@ const NavbarUserDropdown = () => {
 
   return(
     <> 
-    {userContext.token 
+    {(userContext && userContext.token)
         ?
           <div className="d-flex align-items-center order-lg-3 ms-lg-auto">
             <div className="navbar-tool dropdown">

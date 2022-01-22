@@ -28,16 +28,12 @@ const Logout = () => {
           }
       }).then(response => {
           if (response.status >= 200 && response.status < 300) {
-            console.log("LOGOUT: received a response; user is authed and token will be stored");
+            console.log("LOGOUT: received a response; user is authed and token will be nulled");
             response.json().then(json => {
               console.log(json);
               //Save the token in the UserContext
               setUserContext(oldValues => {
-                return { ...oldValues, token: null }
-              })
-              //Save the user in the UserContext
-              setUserContext(oldValues => {
-                return { ...oldValues, user: null }
+                return { ...oldValues, token: null, user: null }
               })
               
               console.log("AFTER LOGOUT/ABOUT TO REDIRECT userContext="+JSON.stringify(userContext));

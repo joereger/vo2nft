@@ -23,11 +23,15 @@ function App() {
   const [userContext, setUserContext] = useContext(UserContext)
   //console.log("APP BEFORE userContext="+JSON.stringify(userContext));
 
+
   //Timer to check refreshToken in the background and on page load
   const verifyUser = useCallback(() => {
 
+ 
+
     //console.log("APP VERIFYUSER REFRESH TOKEN userContext="+JSON.stringify(userContext));
     //console.log("APP VERIFYUSER REFRESH TOKEN userContext.token="+userContext.token);
+
     
     //REFRESH THE TOKEN
     fetch(process.env.REACT_APP_NODE_URI + "/api/refreshToken", {
@@ -42,17 +46,15 @@ function App() {
         const data = await response.json()
         console.log("response.OK so saving token in UserContext data.token="+data.token);
         setUserContext(oldValues => {
-          return { ...oldValues, token: data.token }
+          return { ...oldValues, user: data.user, token: data.token }
         })
-        setUserContext(oldValues => {
-          return { ...oldValues, user: data.user }
-        })
+        
         
       } else {
         console.log("response NOT ok so setting token null in UserContext");
         console.log(this);
         setUserContext(oldValues => {
-           return { ...oldValues, token: null }
+           return { ...oldValues, user: null, token: null }
         })
       }
       //Call refreshToken every 5 minutes to renew the authentication token.

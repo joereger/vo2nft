@@ -43,11 +43,7 @@ const ResetPassword = () => {
               console.log(json);
               //Save the token in the UserContext
               setUserContext(oldValues => {
-                return { ...oldValues, token: json.token }
-              })
-              //Save the user in the UserContext
-              setUserContext(oldValues => {
-                return { ...oldValues, user: json.user }
+                return { ...oldValues, user: json.user, token: json.token }
               })
               console.log("/API/RESETPASSWORD: token set token="+json.token);
               console.log("/API/RESETPASSWORD: AFTER LOGIN/ABOUT TO REDIRECT userContext="+JSON.stringify(userContext));

@@ -68,14 +68,14 @@ const Navbar = ({ bg }) => {
           <ul className="navbar-nav">
 
 
-            {!userContext.token  
+            {(!userContext || !userContext.token)
               ? <li className="nav-item">
                 <NavLink className="ps-3 nav-link" to="/login" activeclassname="active">Log In</NavLink>
               </li>
               : null
             }
 
-            {!userContext.token 
+            {(!userContext || !userContext.token) 
               ? <li className="nav-item">
                 <NavLink className="ps-3 nav-link" to="/signup" activeclassname="active">Sign Up</NavLink>
               </li>

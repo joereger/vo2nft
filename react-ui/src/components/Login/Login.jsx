@@ -22,6 +22,8 @@ const Login = () => {
       console.log(`Login Submitted: ${email} ${password}`)
       console.log("BEFORE LOGIN userContext="+JSON.stringify(userContext));
 
+    
+
       return fetch(process.env.REACT_APP_NODE_URI + '/api/login', {
           method: 'POST',
           credentials: "include",
@@ -35,14 +37,15 @@ const Login = () => {
             console.log("LOGIN: received a response; user is authed and token will be stored");
             response.json().then(json => {
               console.log(json);
-              //Save the token in the UserContext
-              setUserContext(oldValues => {
-                return { ...oldValues, token: json.token }
-              })
+              
               //Save the user in the UserContext
               setUserContext(oldValues => {
-                return { ...oldValues, user: json.user }
+                return { ...oldValues, user: json.user, token: json.token }
               })
+              //Save the token in the UserContext
+              // setUserContext(oldValues => {
+              //   return { ...oldValues, token: json.token }
+              // })
               console.log("token set token="+json.token);
 
               

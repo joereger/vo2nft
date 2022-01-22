@@ -72,7 +72,7 @@ exports.meUpdate = async function(req, res, next){
                     user.save().then(
                         () => {
                             console.log("/API/MEUPDATE: user saved!");
-                            return res.send({ message: "Success!", user: req.user })
+                            return res.send({ message: "Success!", user: user })
                         }       
                     ) 
 

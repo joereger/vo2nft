@@ -44,10 +44,10 @@ const StravaCallback = () => {
         } else {
           console.log("StravaCallback - code appears valid - code="+code);
 
-          //Squirrel code away into context
-          setUserContext(oldValues => {
-            return { ...oldValues, strava_code: code }
-          })
+          // //Squirrel code away into context
+          // setUserContext(oldValues => {
+          //   return { ...oldValues, strava_code: code }
+          // })
 
           //Call Node backend to exchange the code for an access token and some athlete data
           return fetch(process.env.REACT_APP_NODE_URI + '/api/strava_convert_code_to_access_token', {
@@ -65,7 +65,7 @@ const StravaCallback = () => {
 
                   //Save the user in the UserContext
                   setUserContext(oldValues => {
-                    return { ...oldValues, strava_data: json }
+                    return { ...oldValues, strava_code: code, strava_data: json }
                   })
                   //console.log("/API/STRAVA_CONVERT_CODE_TO_ACCESS_TOKEN: token set token="+json.token);
                   //console.log("/API/STRAVA_CONVERT_CODE_TO_ACCESS_TOKEN: AFTER LOGIN/ABOUT TO REDIRECT userContext="+JSON.stringify(userContext));

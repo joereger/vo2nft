@@ -4,6 +4,7 @@ import AccountNavbar from "../AccountNavbar";
 import bgImage from '../../img/account/signin-img.jpg';
 import { useNavigate, useParams } from "react-router-dom"
 import { UserContext } from "../UserContext"
+import SignupRightCol from "./SignupRightCol";
 
 
 const Signup = () => {
@@ -40,14 +41,13 @@ const Signup = () => {
             console.log("Signup: received a response");
             response.json().then(json => {
               console.log(json);
-              //Save the token in the UserContext
+
+              //Save the user and token in the UserContext
               setUserContext(oldValues => {
-                return { ...oldValues, token: json.token }
+                return { ...oldValues, user: json.user, token: json.token}
               })
-              //Save the user in the UserContext
-              setUserContext(oldValues => {
-                return { ...oldValues, user: json.user }
-              })
+ 
+            
               console.log("token set token="+json.token);
               setIsAlertOn(false);
               //Redirect user
@@ -142,16 +142,10 @@ const Signup = () => {
             </div>
           </div>
 
+          <SignupRightCol />
+
         </div>
       </div>
-
-
-          
- 
-
-
-    
-
 
     </>
   )
