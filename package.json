@@ -1,7 +1,7 @@
 {
   "name": "vo2nft-node-backend",
   "version": "0.0.1",
-  "description": "Vo2NFT node backend service",
+  "description": "VO2NFT node backend service",
   "engines": {
     "node": "10.x"
   },
@@ -30,8 +30,8 @@
     "passport-local-sequelize": "^0.9.0",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.12.0-beta.3",
-    "sequelize-cli": "^6.3.0"
+    "sequelize": "^6.14.0",
+    "sequelize-cli": "^6.4.1"
   },
   "repository": {
     "type": "git",

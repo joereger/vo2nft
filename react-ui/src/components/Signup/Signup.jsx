@@ -28,10 +28,18 @@ const Signup = () => {
 
       console.log(`Signup Submitted: ${email} ${password}`)
 
+      const strava_data = userContext?.strava_data
+      // const strava_access_token = userContext?.strava_data?.data?.access_token
+      // console.log("strava_access_token"+strava_access_token);
+      // const strava_refresh_token = userContext?.strava_data?.data?.refresh_token
+      // console.log("strava_refresh_token"+strava_refresh_token);
+      // const strava_access_token_expires_at = userContext?.strava_data?.data?.expires_at
+      // console.log("strava_access_token_expires_at"+strava_access_token_expires_at);
+
       return fetch(process.env.REACT_APP_NODE_URI + '/api/signup', {
           method: 'POST',
           credentials: "include",
-          body: JSON.stringify({ email, password, name, username }),
+          body: JSON.stringify({ email, password, name, username, strava_data }),
           headers: {
               'Content-Type': 'application/json'
           }
