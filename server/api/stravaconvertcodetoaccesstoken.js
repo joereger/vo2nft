@@ -31,6 +31,7 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
 
         //Get athlete details
         let data2 = null;
+        let strava_data = null;
         try{ 
             // const form_data2 = new FormData();
             // form_data2.append('client_id', process.env.STRAVA_CLIENT_ID);
@@ -43,9 +44,12 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
             );
 
             data2 = response2.data;
-            console.log("============");
-            console.log(data2);
-            console.log("============");
+
+            strava_data = Object.assign(data, data2);
+
+            console.log("====== start strava_data ======");
+            console.log(strava_data);
+            console.log("====== end strava_data ======");
         } catch (error) {
             console.log("/api/strava_convert_code_to_access_token returning 401 ERROR #2");
             // console.log("AXIOS ERROR START");
@@ -53,9 +57,9 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
             // console.log("AXIOS ERROR END");
         }
 
-        //Respond to client including refreshToken as cookie
+        //Respond
         //res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
-        return res.send({ message: "Kaboom!  Strava connection was successful!", success: true, data: data, data2: data2 })
+        return res.send({ message: "Kaboom!  Strava connection was successful!", success: true, strava_data: strava_data })
     } catch (error) {
         console.log("/api/strava_convert_code_to_access_token returning 401 ERROR #1");
         // console.log("AXIOS ERROR START");

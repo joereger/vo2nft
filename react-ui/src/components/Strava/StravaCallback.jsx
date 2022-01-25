@@ -65,7 +65,7 @@ const StravaCallback = () => {
 
                   //Save the user in the UserContext
                   setUserContext(oldValues => {
-                    return { ...oldValues, strava_code: code, strava_data: json }
+                    return { ...oldValues, strava_code: code, strava_data: json.strava_data }
                   })
                   //console.log("/API/STRAVA_CONVERT_CODE_TO_ACCESS_TOKEN: token set token="+json.token);
                   //console.log("/API/STRAVA_CONVERT_CODE_TO_ACCESS_TOKEN: AFTER LOGIN/ABOUT TO REDIRECT userContext="+JSON.stringify(userContext));
