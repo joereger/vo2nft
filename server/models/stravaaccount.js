@@ -17,19 +17,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      console.log("Sequelize StravaAccount associate(models) started");
-      const User = sequelize.models.User;
-      User.hasOne(StravaAccount, {
+      //console.log("Sequelize StravaAccount associate(models) started");
+      models.User.hasOne(models.StravaAccount, {
         onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
+        onUpdate: 'CASCADE',
+        foreignKey: 'id', 
+        constraints: false
       });
-      StravaAccount.belongsTo(User, {
+      models.StravaAccount.belongsTo(models.User, {
         foreignKey: {
             name: 'userId',
             allowNull: false
           },
       });
-      console.log("Sequelize StravaAccount associate(models) ended");
+      //console.log("Sequelize StravaAccount associate(models) ended");
     }
   };
   StravaAccount.init({

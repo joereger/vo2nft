@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      console.log("Sequelize User associate(models) called");
+      //console.log("Sequelize User associate(models) called");
     }
   };
   User.init({
