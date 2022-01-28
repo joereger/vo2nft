@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react"
 import { NavLink } from 'react-router-dom';
 import AccountNavbar from "../AccountNavbar";
 import bgImage from '../../img/account/signin-img.jpg';
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { UserContext } from "../UserContext"
 import SignupRightCol from "./SignupRightCol";
 
@@ -22,6 +22,16 @@ const Signup = () => {
 
   const [userContext, setUserContext] = useContext(UserContext)
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userContext?.strava_data?.athlete?.firstname && userContext?.strava_data?.athlete?.lastname){
+      setName(userContext?.strava_data?.athlete?.firstname+' '+userContext?.strava_data?.athlete?.lastname);
+    }
+    if (userContext?.strava_data?.athlete?.username){
+      setUsername(userContext?.strava_data?.athlete?.username);
+    }
+  
+  }, []);
 
   const handleSubmit = (e) => {
       e.preventDefault();
@@ -103,9 +113,31 @@ const Signup = () => {
                             : ''
                       }
 
-                    
-                        <h1 className="h2">Sign up</h1>
-                        <p className="fs-ms text-muted mb-4">Takes less than a minute but gives you access to a world of endurance sports NFTs.</p>
+                      {userContext?.strava_data?.athlete?.username 
+                            ? 
+                            <>
+                            <div class="container">
+                              <div class="row">
+                                <div class="col">
+                                  <img src={userContext?.strava_data?.athlete?.profile} alt="Strava User" className="img-thumbnail rounded-circle"></img>
+                                  <br/><br/>
+                                </div>
+                                <div class="col">
+                                  <h1 className="h2">Success!</h1>
+                                  <p className="fs-ms text-muted mb-4">We're connected to Strava, let's get started...</p>
+                                </div>
+                              </div>
+                            </div>
+                            </>
+                            : 
+                            <>
+                            <h1 className="h2">Sign up</h1>
+                            <p className="fs-ms text-muted mb-4">Takes less than a minute but gives you access to a world of endurance sports NFTs.</p>
+                            </>
+                      }
+                        
+                        
+                        
                         <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" noValidate>
                           <div className="mb-3">
                             <input value={name} onChange={e => setName(e.target.value)} className="form-control" type="text" placeholder="Name" required/>
@@ -135,7 +167,7 @@ const Signup = () => {
                               </label>
                             </div>
                           </div> */}
-                          <button className="btn btn-primary d-block w-100" type="submit">Sign up</button>
+                          <button className="btn btn-primary d-block w-100" type="submit">Continue</button>
                           <p className="fs-sm pt-3 mb-0">Already have an account? <NavLink className="fw-medium" to="/Login" activeclassname="active">Log In</NavLink></p>
                         </form>
                       </div>

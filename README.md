@@ -159,3 +159,9 @@ cd react-ui/
 
 npm install package-name --save
 ```
+
+#### Redis
+brew install redis
+brew services start redis
+brew services stop redis
+config file is at: /opt/homebrew/etc/ on MacOs when installed with brew

@@ -15,10 +15,20 @@ const cookieParser = require("cookie-parser")
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5001;
 
-//Auth .env
+//If in dev, dotenv to read .env into environment vars
 if (process.env.NODE_ENV !== 'production') {
-  // Load environment variables from .env file in non-prod environments
-  require("dotenv").config()
+    // Load environment variables from .env file in non-prod environments
+    require("dotenv").config()
+}
+
+//If in dev, light up worker process.  In prod will use Heroku worker processes.
+if (process.env.NODE_ENV !== 'production') {
+    console.log("STARTING QUEUE");
+    const tq = require("./queue/test-queue");
+    tq.submitFakeJob();
+    const w = require("./queue/worker");
+    w.start();
+    console.log("DONE STARTING QUEUE");
 }
 
 //Auth Whitelist Domains
@@ -84,6 +94,7 @@ if (!isDev && cluster.isMaster) {
   app.post('/api/changepassword', verifyUser, require('./api/changepassword.js').changepassword);
   app.get('/api/me', verifyUser, require('./api/me.js').me);
   app.post('/api/me', verifyUser, require('./api/me.js').meUpdate);
+  app.get('/api/misc', require('./api/misc.js').misc);
 
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', function(request, response) {
