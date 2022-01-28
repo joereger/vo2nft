@@ -1,7 +1,7 @@
 const { Queue } = require('bullmq');;
 const Redis = require('ioredis');
 let redis_client = new Redis(process.env.REDIS_URL);
-const workQueue = new Queue('testqueue', redis_client);
+const workQueue = new Queue('testqueue', { connection: redis_client });
 
 exports.submitFakeJob = () => {
     console.log("test-queue.js submitFakeJob() called");

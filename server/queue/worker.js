@@ -3,8 +3,6 @@ const { Worker } = require('bullmq');
 const Redis = require('ioredis');
 let redis_client = new Redis(process.env.REDIS_URL);
 
-//TODO figure out how to set concurrency: 50 into this
-//TODO change password on redis and confirm that i can control access via url
 
 var start = exports.start = () => {
 
@@ -34,7 +32,7 @@ var start = exports.start = () => {
         // This return value is unused in this demo application.
         console.log("DONE job.id="+job.id);
         return "This will be stored" ;
-    }, redis_client );
+    }, { connection: new Redis(process.env.REDIS_URL), concurrency: 50 } );
 
   
 }
