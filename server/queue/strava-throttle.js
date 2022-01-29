@@ -15,12 +15,12 @@ const { DateTime } = require('luxon');
 //
 //Note that requests violating the short term limit will still count toward the long term limit.
 
-
 const currentDailyApiLimit = 1000;
 const currentFifteenMinuteApiLimit = 100;
 const dailyKeyPrefix = "strava_throttle:daily-";
 const fifteenMinKeyPrefix = "strava_throttle:fifteen-mins-";
 
+//This needs to be called before every strava api call
 exports.recordApiCall = () => {
 
     //There are four 15 minute buckets per hour
@@ -73,6 +73,16 @@ exports.apiCallsSoFarToday = async () => {
     return await redis.get(dailyKey).then(function (result) {
         return result;
     });
+}
+
+exports.apiCallsRemainingToday = async () => {
+    const apiCallsSoFarToday = await this.apiCallsSoFarToday();
+    return currentDailyApiLimit - apiCallsSoFarToday;
+}
+
+exports.apiCallsRemainingThisFifteenMinutes = async () => {
+    const apiCallsRemainingThisFifteenMinutes = await this.apiCallsSoFarInCurrentFifteenMinuteBlock();
+    return currentFifteenMinuteApiLimit - apiCallsRemainingThisFifteenMinutes;
 }
 
 exports.canICallApiNow = async () => {
