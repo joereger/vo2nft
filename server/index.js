@@ -23,12 +23,13 @@ if (process.env.NODE_ENV !== 'production') {
 
 //If in dev, light up worker process.  In prod will use Heroku worker processes.
 if (process.env.NODE_ENV !== 'production') {
-    console.log("STARTING QUEUE");
+    console.log("STARTING QUEUES");
     const tq = require("./queue/test-queue");
     tq.submitFakeJob();
     const w = require("./queue/worker");
     w.start();
-    console.log("DONE STARTING QUEUE");
+    w.startFlowWorkers();
+    console.log("DONE STARTING QUEUES");
 }
 
 //Auth Whitelist Domains
