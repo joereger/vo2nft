@@ -8,7 +8,10 @@ exports.misc = async function(req, res){
 
     const tq = require("../queue/strava-throttle");
     tq.recordApiCall();
-
+    const apiCallsSoFarInCurrentFifteenMinuteBlock = await tq.apiCallsSoFarInCurrentFifteenMinuteBlock();
+    const apiCallsSoFarToday = await tq.apiCallsSoFarToday();
+    const millisUntilApiAvailable = await tq.millisUntilApiAvailable();
+   
     res.set('Content-Type', 'application/json');
-    return res.send({message: 'ok'})
+    return res.send({message: 'ok', apiCallsSoFarInCurrentFifteenMinuteBlock, apiCallsSoFarToday, millisUntilApiAvailable })
 };

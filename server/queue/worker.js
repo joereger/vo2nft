@@ -21,7 +21,7 @@ var start = exports.start = () => {
             throw new Error("This job failed!")
         }
 
-        while (progress < 100) {
+        while (progress < 10) {
             console.log("PROGRESS job.id="+job.id+" progress="+progress);
             await new Promise(r => setTimeout(r, 50));
             progress += 1;
@@ -61,7 +61,7 @@ var startFlowWorkers = exports.startFlowWorkers = () => {
             throw new Error("This job failed!")
         }
 
-        while (progress < 100) {
+        while (progress < 10) {
             console.log("PROGRESS stravaGetActivity job.id="+job.id+" progress="+progress);
             await new Promise(r => setTimeout(r, 50));
             progress += 1;
