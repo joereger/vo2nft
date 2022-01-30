@@ -1,4 +1,3 @@
-const { Queue, FlowProducer } = require('bullmq');
 const Redis = require('ioredis');
 let redis = new Redis(process.env.REDIS_URL);
 const { DateTime } = require('luxon');
@@ -15,8 +14,8 @@ const { DateTime } = require('luxon');
 //
 //Note that requests violating the short term limit will still count toward the long term limit.
 
-const currentDailyApiLimit = 1000;
-const currentFifteenMinuteApiLimit = 100;
+const currentDailyApiLimit = 1000; //Strava default is 1000
+const currentFifteenMinuteApiLimit = 100; //Strava default is 100
 const dailyKeyPrefix = "strava_throttle:daily-";
 const fifteenMinKeyPrefix = "strava_throttle:fifteen-mins-";
 

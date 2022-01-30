@@ -1,5 +1,6 @@
 const db = require('../models/index.js');
 const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../auth/authenticate")
+const { DateTime } = require('luxon');
 
 exports.signup = async function(req, res){
     console.log('/api/signup called in signup.js email='+req.body.email);
@@ -75,12 +76,14 @@ exports.signup = async function(req, res){
                     // var profile_pic = req.body.strava_data.athlete.profile
                     // if (profile_pic === null){ profile_pic = " "}
 
+                    const auth_token_expires_at = DateTime.fromSeconds(req.body.strava_data.expires_at).toUTC();
+
                     StravaAccount.create({ 
                         userId: user.id,
                         username: req.body.strava_data.athlete.username,
                         strava_id: req.body.strava_data.athlete.id,
                         auth_token: req.body.strava_data.access_token,
-                        auth_token_expires_at: req.body.strava_data.expires_at,
+                        auth_token_expires_at: auth_token_expires_at,
                         refresh_token: req.body.strava_data.refresh_token,
                         profile_pic: req.body.strava_data.athlete.profile,
                         bio: req.body.strava_data.athlete.bio,

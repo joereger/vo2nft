@@ -6,10 +6,11 @@ const {
 const { Sequelize } = require('.');
 const { DATE } = require('sequelize');
 const { INTEGER } = require('sequelize');
+const { JSONB } = require('sequelize');
 //const db = require('./index.js');
 
 module.exports = (sequelize, DataTypes) => {
-  class StravaAccount extends Model {
+  class Workout extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -18,59 +19,60 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       //console.log("Sequelize StravaAccount associate(models) started");
-      models.User.hasOne(models.StravaAccount, {
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-        foreignKey: 'id', 
-        constraints: false
-      });
-      models.StravaAccount.belongsTo(models.User, {
-        foreignKey: {
-            name: 'userId',
-            allowNull: false
-          },
-      });
-      //console.log("Sequelize StravaAccount associate(models) ended");
+      // models.User.hasOne(models.StravaAccount, {
+      //   onDelete: 'CASCADE',
+      //   onUpdate: 'CASCADE',
+      //   foreignKey: 'id', 
+      //   constraints: false
+      // });
+      // models.StravaAccount.belongsTo(models.User, {
+      //   foreignKey: {
+      //       name: 'userId',
+      //       allowNull: false
+      //     },
+      // });
+      // //console.log("Sequelize StravaAccount associate(models) ended");
     }
-  };
-  StravaAccount.init({
-    username: {
+  }
+  Workout.init({
+    userid_currentowner: {
+      type: INTEGER
+    },
+    userid_creator: {
+      type: INTEGER
+    },
+    external_account_type: {
       type: DataTypes.TEXT
     },
-    strava_id: {
+    external_account_id: {
+      type: INTEGER
+    },
+    status: {
       type: DataTypes.TEXT
     },
-    auth_token: {
-      type: DataTypes.TEXT
-    },
-    auth_token_expires_at: {
+    workout_date: {
         type: DATE
     },
-    refresh_token: {
+    title: {
       type: DataTypes.TEXT
     },
-    profile_pic: {
+    url: {
       type: DataTypes.TEXT
     },
-    bio: {
+    description: {
       type: DataTypes.TEXT
     },
-    firstname: {
-      type: DataTypes.TEXT
-    },
-    lastname: {
-      type: DataTypes.TEXT
-    }, 
-    is_syncing: {
-      type: DataTypes.BOOLEAN
+    strava_details: {
+      type: JSONB
     }
+    
   }, {
     sequelize,
-    modelName: 'StravaAccount',
+    modelName: 'Workout',
   });
 
   //Strip refresh_token from toJSON method so that it doesn't accidentally get sent to client
-  StravaAccount.prototype.toJSON =  function () {
+  Workout.prototype.toJSON =  function () {
     var values = Object.assign({}, this.get());
     //delete values.refresh_token;
     //delete values.password_hash;
@@ -79,5 +81,5 @@ module.exports = (sequelize, DataTypes) => {
 
   
   
-  return StravaAccount;
+  return Workout;
 };
