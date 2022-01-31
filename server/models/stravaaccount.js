@@ -6,6 +6,7 @@ const {
 const { Sequelize } = require('.');
 const { DATE } = require('sequelize');
 const { INTEGER } = require('sequelize');
+const { JSONB } = require('sequelize');
 //const db = require('./index.js');
 
 module.exports = (sequelize, DataTypes) => {
@@ -63,6 +64,9 @@ module.exports = (sequelize, DataTypes) => {
     }, 
     is_syncing: {
       type: DataTypes.BOOLEAN
+    },
+    strava_details: {
+      type: JSONB
     }
   }, {
     sequelize,

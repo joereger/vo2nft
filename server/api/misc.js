@@ -28,8 +28,13 @@ exports.misc = async function(req, res){
             }
         }).then(
             stravaAccount => {
+                console.log("misc.js stravaAccount="+JSON.stringify(stravaAccount));
                 const sa = require("../queue/strava-auth-handler"); 
-                sa.verifyAuth(stravaAccount);  
+                //sa.verifyAuth(stravaAccount);  
+                const isItWorking = sa.isTestCallToApiWorking(stravaAccount).then((response)=>{
+                    console.log("misc.js isItWorking="+response);
+                }); 
+                
             },
             err => next(err)
         )

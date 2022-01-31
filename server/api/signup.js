@@ -88,7 +88,8 @@ exports.signup = async function(req, res){
                         profile_pic: req.body.strava_data.athlete.profile,
                         bio: req.body.strava_data.athlete.bio,
                         firstname: req.body.strava_data.athlete.firstname,
-                        lastname: req.body.strava_data.athlete.lastname 
+                        lastname: req.body.strava_data.athlete.lastname,
+                        strava_details: req.body.strava_data.athlete 
                     }).then(
                         stravaAccount => {
                             if (stravaAccount) {
