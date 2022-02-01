@@ -81,7 +81,7 @@ exports.signup = async function(req, res){
                     StravaAccount.create({ 
                         userId: user.id,
                         username: req.body.strava_data.athlete.username,
-                        strava_id: req.body.strava_data.athlete.id,
+                        athlete_id: req.body.strava_data.athlete.id,
                         auth_token: req.body.strava_data.access_token,
                         auth_token_expires_at: auth_token_expires_at,
                         refresh_token: req.body.strava_data.refresh_token,
@@ -128,9 +128,6 @@ exports.signup = async function(req, res){
         //         }
         //     }
         // )
-
-        
-    
 
         
     } catch (error){

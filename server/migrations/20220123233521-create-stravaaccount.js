@@ -25,8 +25,8 @@ module.exports = {
       username: {
         type: Sequelize.TEXT
       },
-      strava_id: {
-        type: Sequelize.TEXT
+      athlete_id: {
+        type: Sequelize.BIGINT
       },
       auth_token: {
         type: Sequelize.TEXT

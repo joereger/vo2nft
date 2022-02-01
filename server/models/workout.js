@@ -6,6 +6,7 @@ const {
 const { Sequelize } = require('.');
 const { DATE } = require('sequelize');
 const { INTEGER } = require('sequelize');
+const { BIGINT } = require('sequelize');
 const { JSONB } = require('sequelize');
 //const db = require('./index.js');
 
@@ -35,17 +36,20 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Workout.init({
+    userid_creator: {
+      type: INTEGER
+    },
     userid_currentowner: {
       type: INTEGER
     },
-    userid_creator: {
-      type: INTEGER
+    workout_id: {
+      type: BIGINT
     },
     external_account_type: {
       type: DataTypes.TEXT
     },
     external_account_id: {
-      type: INTEGER
+      type: BIGINT
     },
     status: {
       type: DataTypes.TEXT

@@ -24,16 +24,17 @@ exports.misc = async function(req, res){
         const StravaAccount = db.sequelize.models.StravaAccount;
         StravaAccount.findOne({
             where: {
-                id: 4
+                id: 7
             }
         }).then(
             stravaAccount => {
                 console.log("misc.js stravaAccount="+JSON.stringify(stravaAccount));
                 const sa = require("../queue/strava-auth-handler"); 
-                //sa.verifyAuth(stravaAccount);  
-                const isItWorking = sa.isTestCallToApiWorking(stravaAccount).then((response)=>{
-                    console.log("misc.js isItWorking="+response);
-                }); 
+                //sa.verifyAuthReturnStravaAccountICanUse(stravaAccount);  
+                // const isItWorking = sa.isTestCallToApiWorking(stravaAccount).then((response)=>{
+                //     console.log("misc.js isItWorking="+response);
+                // }); 
+                sa.getWorkoutsAndStoreInDatabase(stravaAccount, 1);
                 
             },
             err => next(err)

@@ -2,6 +2,7 @@ const { DateTime } = require('luxon');
 const axios = require('axios');
 const FormData = require('form-data');
 const strava_throttler = require("../queue/strava-api-throttler");
+const db = require('../models/index.js');
     
 
 
@@ -10,30 +11,32 @@ const strava_throttler = require("../queue/strava-api-throttler");
 
 //Called before any Strava API calls, this method checks the local token to see if it's expired.
 //If expired it'll try to refresh the access token using the refresh token.
-exports.verifyAuth = (stravaAccount) => {
+exports.verifyAuthReturnStravaAccountICanUse = async (stravaAccount) => {
     console.log("strava-auth-handler called stravaAccount="+JSON.stringify(stravaAccount));
     const auth_token_expires_at = stravaAccount.auth_token_expires_at;
     const auth_token_expires_at_luxon = DateTime.fromJSDate(auth_token_expires_at);
-    console.log("auth_token_expires_at="+JSON.stringify(auth_token_expires_at));
-    console.log("auth_token_expires_at_luxon="+auth_token_expires_at_luxon);
+    //console.log("auth_token_expires_at="+JSON.stringify(auth_token_expires_at));
+    //console.log("auth_token_expires_at_luxon="+auth_token_expires_at_luxon);
 
     const millisUntilExpiration = auth_token_expires_at_luxon.diff(DateTime.now().toUTC()).milliseconds;
-    console.log("millisUntilExpiration="+millisUntilExpiration);
+    //console.log("millisUntilExpiration="+millisUntilExpiration);
 
     //I like calculating the time until expiration because i can gut check with debug statements.
     //A simple date comparison can hide a lot of complexity... timezone shifts, etc.
     if(millisUntilExpiration > 0){
         console.log("strava auth_token NOT EXPIRED -> auth_token_expires_at="+auth_token_expires_at+" DateTime.now().toUTC()="+DateTime.now().toUTC());
-        //What to do here?
+        return stravaAccount;
     } else {
         console.log("strava auth_token EXPIRED -> auth_token_expires_at="+auth_token_expires_at+" DateTime.now().toUTC()="+DateTime.now().toUTC());   
         //Ok, here we are, the token has expired, now we need to use the refresh token call to get a new token
-        this.refreshAuthToken(stravaAccount);
+        const out = await this.refreshAuthTokenReturnStravaAccount(stravaAccount)
+        return out;
     }
 
 }
 
-exports.refreshAuthToken = async (stravaAccount) => {
+exports.refreshAuthTokenReturnStravaAccount = async (stravaAccount) => {
+    console.log("refreshAuthTokenReturnStravaAccount called");
     try{
 
         //Record the API call
@@ -65,19 +68,21 @@ exports.refreshAuthToken = async (stravaAccount) => {
             stravaAccount.auth_token = data.access_token;
             stravaAccount.refresh_token = data.refresh_token;
             stravaAccount.auth_token_expires_at = auth_token_expires_at;
-            stravaAccount.save().then(() => {
-                //console.log("stravaAccount saved stravaAccount.id="+stravaAccount.id);
-            })
+            await stravaAccount.save();
+            console.log("stravaAccount saved stravaAccount.id="+stravaAccount.id);
+            return stravaAccount;
+            // stravaAccount.save().then(() => {
+            //     console.log("stravaAccount saved stravaAccount.id="+stravaAccount.id);
+            //     return stravaAccount;
+            // })
         } catch (error) {
-            console.log("/strava_auth_handler ERROR saving stravaAccount to db");
-            // console.log("AXIOS ERROR START");
-            console.log(error.response); 
-            // console.log("AXIOS ERROR END"); 
+            console.log("/strava_auth_handler.refreshAuthTokenReturnStravaAccount ERROR saving stravaAccount to db");
+            console.log(error);  
         }
 
  
     } catch (error) {
-        console.log("/strava_auth_handler returning 401 ERROR #1");
+        console.log("/strava_auth_handler.refreshAuthTokenReturnStravaAccount returning ERROR #1");
         // console.log("AXIOS ERROR START");
         //console.log(error.response); 
         console.log("error="+JSON.stringify(error));
@@ -98,13 +103,12 @@ exports.isTestCallToApiWorking = async (stravaAccount) => {
             { headers: {Authorization: 'Bearer ' + stravaAccount.auth_token} }
         );
 
-
         if (response && response.data && response.data.id){
             return true;
         } 
         
     } catch (error) {
-        console.log("/strava_auth_handler returning 401 ERROR #1");
+        console.log("/strava_auth_handler.isTestCallToApiWorking returning ERROR #1");
         // console.log("AXIOS ERROR START");
         //console.log(error.response); 
         console.log("error="+JSON.stringify(error));
@@ -113,8 +117,80 @@ exports.isTestCallToApiWorking = async (stravaAccount) => {
 
     console.log("isTestCallToApiWorking returning FALSE");
     return false;
-    
+}
 
+exports.getWorkoutsAndStoreInDatabase = async (stravaAccount, page, per_page=200) => {
+    console.log("getWorkoutsAndStoreInDatabase called");
+    try{
+
+        //Verify the auth token or refresh it
+        stravaAccount = await this.verifyAuthReturnStravaAccountICanUse(stravaAccount);
+        console.log("getWorkoutsAndStoreInDatabase stravaAccount.auth_token="+stravaAccount.auth_token);
+
+        //Record the API call
+        strava_throttler.recordApiCall();
+
+        let response = await axios.get('https://www.strava.com/api/v3/athlete/activities?page='+page+'&per_page='+per_page, 
+            { headers: {Authorization: 'Bearer ' + stravaAccount.auth_token} }
+        );
+
+        if (response && response.data){
+
+            //Iterate workouts
+            response.data.forEach(function(workout) { 
+                //console.log("workout.id="+workout.id); 
+
+                const Workout = db.sequelize.models.Workout;
+
+                //Have to make sure we don't insert dupes
+                Workout.findOne({ where: {
+                    workout_id: workout?.id,
+                    external_account_id: stravaAccount.id   
+                } })
+                .then(function(workoutDb) {
+                    
+                    if(workoutDb){
+                        //Update existing
+                        workoutDb.external_account_type = 'strava';
+                        workoutDb.workout_date = workout?.start_date;
+                        workoutDb.title = workout?.name;
+                        workoutDb.url = 'https://www.strava.com/activities/'+workout?.id;
+                        workoutDb.strava_details = workout;
+                        workoutDb.save().then((workoutDb) =>{
+                            //console.log("workout UPDATED workoutDb.id="+workoutDb.id+"in DB");
+                        })
+                    } else {
+                        //Insert new
+                        Workout.create({ 
+                            userid_creator: stravaAccount.userId,
+                            userid_currentowner: stravaAccount.userId,
+                            external_account_type: 'strava',
+                            external_account_id: stravaAccount.id,
+                            workout_date: workout?.start_date,
+                            workout_id: workout?.id,
+                            title: workout?.name,
+                            url: 'https://www.strava.com/activities/'+workout?.id,
+                            strava_details: workout
+                        }).then(
+                            workoutNew => {
+                                if (workoutNew) {
+                                    //console.log("workout CREATED workoutNew.id="+workoutNew.id+"in DB");
+                                }
+                            }
+                        )
+                    }
+   
+                })
+
+            });
+            
+        } 
+        
+    } catch (error) {
+        console.log("/strava_auth_handler.getWorkoutsAndStoreInDatabase returning ERROR #1");
+        console.log(error);
+    }
+    
 }
 
 

@@ -6,6 +6,7 @@ const {
 const { Sequelize } = require('.');
 const { DATE } = require('sequelize');
 const { INTEGER } = require('sequelize');
+const { BIGINT } = require('sequelize');
 const { JSONB } = require('sequelize');
 //const db = require('./index.js');
 
@@ -38,8 +39,8 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.TEXT
     },
-    strava_id: {
-      type: DataTypes.TEXT
+    athlete_id: {
+      type: BIGINT
     },
     auth_token: {
       type: DataTypes.TEXT
