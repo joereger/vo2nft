@@ -1,7 +1,7 @@
 {
   "name": "vo2nft-react-frontend",
   "version": "0.0.1",
-  "description": "Vo2NFT react frontend ui",
+  "description": "VO2NFT react frontend ui",
   "private": true,
   "dependencies": {
     "bootstrap": "^5.1.3",

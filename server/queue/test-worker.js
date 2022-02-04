@@ -1,7 +1,7 @@
 //let throng = require('throng');
 const { Worker } = require('bullmq');
 const Redis = require('ioredis');
-let redis_client = new Redis(process.env.REDIS_URL);
+let redis_client = new Redis(process.env.REDIS_URL,{maxRetriesPerRequest: null, enableReadyCheck: false});
 
 var start = exports.start = () => {
 
@@ -39,17 +39,17 @@ var start = exports.start = () => {
 var startFlowWorkers = exports.startFlowWorkers = () => {
     console.log("worker.js startFlowWorkers called");
 
-    const worker = new Worker('stravaActivitySyncComplete', async (job) => {
-        console.log("STARTING stravaActivitySyncComplete job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName);
+    const worker = new Worker('testQueueComplete', async (job) => {
+        console.log("STARTING testQueueComplete job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName);
 
-        console.log("DONE DONE DONE stravaActivitySyncComplete job.id="+job.id);
+        console.log("DONE DONE DONE testQueueComplete job.id="+job.id);
         return "done" ;
     }, { connection: redis_client, concurrency: 50 } );
 
 
 
-    const worker2 = new Worker('stravaGetActivity', async (job) => {
-        console.log("STARTING stravaGetActivity job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName+" data="+JSON.stringify(job.data));
+    const worker2 = new Worker('testActivity', async (job) => {
+        console.log("STARTING testActivity job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName+" data="+JSON.stringify(job.data));
 
         // This is an example job that just slowly reports on progress
         // while doing no work. Replace this with your own job logic.
@@ -57,12 +57,12 @@ var startFlowWorkers = exports.startFlowWorkers = () => {
 
         // throw an error 5% of the time
         if (Math.random() < 0.05) {
-            console.log("ERROR stravaGetActivity job.id="+job.id);
+            console.log("ERROR testActivity job.id="+job.id);
             throw new Error("This job failed!")
         }
 
         while (progress < 10) {
-            console.log("PROGRESS stravaGetActivity job.id="+job.id+" progress="+progress);
+            console.log("PROGRESS testActivity job.id="+job.id+" progress="+progress);
             await new Promise(r => setTimeout(r, 50));
             progress += 1;
             job.updateProgress(progress)
@@ -70,8 +70,8 @@ var startFlowWorkers = exports.startFlowWorkers = () => {
 
         // A job can return values that will be stored in Redis as JSON
         // This return value is unused in this demo application.
-        console.log("DONE stravaGetActivity job.id="+job.id);
-        return "This will be stored" ;
+        console.log("DONE testActivity job.id="+job.id);
+        //return "This will be stored" ;
     }, { connection: redis_client, concurrency: 50 } );
 
     

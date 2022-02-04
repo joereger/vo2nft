@@ -1,7 +1,12 @@
 const db = require('../models/index.js');
+const StravaThrottleError = require('../queue/strava-errors.js');
+const StravaAuthError = require('../queue/strava-errors.js');
 
 exports.misc = async function(req, res){
     console.log('/api/misc called');
+
+    const stravaThrottleError = new StravaThrottleError("brokes");
+    const stravaAuthError = new StravaAuthError("brokes");
 
     //BULL QUEUE/FLOWS
     //const tq = require("../queue/test-queue");
@@ -19,8 +24,7 @@ exports.misc = async function(req, res){
     // return res.send({message: 'ok', apiCallsSoFarInCurrentFifteenMinuteBlock, apiCallsSoFarToday, millisUntilApiAvailable, apiCallsRemainingToday, apiCallsRemainingThisFifteenMinutes })
    
     //Strava token refresh
-    try {
-        
+    try { 
         const StravaAccount = db.sequelize.models.StravaAccount;
         StravaAccount.findOne({
             where: {
@@ -28,16 +32,14 @@ exports.misc = async function(req, res){
             }
         }).then(
             stravaAccount => {
-                console.log("misc.js stravaAccount="+JSON.stringify(stravaAccount));
-                const sa = require("../queue/strava-auth-handler"); 
-                //sa.verifyAuthReturnStravaAccountICanUse(stravaAccount);  
-                // const isItWorking = sa.isTestCallToApiWorking(stravaAccount).then((response)=>{
-                //     console.log("misc.js isItWorking="+response);
-                // }); 
-                sa.getWorkoutsAndStoreInDatabase(stravaAccount, 1);
-                
+                //console.log("misc.js stravaAccount="+JSON.stringify(stravaAccount));
+                //const sa = require("../queue/strava-api-wrapper"); 
+                //sa.getWorkoutsAndStoreInDatabase(stravaAccount, 1);
+                //Strava queue up harvest
+                const str = require("../queue/strava-enqueuer");
+                str.stravaActivitySync(stravaAccount);
             },
-            err => next(err)
+            err => {console.log("/misc.js error "+err.message);}
         )
     } catch (err) {
         console.log("/api/misc error #2");
@@ -45,6 +47,8 @@ exports.misc = async function(req, res){
         res.statusCode = 401
         res.send("FAIL DERP")
     }
+
+    
 
 
 

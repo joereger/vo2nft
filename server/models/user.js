@@ -4,7 +4,6 @@ const {
 } = require('sequelize');
 
 const passportLocalSequelize = require('passport-local-sequelize');
-const { Sequelize } = require('.');
 const { DATE } = require('sequelize');
 const { INTEGER } = require('sequelize');
 

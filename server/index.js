@@ -1,4 +1,4 @@
-console.log("\u001B[46m \u001B[30m>>>>>>>>>> Vo2NFT SERVER ROARING TO LIFE <<<<<<<<<<\u001B[0m");
+console.log("\u001B[46m \u001B[30m>>>>>>>>>> VO2NFT SERVER ROARING TO LIFE <<<<<<<<<<\u001B[0m");
 const express = require('express');
 const path = require('path');
 const cluster = require('cluster');
@@ -22,15 +22,9 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 //If in dev, light up worker process.  In prod will use Heroku worker processes.
-if (process.env.NODE_ENV !== 'production') {
-    console.log("STARTING QUEUES");
-    const tq = require("./queue/test-queue");
-    tq.submitFakeJob();
-    const w = require("./queue/worker");
-    w.start();
-    w.startFlowWorkers();
-    console.log("DONE STARTING QUEUES");
-}
+//if (process.env.NODE_ENV !== 'production') {
+    const w = require("./queue/strava-worker");
+//}
 
 //Auth Whitelist Domains
 const whitelist = process.env.WHITELISTED_DOMAINS

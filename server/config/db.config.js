@@ -12,7 +12,8 @@ module.exports = {
       "password": "password",
       "database": "vo2nft_dev",
       "host": "127.0.0.1",
-      "dialect": "postgres"
+      "dialect": "postgres",
+      logging: false
   }
 };
 

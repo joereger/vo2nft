@@ -1,5 +1,5 @@
 const Redis = require('ioredis');
-let redis = new Redis(process.env.REDIS_URL);
+let redis = new Redis(process.env.REDIS_URL, {maxRetriesPerRequest: null, enableReadyCheck: false});
 const { DateTime } = require('luxon');
 
 //Strava rate limiter based on spec at: https://developers.strava.com/docs/rate-limits/

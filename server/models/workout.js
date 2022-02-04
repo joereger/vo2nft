@@ -3,7 +3,6 @@ const {
   Model, INET
 } = require('sequelize');
 
-const { Sequelize } = require('.');
 const { DATE } = require('sequelize');
 const { INTEGER } = require('sequelize');
 const { BIGINT } = require('sequelize');
