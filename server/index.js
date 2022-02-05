@@ -25,8 +25,8 @@ if (process.env.NODE_ENV !== 'production') {
 //if (process.env.NODE_ENV !== 'production') {
     //const w = require("./queue/strava-worker");
     //let's see if it's the syntax causing the "SyntaxError: Unexpected Token: const parentDetails = {id: job?.parent?.id"
-    const moo = process?.env?.NODE_ENV
-    console.log("MOO MOO MOO MOO MOO="+moo);
+    //const moo = process?.env?.NODE_ENV
+    //console.log("MOO MOO MOO MOO MOO="+moo);
 //}
 
 //Auth Whitelist Domains
