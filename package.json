@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "VO2NFT node backend service",
   "engines": {
-    "node": "17.x"
+    "node": "16.x"
   },
   "scripts": {
     "start": "node server",
