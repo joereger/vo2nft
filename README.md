@@ -27,6 +27,15 @@ A combo of two npm projects, the backend server and the frontend UI. So there ar
 
 Includes a minimal [Node Cluster](https://nodejs.org/docs/latest-v8.x/api/cluster.html) [implementation](server/index.js) to parallelize the single-threaded Node process across the available CPU cores.
 
+## Sequelize Migrations on Heroku
+heroku run sequelize db:migrate --env production -m --app 
+
+or possibly:
+heroku run npx sequelize-cli db:migrate
+
+## Heroku logs
+heroku logs --tail
+
 
 ## Deploy to Heroku
 
