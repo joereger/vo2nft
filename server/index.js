@@ -1,3 +1,12 @@
+//Oh turkey we gots an app loading
+//
+//
+//If in dev, dotenv to read .env into environment vars
+if (process.env.NODE_ENV !== 'production') {
+  // Load environment variables from .env file in non-prod environments
+  require("dotenv").config()
+}
+require('newrelic');
 console.log("\u001B[46m \u001B[30m>>>>>>>>>> VO2NFT SERVER ROARING TO LIFE <<<<<<<<<<\u001B[0m");
 const express = require('express');
 const path = require('path');
@@ -14,13 +23,8 @@ const cookieParser = require("cookie-parser")
 //Environment
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5001;
-console.log("NODE VERSION="+JSON.stringify(process.versions));
+//console.log("NODE VERSION="+JSON.stringify(process.versions));
 
-//If in dev, dotenv to read .env into environment vars
-if (process.env.NODE_ENV !== 'production') {
-    // Load environment variables from .env file in non-prod environments
-    require("dotenv").config()
-}
 
 //If in dev, light up worker process.  In prod will use Heroku worker processes.
 //if (process.env.NODE_ENV !== 'production') {
