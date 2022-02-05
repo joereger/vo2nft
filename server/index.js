@@ -14,6 +14,7 @@ const cookieParser = require("cookie-parser")
 //Environment
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5001;
+console.log("NODE VERSION="+JSON.stringify(process.versions));
 
 //If in dev, dotenv to read .env into environment vars
 if (process.env.NODE_ENV !== 'production') {
@@ -28,6 +29,7 @@ if (process.env.NODE_ENV !== 'production') {
     //const moo = process?.env?.NODE_ENV
     //console.log("MOO MOO MOO MOO MOO="+moo);
 //}
+
 
 //Auth Whitelist Domains
 const whitelist = process.env.WHITELISTED_DOMAINS
