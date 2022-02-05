@@ -17,8 +17,7 @@ module.exports = {
     return queryInterface.sequelize.transaction(t => {
       return Promise.all([
         queryInterface.removeColumn('Workouts', 'workout_id', { transaction: t }),
-        queryInterface.removeColumn('Workouts', 'external_account_id', { transaction: t }),
-        queryInterface.removeColumn('StravaAccounts', 'strava_id', { transaction: t })
+        queryInterface.removeColumn('Workouts', 'external_account_id', { transaction: t })
       ]);
     });
   },
