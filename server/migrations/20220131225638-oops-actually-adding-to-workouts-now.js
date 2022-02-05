@@ -14,13 +14,13 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    return queryInterface.sequelize.transaction(t => {
-      return Promise.all([
-        queryInterface.addColumn('Workouts', 'workout_id', {
-          type: Sequelize.INTEGER
-        }, { transaction: t })
-      ]);
-    });
+    // return queryInterface.sequelize.transaction(t => {
+    //   return Promise.all([
+    //     queryInterface.addColumn('Workouts', 'workout_id', {
+    //       type: Sequelize.INTEGER
+    //     }, { transaction: t })
+    //   ]);
+    // });
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -30,11 +30,11 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    return queryInterface.sequelize.transaction(t => {
-      return Promise.all([
-        queryInterface.removeColumn('Workouts', 'workout_id', { transaction: t })
-      ]);
-    });
+    // return queryInterface.sequelize.transaction(t => {
+    //   return Promise.all([
+    //     queryInterface.removeColumn('Workouts', 'workout_id', { transaction: t })
+    //   ]);
+    // });
   }
 
 };
