@@ -24,10 +24,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 //If in dev, light up worker process.  In prod will use Heroku worker processes.
 //if (process.env.NODE_ENV !== 'production') {
-    //const w = require("./queue/strava-worker");
-    //let's see if it's the syntax causing the "SyntaxError: Unexpected Token: const parentDetails = {id: job?.parent?.id"
-    //const moo = process?.env?.NODE_ENV
-    //console.log("MOO MOO MOO MOO MOO="+moo);
+    const w = require("./queue/strava-worker");
 //}
 
 
