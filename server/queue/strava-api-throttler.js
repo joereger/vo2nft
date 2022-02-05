@@ -1,5 +1,6 @@
-const Redis = require('ioredis');
-let redis = new Redis(process.env.REDIS_URL, {maxRetriesPerRequest: null, enableReadyCheck: false});
+//const Redis = require('ioredis');
+//let redis = new Redis(process.env.REDIS_URL, {maxRetriesPerRequest: null, enableReadyCheck: false});
+let redis_client = require('./redis-client.js');
 const { DateTime } = require('luxon');
 
 //Strava rate limiter based on spec at: https://developers.strava.com/docs/rate-limits/
@@ -27,14 +28,14 @@ exports.recordApiCall = () => {
     const fifteenMinExpireAt = DateTime.now().toUTC().plus({ minutes: minutesToAddToGetToEndOfFifteenMinBucket() }).endOf("minute");
     const millisUntilFifteenExpiration = fifteenMinExpireAt.diff(DateTime.now().toUTC()).milliseconds;
 
-    redis
+    redis_client
     .multi()
     .incr(fifteenMinKey)
     .pexpire(fifteenMinKey, millisUntilFifteenExpiration)
     .exec((err, results) => {
         // results === [[null, 'OK'], [null, 'bar']]
         if (err){
-            console.log("ERROR setting redis fifteenMinKey err ="+JSON.stringify(err));
+            console.log("ERROR setting redis_client fifteenMinKey err ="+JSON.stringify(err));
         }
     });
 
@@ -44,14 +45,14 @@ exports.recordApiCall = () => {
     const dailyKey = dailyKeyPrefix+dayOfYearUtc
     const millisUntilDailyExpiration = endOfDayUtc.diff(DateTime.now().toUTC()).milliseconds;
 
-    redis
+    redis_client
     .multi()
     .incr(dailyKey)
     .pexpire(dailyKey, millisUntilDailyExpiration)
     .exec((err, results) => {
         // results === [[null, 'OK'], [null, 'bar']]
         if (err){
-            console.log("ERROR setting redis dailyKey err ="+JSON.stringify(err));
+            console.log("ERROR setting redis_client dailyKey err ="+JSON.stringify(err));
         }
     });
 
@@ -60,7 +61,7 @@ exports.recordApiCall = () => {
 //15 minute chunks start at 0 minutes in hour
 exports.apiCallsSoFarInCurrentFifteenMinuteBlock = async () => {
     const fifteenMinKey = fifteenMinKeyPrefix+whichFifteenMinBucket();
-    return await redis.get(fifteenMinKey).then(function (result) {
+    return await redis_client.get(fifteenMinKey).then(function (result) {
         return result;
     });
 }
@@ -69,7 +70,7 @@ exports.apiCallsSoFarInCurrentFifteenMinuteBlock = async () => {
 exports.apiCallsSoFarToday = async () => {
     const dayOfYearUtc = DateTime.now().toUTC().day;
     const dailyKey = dailyKeyPrefix+dayOfYearUtc
-    return await redis.get(dailyKey).then(function (result) {
+    return await redis_client.get(dailyKey).then(function (result) {
         return result;
     });
 }

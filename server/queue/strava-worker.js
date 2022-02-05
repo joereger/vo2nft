@@ -1,7 +1,8 @@
 //let throng = require('throng');
 const { Worker, Job, Queue, QueueScheduler } = require('bullmq');
-const Redis = require('ioredis');
-let redis_client = new Redis(process.env.REDIS_URL, {maxRetriesPerRequest: null, enableReadyCheck: false} );
+//const Redis = require('ioredis');
+//let redis_client = new Redis(process.env.REDIS_URL, {maxRetriesPerRequest: null, enableReadyCheck: false} );
+let redis_client = require('./redis-client.js'); 
 const db = require('../models/index.js');
 const StravaThrottleError = require('./strava-error-throttle.js');
 const StravaAuthError = require('./strava-error-auth.js');

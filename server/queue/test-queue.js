@@ -1,6 +1,7 @@
 const { Queue, FlowProducer } = require('bullmq');
-const Redis = require('ioredis');
-let redis_client = new Redis(process.env.REDIS_URL, {maxRetriesPerRequest: null, enableReadyCheck: false});
+//const Redis = require('ioredis');
+//let redis_client = new Redis(process.env.REDIS_URL, {maxRetriesPerRequest: null, enableReadyCheck: false});
+let redis_client = require('./redis-client.js');
 const workQueue = new Queue('testqueue', { connection: redis_client });
 
 exports.submitFakeJob = () => {

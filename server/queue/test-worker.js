@@ -1,7 +1,8 @@
 //let throng = require('throng');
 const { Worker } = require('bullmq');
-const Redis = require('ioredis');
-let redis_client = new Redis(process.env.REDIS_URL,{maxRetriesPerRequest: null, enableReadyCheck: false});
+//const Redis = require('ioredis');
+//let redis_client = new Redis(process.env.REDIS_URL,{maxRetriesPerRequest: null, enableReadyCheck: false});
+let redis_client = require('./redis-client.js');
 
 var start = exports.start = () => {
 
