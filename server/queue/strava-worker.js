@@ -1,10 +1,11 @@
 //let throng = require('throng');
-const { Worker } = require('bullmq');
+const { Worker, Job, Queue, QueueScheduler } = require('bullmq');
 const Redis = require('ioredis');
 let redis_client = new Redis(process.env.REDIS_URL, {maxRetriesPerRequest: null, enableReadyCheck: false} );
 const db = require('../models/index.js');
-const StravaThrottleError = require('./strava-errors.js');
-const StravaAuthError = require('./strava-errors.js');
+const StravaThrottleError = require('./strava-error-throttle.js');
+const StravaAuthError = require('./strava-error-auth.js');
+const StravaApiThrottler = require('./strava-api-throttler.js');
 
 var startStravaWorkers = exports.startStravaWorkers = () => {
     console.log("strava-worker.js startStravaWorkers called");
@@ -31,12 +32,10 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
         } catch (err) {
             console.log("stravaActivitySyncComplete error #2");
             console.log(err);
-            res.statusCode = 401
-            res.send("FAIL DERP")
         }
 
         console.log("DONE DONE DONE stravaActivitySyncComplete job.id="+job.id);
-        return '' ;
+        return;
     }, { connection: redis_client, concurrency: 50 } );
 
     worker.on('error', err => {
@@ -46,34 +45,39 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
 
     const worker2 = new Worker('stravaGetActivity', async (job) => {
         console.log("STARTING stravaGetActivity job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName+" job.data.page="+job.data.page+" job.data.per_page="+job.data.per_page);
+        //console.log("STARTING stravaGetActivity parentKey="+job?.parentKey);   
+        //console.log("STARTING stravaGetActivity parent="+JSON.stringify(job?.parent));
+    
 
-
-        //TODO i need a way to handle the throttling here
         try{
-            const stravaApiWrapper = require("./strava-api-wrapper"); 
 
+            const stravaApiWrapper = require("./strava-api-wrapper"); 
             const StravaAccount = db.sequelize.models.StravaAccount;
             const stravaAccount = await StravaAccount.findOne({
                 where: {
                     id: job.data.stravaAccountId
                 }
             });
-            console.log("strava-worker.js TOP stravaAccountId="+stravaAccount.id);
 
             const res = await stravaApiWrapper.getWorkoutsAndStoreInDatabase(stravaAccount, job.data.page, job.data.per_page);
-            console.log("strava-worker.js under await stravaApiWrapper.getWorkoutsAndStoreInDatabase()");  
-
+            
         } catch (error) {
 
             if (error instanceof StravaAuthError) {
-                console.log("stravaGetActivity caught StravaAuthError");
-                console.log(error.message);
+                console.log("worker2.stravaGetActivity caught StravaAuthError => TODO how to handle user experience when auth fails");
+                console.log(JSON.stringify(error));
+                //TODO how to handle user experience when auth fails
             } else if (error instanceof StravaThrottleError){
-                console.log("stravaGetActivity caught StravaThrottleError");
-                console.log(error.message);
+                //console.log("worker2.stravaGetActivity caught StravaThrottleError");
+                //console.log(JSON.stringify(error));
+                const delay = await StravaApiThrottler.millisUntilApiAvailable();
+                const q = new Queue('stravaGetActivity', { connection: redis_client });
+                const parentDetails = {id: job?.parent?.id, queue: job?.parent?.queueKey}
+                const newjob = await Job.create(q, "stravaGetActivity", job.data, {parent: parentDetails, delay: delay, removeOnComplete: true});
+                console.log("worker2 caught StravaAuthError=> new DELAYED child newjob.id="+newjob.id+" delay="+delay);
             } else {
-                console.log("stravaGetActivity caught ERROR");
-                console.log(error.message);
+                console.log("worker2.stravaGetActivity caught ERROR");
+                console.log(JSON.stringify(error));
             }
             
         }
@@ -82,14 +86,13 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
         // A job can return values that will be stored in Redis as JSON
         // This return value is unused in this demo application.
         console.log("DONE stravaGetActivity job.id="+job.id);
-        return '';
+        return;
     }, { connection: redis_client, concurrency: 50 } );
 
     worker2.on('error', err => {
         console.error(err);
     });
 
-    
 }
 
 
