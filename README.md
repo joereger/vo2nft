@@ -16,7 +16,7 @@ To deploy a frontend-only React app, use the static-site optimized
 
 ## Design Points
 
-A combo of two npm projects, the backend server and the frontend UI. So there are two `package.json` configs and thereforce [two places to run `npm` commands](#user-content-local-development):
+A combination of two npm projects, the backend server and the frontend UI. So there are two `package.json` configs and thereforce [two places to run `npm` commands](#user-content-local-development):
 
   1. [**Node server**](server/): [`./package.json`](package.json)
       * [deployed automatically](https://devcenter.heroku.com/categories/deployment) via heroku/nodejs buildpack
@@ -28,9 +28,6 @@ A combo of two npm projects, the backend server and the frontend UI. So there ar
 Includes a minimal [Node Cluster](https://nodejs.org/docs/latest-v8.x/api/cluster.html) [implementation](server/index.js) to parallelize the single-threaded Node process across the available CPU cores.
 
 ## Sequelize Migrations on Heroku
-heroku run sequelize db:migrate --env production -m --app 
-
-or possibly:
 heroku run npx sequelize-cli db:migrate
 
 ## Heroku logs
