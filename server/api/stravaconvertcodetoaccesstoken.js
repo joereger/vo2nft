@@ -51,8 +51,8 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
                 var user = null;
                 if (req?.body?.user_id && req?.body?.user_id>0){
 
-                    console.log("/api/stravaconvertcodetoaccesstoken req.body.strava_data?.expires_at="+req.body.strava_data?.expires_at);
-                    const auth_token_expires_at = DateTime.fromSeconds(req.body.strava_data?.expires_at).toUTC();
+                    console.log("/api/stravaconvertcodetoaccesstoken strava_data?.expires_at="+strava_data?.expires_at);
+                    const auth_token_expires_at = DateTime.fromSeconds(strava_data?.expires_at).toUTC();
 
                     console.log("/api/stravaconvertcodetoaccesstoken we have a valid userid we can use");
                     const user = await db.sequelize.models.User.findOne({
