@@ -107,7 +107,7 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
         } catch (error) {
             console.log("/api/strava_convert_code_to_access_token returning 401 ERROR #2");
             // console.log("AXIOS ERROR START");
-            console.log(error.response); 
+            console.error(error); 
             // console.log("AXIOS ERROR END");
         }
 
