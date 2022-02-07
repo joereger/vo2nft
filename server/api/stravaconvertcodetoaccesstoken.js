@@ -33,23 +33,43 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
         let data2 = null;
         let strava_data = null;
         try{ 
-            // const form_data2 = new FormData();
-            // form_data2.append('client_id', process.env.STRAVA_CLIENT_ID);
-            // form_data2.append('client_secret', process.env.STRAVA_CLIENT_SECRET);
-            // form_data2.append('code', req.body.code);
-            // form_data2.append('grant_type', 'authorization_code');
 
             let response2 = await axios.get('https://www.strava.com/api/v3/athletes/'+data.athlete.id+'/stats', 
                 { headers: {Authorization: 'Bearer ' + data.access_token} }
             );
 
             data2 = response2.data;
-
             strava_data = Object.assign(data, data2);
 
-            console.log("====== start strava_data ======");
-            console.log(strava_data);
-            console.log("====== end strava_data ======");
+            //Save the Strava data
+            console.log("/api/stravaconvertcodetoaccesstoken req.user="+JSON.stringify(req.user));
+            if (strava_data){
+                console.log("/api/stravaconvertcodetoaccesstoken strava_data is present");
+                console.log(JSON.stringify(strava_data));
+          
+    
+                // const auth_token_expires_at = DateTime.fromSeconds(req.body.strava_data.expires_at).toUTC();
+                // if (req.user.stravaAccount){
+
+                // }
+                // const stravaAccountNew = await db.sequelize.models.StravaAccount.create({ 
+                //     userId: req.user.id,
+                //     username: req.body.strava_data.athlete.username,
+                //     athlete_id: req.body.strava_data.athlete.id,
+                //     auth_token: req.body.strava_data.access_token,
+                //     auth_token_expires_at: auth_token_expires_at,
+                //     refresh_token: req.body.strava_data.refresh_token,
+                //     profile_pic: req.body.strava_data.athlete.profile,
+                //     bio: req.body.strava_data.athlete.bio,
+                //     firstname: req.body.strava_data.athlete.firstname,
+                //     lastname: req.body.strava_data.athlete.lastname,
+                //     strava_details: req.body.strava_data.athlete 
+                // });
+                      
+                // console.log("/api/stravaconvertcodetoaccesstoken stravaAccount created stravaAccount.id="+stravaAccountNew.id);
+                    
+            }
+
         } catch (error) {
             console.log("/api/strava_convert_code_to_access_token returning 401 ERROR #2");
             // console.log("AXIOS ERROR START");

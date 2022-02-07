@@ -3,8 +3,11 @@
 //Generate a skeleton migration via command line:
 //npx sequelize-cli migration:generate --name migration-skeleton
 
-//Migrate changes to db
+//Migrate changes to db locally
 //npx sequelize-cli db:migrate
+
+//Run migrations on production
+//heroku run npx sequelize-cli db:migrate
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
