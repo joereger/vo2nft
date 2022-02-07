@@ -44,16 +44,17 @@ const StravaCallback = () => {
         } else {
           console.log("StravaCallback - code appears valid - code="+code);
 
-          // //Squirrel code away into context
-          // setUserContext(oldValues => {
-          //   return { ...oldValues, strava_code: code }
-          // })
+          //Get the user.id if user is logged in
+          var user_id = null;
+          if (userContext?.user?.id && userContext?.user?.id>0){
+            user_id = userContext?.user?.id;
+          }
 
           //Call Node backend to exchange the code for an access token and some athlete data
           return fetch(process.env.REACT_APP_NODE_URI + '/api/strava_convert_code_to_access_token', {
               method: 'POST',
               credentials: "include",
-              body: JSON.stringify({ code }),
+              body: JSON.stringify({ code: code, user_id: user_id }),
               headers: {
                   'Content-Type': 'application/json'
               }

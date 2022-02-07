@@ -42,10 +42,17 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
             strava_data = Object.assign(data, data2);
 
             //Save the Strava data
-            console.log("/api/stravaconvertcodetoaccesstoken req.user="+JSON.stringify(req.user));
+            console.log("/api/stravaconvertcodetoaccesstoken user_id="+req.body.user_id);
             if (strava_data){
                 console.log("/api/stravaconvertcodetoaccesstoken strava_data is present");
                 console.log(JSON.stringify(strava_data));
+
+                var user = null;
+                if (req?.body?.user_id && req?.body?.user_id>0){
+                    console.log("/api/stravaconvertcodetoaccesstoken we have a valid userid we can use");
+                    
+
+                }
           
     
                 // const auth_token_expires_at = DateTime.fromSeconds(req.body.strava_data.expires_at).toUTC();
