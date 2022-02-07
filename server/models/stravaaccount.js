@@ -65,6 +65,9 @@ module.exports = (sequelize, DataTypes) => {
     is_syncing: {
       type: DataTypes.BOOLEAN
     },
+    webhook_subscription_id: {
+      type: DataTypes.TEXT
+    },
     strava_details: {
       type: JSONB
     }

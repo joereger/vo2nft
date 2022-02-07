@@ -27,11 +27,7 @@ A combination of two npm projects, the backend server and the frontend UI. So th
 
 Includes a minimal [Node Cluster](https://nodejs.org/docs/latest-v8.x/api/cluster.html) [implementation](server/index.js) to parallelize the single-threaded Node process across the available CPU cores.
 
-## Sequelize Migrations on Heroku
-heroku run npx sequelize-cli db:migrate
 
-## Heroku logs
-heroku logs --tail
 
 
 ## Deploy to Heroku
@@ -171,3 +167,12 @@ brew install redis
 brew services start redis
 brew services stop redis
 config file is at: /opt/homebrew/etc/ on MacOs when installed with brew
+
+## Deploy to Heroku
+git push heroku master
+
+## Sequelize Migrations on Heroku
+heroku run npx sequelize-cli db:migrate
+
+## Heroku logs
+heroku logs --tail

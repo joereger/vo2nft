@@ -11,7 +11,6 @@ exports.submitFakeJob = () => {
     }).catch((error) => {
         console.error(error);
     });
-
 }
 
 exports.submitFlow = () => {

@@ -75,7 +75,7 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
                 const q = new Queue('stravaGetActivity', { connection: redis_client });
                 const parentDetails = {id: job?.parent?.id, queue: job?.parent?.queueKey}
                 const newjob = await Job.create(q, "stravaGetActivity", job.data, {parent: parentDetails, delay: delay, removeOnComplete: true});
-                console.log("worker2 caught StravaAuthError=> new DELAYED child newjob.id="+newjob.id+" delay="+delay);
+                console.log("worker2 caught StravaThrottleError=> new DELAYED child newjob.id="+newjob.id+" delay="+delay);
             } else {
                 console.log("worker2.stravaGetActivity caught ERROR");
                 console.log(JSON.stringify(error));
@@ -94,7 +94,51 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
         console.error(err);
     });
 
+
+    const worker3 = new Worker('stravaSubscribeWebhook', async (job) => {
+        console.log("STARTING stravaSubscribeWebhook job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName);
+
+        try { 
+            const StravaAccount = db.sequelize.models.StravaAccount;
+            const stravaAccount = await StravaAccount.findOne({
+                where: {
+                    id: job.data.stravaAccountId
+                }
+            });
+            const res = await stravaApiWrapper.createWebhookSubscription(stravaAccount);
+            console.log("worker3.stravaSubscribeWebhook thinks it created a new subscription!");
+            
+        } catch (error) {
+
+            if (error instanceof StravaAuthError) {
+                console.log("worker3.stravaSubscribeWebhook caught StravaAuthError => TODO how to handle user experience when auth fails");
+                console.log(JSON.stringify(error));
+                //TODO how to handle user experience when auth fails
+            } else if (error instanceof StravaThrottleError){
+                //console.log("worker2.stravaGetActivity caught StravaThrottleError");
+                //console.log(JSON.stringify(error));
+                const delay = await StravaApiThrottler.millisUntilApiAvailable();
+                const q = new Queue('stravaSubscribeWebhook', { connection: redis_client });
+                const newjob = await Job.create(q, "stravaSubscribeWebhook", job.data, {delay: delay, removeOnComplete: true});
+                console.log("worker3 caught StravaThrottleError=> new DELAYED child newjob.id="+newjob.id+" delay="+delay);
+            } else {
+                console.log("worker3.stravaSubscribeWebhook caught ERROR");
+                console.log(JSON.stringify(error));
+            }
+            
+        }
+
+        console.log("DONE stravaSubscribeWebhook job.id="+job.id);
+        return;
+    }, { connection: redis_client, concurrency: 50 } );
+
+    worker3.on('error', err => {
+        console.error(err);
+    });
+
 }
+
+
 
 
 

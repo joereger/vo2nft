@@ -1,4 +1,4 @@
-const { QueueScheduler, FlowProducer } = require('bullmq');
+const { QueueScheduler, FlowProducer, Queue } = require('bullmq');
 //const Redis = require('ioredis');
 //let redis_client = new Redis(process.env.REDIS_URL, {maxRetriesPerRequest: null, enableReadyCheck: false});
 let redis_client = require('./redis-client.js');
@@ -61,4 +61,15 @@ exports.stravaActivitySync = async (stravaAccount) => {
         children: childrenToGet,
     });
 
+}
+
+exports.createWebhookSubscription = async (stravaAccount) => {
+    console.log("test-queue.js submitFakeJob() called");
+    const workQueue = new Queue('stravaSubscribeWebhook', { connection: redis_client });
+    const qs = new QueueScheduler('stravaSubscribeWebhook', { connection: redis_client });
+    let job = workQueue.add('stravaSubscribeWebhook', { stravaAccountId: stravaAccount.id }).then((job) => {
+        console.log("createWebhookSubscription ADDED job.id="+job.id+" to queue");
+    }).catch((error) => {
+        console.error(error);
+    });
 }

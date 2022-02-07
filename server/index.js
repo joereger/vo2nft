@@ -1,5 +1,4 @@
-//Oh turkey we gots an app loading
-//
+//VEE OH TWO ENN EFF TEE
 //
 //If in dev, dotenv to read .env into environment vars
 if (process.env.NODE_ENV !== 'production') {
@@ -95,7 +94,9 @@ if (!isDev && cluster.isMaster) {
   app.post('/api/changepassword', verifyUser, require('./api/changepassword.js').changepassword);
   app.get('/api/me', verifyUser, require('./api/me.js').me);
   app.post('/api/me', verifyUser, require('./api/me.js').meUpdate);
-  app.get('/api/misc', require('./api/misc.js').misc);
+  app.get('/api/stravawebhook', require('./api/stravawebhook.js').stravawebhookvalidation);
+  app.post('/api/stravawebhook', require('./api/stravawebhook.js').stravawebhook);
+  app.post('/api/misc', require('./api/misc.js').misc);
 
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', function(request, response) {
