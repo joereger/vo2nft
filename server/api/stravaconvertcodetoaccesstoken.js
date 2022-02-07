@@ -85,16 +85,16 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
                         } else {
                             const stravaAccountNew = await db.sequelize.models.StravaAccount.create({ 
                                 userId: user.id,
-                                username: req.body.strava_data.athlete.username,
-                                athlete_id: req.body.strava_data.athlete.id,
-                                auth_token: req.body.strava_data.access_token,
+                                username: strava_data.athlete.username,
+                                athlete_id: strava_data.athlete.id,
+                                auth_token: strava_data.access_token,
                                 auth_token_expires_at: auth_token_expires_at,
-                                refresh_token: req.body.strava_data.refresh_token,
-                                profile_pic: req.body.strava_data.athlete.profile,
-                                bio: req.body.strava_data.athlete.bio,
-                                firstname: req.body.strava_data.athlete.firstname,
-                                lastname: req.body.strava_data.athlete.lastname,
-                                strava_details: req.body.strava_data.athlete 
+                                refresh_token: strava_data.refresh_token,
+                                profile_pic: strava_data.athlete.profile,
+                                bio: strava_data.athlete.bio,
+                                firstname: strava_data.athlete.firstname,
+                                lastname: strava_data.athlete.lastname,
+                                strava_details: strava_data.athlete 
                             });
                             console.log("/api/stravaconvertcodetoaccesstoken stravaAccount created stravaAccountNew.id="+stravaAccountNew.id);
                         }
