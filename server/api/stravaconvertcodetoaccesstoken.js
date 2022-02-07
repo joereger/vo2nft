@@ -49,32 +49,59 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
 
                 var user = null;
                 if (req?.body?.user_id && req?.body?.user_id>0){
+
+                    const auth_token_expires_at = DateTime.fromSeconds(req.body.strava_data?.expires_at).toUTC();
+
                     console.log("/api/stravaconvertcodetoaccesstoken we have a valid userid we can use");
-                    
+                    const user = await db.sequelize.models.User.findOne({
+                        where: {
+                            id: req.body.user_id
+                        }
+                    });
 
+                    var stravaUser = null;
+                    if (user && user.id === req.body.user_id){
+                        stravaAccount = await db.sequelize.models.StravaAccount.findOne({
+                            where: {
+                                id: req.body.user_id
+                            }
+                        });
+                        
+                        if (stravaAccount && stravaAccount.id>0 && stravaAccount.userId===req.body.user_id){
+                            stravaAccount.username = req.body.strava_data.athlete.username;
+                            stravaAccount.athlete_id = req.body.strava_data.athlete.id;
+                            stravaAccount.auth_token = req.body.strava_data.access_token;
+                            stravaAccount.auth_token_expires_at = auth_token_expires_at;
+                            stravaAccount.refresh_token = req.body.strava_data.refresh_token;
+                            stravaAccount.profile_pic = req.body.strava_data.athlete.profile;
+                            stravaAccount.bio =  req.body.strava_data.athlete.bio;
+                            stravaAccount.firstname = strava_data.athlete.firstname;
+                            stravaAccount.lastname = req.body.strava_data.athlete.lastname;
+                            stravaAccount.strava_details = req.body.strava_data.athlete;
+                            stravaAccount.save();
+                            console.log("/api/stravaconvertcodetoaccesstoken stravaAccount updated stravaAccount.id="+stravaAccount.id);
+                        } else {
+                            const stravaAccountNew = await db.sequelize.models.StravaAccount.create({ 
+                                userId: user.id,
+                                username: req.body.strava_data.athlete.username,
+                                athlete_id: req.body.strava_data.athlete.id,
+                                auth_token: req.body.strava_data.access_token,
+                                auth_token_expires_at: auth_token_expires_at,
+                                refresh_token: req.body.strava_data.refresh_token,
+                                profile_pic: req.body.strava_data.athlete.profile,
+                                bio: req.body.strava_data.athlete.bio,
+                                firstname: req.body.strava_data.athlete.firstname,
+                                lastname: req.body.strava_data.athlete.lastname,
+                                strava_details: req.body.strava_data.athlete 
+                            });
+                            console.log("/api/stravaconvertcodetoaccesstoken stravaAccount created stravaAccountNew.id="+stravaAccountNew.id);
+                        }
+
+                    }
+                    
+                
                 }
-          
-    
-                // const auth_token_expires_at = DateTime.fromSeconds(req.body.strava_data.expires_at).toUTC();
-                // if (req.user.stravaAccount){
-
-                // }
-                // const stravaAccountNew = await db.sequelize.models.StravaAccount.create({ 
-                //     userId: req.user.id,
-                //     username: req.body.strava_data.athlete.username,
-                //     athlete_id: req.body.strava_data.athlete.id,
-                //     auth_token: req.body.strava_data.access_token,
-                //     auth_token_expires_at: auth_token_expires_at,
-                //     refresh_token: req.body.strava_data.refresh_token,
-                //     profile_pic: req.body.strava_data.athlete.profile,
-                //     bio: req.body.strava_data.athlete.bio,
-                //     firstname: req.body.strava_data.athlete.firstname,
-                //     lastname: req.body.strava_data.athlete.lastname,
-                //     strava_details: req.body.strava_data.athlete 
-                // });
-                      
-                // console.log("/api/stravaconvertcodetoaccesstoken stravaAccount created stravaAccount.id="+stravaAccountNew.id);
-                    
+           
             }
 
         } catch (error) {
