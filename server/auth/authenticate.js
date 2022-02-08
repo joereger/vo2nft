@@ -2,6 +2,8 @@ const passport = require("passport")
 const jwt = require("jsonwebtoken")
 const dev = process.env.NODE_ENV !== "production"
 
+console.log("authenticate.js dev="+dev);
+
 exports.COOKIE_OPTIONS = {
   httpOnly: true,
   // Since localhost is not having https protocol,

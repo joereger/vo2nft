@@ -8,8 +8,8 @@ exports.refreshtoken = async function(req, res){
 
     const { signedCookies = {} } = req
     const { refreshToken } = signedCookies
-    //console.log("/api/refreshtoken signedCookies="+JSON.stringify(signedCookies));
-    //console.log("/api/refreshtoken req.body="+JSON.stringify(req.body));
+    console.log("/api/refreshtoken signedCookies="+JSON.stringify(signedCookies));
+    console.log("/api/refreshtoken req.body="+JSON.stringify(req.body));
     
     if (refreshToken) {
         console.log("refreshToken EXISTS and ="+refreshToken);

@@ -3,7 +3,6 @@ const JwtStrategy = require("passport-jwt").Strategy
 const ExtractJwt = require("passport-jwt").ExtractJwt
 const db = require('../models/index.js');
 
-
 //import { inspect } from 'util'
 //var util = require('util')
 
@@ -38,8 +37,6 @@ passport.use(
         }).then(
           user => {
           if (user) {
-
-
               console.log("jwt-strategy found User.id="+user.id);
               return done(null, user)
           } else {
