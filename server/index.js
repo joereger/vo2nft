@@ -32,14 +32,6 @@ const PORT = process.env.PORT || 5001;
     const workers = require("./queue/strava-worker");
 //}
 
-//If in prod force ssl
-if (process.env.NODE_ENV === 'production') {
-  // Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind
-  // a load balancer (e.g. Heroku). See further comments below
-  app.use(enforce.HTTPS({ trustProtoHeader: true }));
-}
-
-
 
 //Auth Whitelist Domains
 const whitelist = process.env.WHITELISTED_DOMAINS
@@ -59,6 +51,14 @@ if (!isDev && cluster.isMaster) {
 } else {
   console.error(`Node development pid ${process.pid} is running`);
   const app = express();
+
+  //Force SSL in prod
+  if (process.env.NODE_ENV === 'production') {
+    // Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind
+    // a load balancer (e.g. Heroku). See further comments below
+    console.log("FORCING HTTPS");
+    app.use(enforce.HTTPS({ trustProtoHeader: true }));
+  }
 
   //Middleware
   app.use(express.json()); 
