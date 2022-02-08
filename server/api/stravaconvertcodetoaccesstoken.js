@@ -97,6 +97,11 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
                                 strava_details: strava_data.athlete 
                             });
                             console.log("/api/stravaconvertcodetoaccesstoken stravaAccount created stravaAccountNew.id="+stravaAccountNew.id);
+
+                            //Kick off initial account sync and webhook subscriptions
+                            const str = require("../queue/strava-enqueuer");
+                            str.stravaActivitySync(stravaAccountNew);
+                            str.createWebhookSubscription(stravaAccountNew);
                         }
 
                     }
