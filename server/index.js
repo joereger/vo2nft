@@ -12,6 +12,8 @@ const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 const passport = require("passport");
+var http = require('http');
+var enforce = require('express-sslify');
 
 //Auth
 const cors = require("cors")
@@ -27,8 +29,16 @@ const PORT = process.env.PORT || 5001;
 
 //If in dev, light up worker process.  In prod will use Heroku worker processes.
 //if (process.env.NODE_ENV !== 'production') {
-    const w = require("./queue/strava-worker");
+    const workers = require("./queue/strava-worker");
 //}
+
+//If in prod force ssl
+if (process.env.NODE_ENV === 'production') {
+  // Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind
+  // a load balancer (e.g. Heroku). See further comments below
+  app.use(enforce.HTTPS({ trustProtoHeader: true }));
+}
+
 
 
 //Auth Whitelist Domains
@@ -104,7 +114,13 @@ if (!isDev && cluster.isMaster) {
   });
 
   //Listen to the ports, not the ships in the sea; silly goose
-  app.listen(PORT, function () {
-    console.error(`Node ${isDev ? 'dev server' : 'cluster worker '+process.pid}: listening on port \u001b[33m${PORT}\u001b[0m bring it`);
+  // app.listen(PORT, function () {
+  //   console.error(`Node ${isDev ? 'dev server' : 'cluster worker '+process.pid}: listening on port \u001b[33m${PORT}\u001b[0m bring it`);
+  // });
+  http.createServer(app).listen(PORT, function() {
+    console.log(`Node ${isDev ? 'dev server' : 'cluster worker '+process.pid}: listening on port \u001b[33m${PORT}\u001b[0m bring it`);
   });
+
+
+
 }

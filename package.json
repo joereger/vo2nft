@@ -23,6 +23,7 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
+    "express-sslify": "^1.2.0",
     "form-data": "^4.0.0",
     "jsonwebtoken": "^8.5.1",
     "luxon": "^2.3.0",
