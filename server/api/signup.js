@@ -5,6 +5,11 @@ const { DateTime } = require('luxon');
 exports.signup = async function(req, res){
     console.log('/api/signup called in signup.js email='+req.body.email);
 
+    if (process.env.NODE_ENV === 'production') {
+        res.set('Content-Type', 'application/json');
+        return res.send(400, { message: "Sorry, we're not currently accepting new accounts." });
+    }
+
     //console.log('/api/signup req.body.strava_data='+JSON.stringify(req?.body?.strava_data));
 
     //Email can't be blank
