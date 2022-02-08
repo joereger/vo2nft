@@ -314,7 +314,7 @@ exports.createWebhookSubscription = async (stravaAccount) => {
         const form_data = new FormData();
         form_data.append('client_id', process.env.STRAVA_CLIENT_ID);
         form_data.append('client_secret', process.env.STRAVA_CLIENT_SECRET);
-        form_data.append('callback_url', 'http://www.vo2nft.com/api/stravawebhook');
+        form_data.append('callback_url', 'https://www.vo2nft.com/api/stravawebhook');
         form_data.append('verify_token', stravaAccount.id);
 
         let response = null;
