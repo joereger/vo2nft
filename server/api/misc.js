@@ -37,8 +37,8 @@ exports.misc = async function(req, res){
                 //sa.getWorkoutsAndStoreInDatabase(stravaAccount, 1);
                 //Strava queue up harvest
                 const str = require("../queue/strava-enqueuer");
-                str.stravaActivitySync(stravaAccount);
-                //str.createWebhookSubscription(stravaAccount);
+                //str.stravaActivitySync(stravaAccount);
+                str.createWebhookSubscription(stravaAccount);
             },
             err => {console.log("/misc.js error "+err.message);}
         )
