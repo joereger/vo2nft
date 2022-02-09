@@ -99,6 +99,7 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
         console.log("STARTING stravaSubscribeWebhook job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName);
 
         try { 
+            const stravaApiWrapper = require("./strava-api-wrapper"); 
             const StravaAccount = db.sequelize.models.StravaAccount;
             const stravaAccount = await StravaAccount.findOne({
                 where: {
@@ -123,7 +124,7 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
                 console.log("worker3 caught StravaThrottleError=> new DELAYED child newjob.id="+newjob.id+" delay="+delay);
             } else {
                 console.log("worker3.stravaSubscribeWebhook caught ERROR");
-                console.log(JSON.stringify(error));
+                console.error(error);
             }
             
         }

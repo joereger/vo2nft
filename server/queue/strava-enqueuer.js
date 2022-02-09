@@ -64,7 +64,7 @@ exports.stravaActivitySync = async (stravaAccount) => {
 }
 
 exports.createWebhookSubscription = async (stravaAccount) => {
-    console.log("test-queue.js submitFakeJob() called");
+    console.log("strava-enqueuer.js createWebhookSubscription() called");
     const workQueue = new Queue('stravaSubscribeWebhook', { connection: redis_client });
     const qs = new QueueScheduler('stravaSubscribeWebhook', { connection: redis_client });
     let job = workQueue.add('stravaSubscribeWebhook', { stravaAccountId: stravaAccount.id }).then((job) => {
