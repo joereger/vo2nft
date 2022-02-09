@@ -327,6 +327,8 @@ exports.createWebhookSubscription = async (stravaAccount) => {
         } catch (error){
             console.log("createWebhookSubscription error after calling strava push_subscriptions");
             console.error(error);
+            console.log("createWebhookSubscription error.response.data="+JSON.stringify(error?.response?.data));
+            //response.data
             throw new StravaAuthError("createWebhookSubscription at Axios call to Strava");
         }
 

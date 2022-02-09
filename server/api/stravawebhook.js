@@ -4,6 +4,7 @@ const StravaAuthError = require('../queue/strava-error-auth.js');
 
 exports.stravawebhookvalidation = async function(req, res){
     console.log('/api/stravawebhookvalidation called req.query='+JSON.stringify(req.query));
+    console.log('/api/stravawebhookvalidation will return hub.challenge='+req.query['hub.challenge']);
     res.set('Content-Type', 'application/json');
     return res.send({ "hub.challenge": req.query['hub.challenge'] })
 };
