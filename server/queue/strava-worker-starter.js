@@ -3,9 +3,9 @@
 var startStravaWorkers = exports.startStravaWorkers = () => {
     console.log("strava-worker-starter.js called");
 
-    require("./strava-worker-activitySync").startStravaWorkers();
-    require("./strava-worker-getSingleActivity").startStravaWorkers();
-    require("./strava-worker-subscribeWebhook").startStravaWorkers();
+    const w1 = require("./strava-worker-activitySync");
+    const w2 = require("./strava-worker-getSingleActivity");
+    const w3 = require("./strava-worker-subscribeWebhook");
 
 }
 

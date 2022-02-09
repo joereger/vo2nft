@@ -96,7 +96,7 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
 
 
 //console.log("strava-worker-activitySync.js will call startStravaWorkers()");
-//startStravaWorkers();
+startStravaWorkers();
 
 // Initialize the clustered worker process
 // See: https://devcenter.heroku.com/articles/node-concurrency for more info
