@@ -87,6 +87,9 @@ exports.stravawebhook = async function(req, res){
                             strava_details: req.body.updates
                         })
                         console.log("stravawebhook created new workout.id="+workoutNew.id);
+                        //TODO ok so it just notifies you of the new workout, you still have to call them to go get it
+                    
+                    
                     }
                     
         

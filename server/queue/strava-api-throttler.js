@@ -1,6 +1,4 @@
-//const Redis = require('ioredis');
-//let redis = new Redis(process.env.REDIS_URL, {maxRetriesPerRequest: null, enableReadyCheck: false});
-let redis_client = require('./redis-client.js');
+let redis_client = require('../config/redis-client.js');
 const { DateTime } = require('luxon');
 
 //Strava rate limiter based on spec at: https://developers.strava.com/docs/rate-limits/
@@ -126,7 +124,6 @@ exports.millisUntilApiAvailable = async () => {
 }
 
 //Private utility functs below
-
 whichFifteenMinBucket = () => {
     const nowUtc = DateTime.now().toUTC();
     const nowUtcMinute = nowUtc.minute;

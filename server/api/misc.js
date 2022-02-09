@@ -5,9 +5,6 @@ const StravaAuthError = require('../queue/strava-error-auth.js');
 exports.misc = async function(req, res){
     console.log('/api/misc called');
 
-    //BULL QUEUE/FLOWS
-    // const tq = require("../queue/test-queue");
-    // tq.submitFlow();
 
     //STRAVA API THROTTLER
     // const tq = require("../queue/strava-api-throttler");
@@ -28,17 +25,18 @@ exports.misc = async function(req, res){
         const StravaAccount = db.sequelize.models.StravaAccount;
         StravaAccount.findOne({
             where: {
-                id: 1
+                id: 7
             }
         }).then(
             stravaAccount => {
                 console.log("misc.js FOUND stravaAccount="+JSON.stringify(stravaAccount));
-                //const sa = require("../queue/strava-api-wrapper"); 
+                //const sa = require("../queue/strava-api-getWorkoutsAndStoreInDatabase"); 
                 //sa.getWorkoutsAndStoreInDatabase(stravaAccount, 1);
                 //Strava queue up harvest
-                const str = require("../queue/strava-enqueuer");
-                //str.stravaActivitySync(stravaAccount);
-                str.createWebhookSubscription(stravaAccount);
+                //const str = require("../queue/strava-enqueuer-activitySync");
+                //str.enqueue(stravaAccount);
+                const str = require("../queue/strava-enqueuer-subscribeWebhook");
+                str.enqueue(stravaAccount);
             },
             err => {console.log("/misc.js error "+err.message);}
         )
