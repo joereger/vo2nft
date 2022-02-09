@@ -52,12 +52,12 @@ exports.stravawebhook = async function(req, res){
                 //First, see if i have a record of this workout already
                 const workout = await db.sequelize.models.Workout.findOne({
                     where: {
-                        external_account_id: req.body.owner_id,
+                        external_account_id: stravaAccount.id,
                         workout_id: req.body.object_id
                     }
                 });
 
-                if (req.body.aspect_type==='update'){
+                if (stravaAccount && req.body.aspect_type==='update'){
                     workout.title = req.body.updates.title;
                     const current_strava_data = workout.strava_data;
                     const updated_strava_data = req.body.updates;
@@ -65,13 +65,13 @@ exports.stravawebhook = async function(req, res){
                     workout.strava_data = new_strava_data;
                     await workout.save();
                     console.log("stravawebhook updated workout.id="+workoutNew.id);
-                } else if (req.body.aspect_type==='delete'){
+                } else if (stravaAccount && req.body.aspect_type==='delete'){
                     if (workout){
                         workout.status = 'deleted';
                         await workout.save();
                         console.log("stravawebhook marked deleted workout.id="+workoutNew.id);
                     }
-                } else if (req.body.aspect_type==='create'){
+                } else if (stravaAccount && req.body.aspect_type==='create'){
                     if (workout && workout.id>0){
                         //TODO handle the case where Strava sends an activity as create that i already have saved
                     } else {
@@ -91,7 +91,7 @@ exports.stravawebhook = async function(req, res){
                     
         
                 } else {
-                    console.log("stravawebhook unknown aspect_type="+req.body.aspect_type);
+                    console.log("stravawebhook no stravaAccount or unknown aspect_type="+req.body.aspect_type);
                 }
 
             } else {
