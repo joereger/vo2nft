@@ -28,16 +28,17 @@ exports.misc = async function(req, res){
         const StravaAccount = db.sequelize.models.StravaAccount;
         StravaAccount.findOne({
             where: {
-                id: 7
+                id: 1
             }
         }).then(
             stravaAccount => {
-                //console.log("misc.js stravaAccount="+JSON.stringify(stravaAccount));
+                console.log("misc.js FOUND stravaAccount="+JSON.stringify(stravaAccount));
                 //const sa = require("../queue/strava-api-wrapper"); 
                 //sa.getWorkoutsAndStoreInDatabase(stravaAccount, 1);
                 //Strava queue up harvest
                 const str = require("../queue/strava-enqueuer");
                 str.stravaActivitySync(stravaAccount);
+                //str.createWebhookSubscription(stravaAccount);
             },
             err => {console.log("/misc.js error "+err.message);}
         )
