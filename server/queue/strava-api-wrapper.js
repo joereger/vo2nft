@@ -325,6 +325,8 @@ exports.createWebhookSubscription = async (stravaAccount) => {
                 { headers: form_data.getHeaders() }
             );
         } catch (error){
+            console.log("createWebhookSubscription error after calling strava push_subscriptions");
+            console.error(error);
             throw new StravaAuthError("createWebhookSubscription at Axios call to Strava");
         }
 
