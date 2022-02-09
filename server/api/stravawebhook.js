@@ -59,10 +59,10 @@ exports.stravawebhook = async function(req, res){
 
                 if (stravaAccount && req.body.aspect_type==='update'){
                     workout.title = req.body.updates.title;
-                    const current_strava_data = workout.strava_data;
+                    const current_strava_data = workout.strava_details;
                     const updated_strava_data = req.body.updates;
                     const new_strava_data = Object.assign(current_strava_data, updated_strava_data);
-                    workout.strava_data = new_strava_data;
+                    workout.strava_details = new_strava_data;
                     await workout.save();
                     console.log("stravawebhook updated workout.id="+workoutNew.id);
                 } else if (stravaAccount && req.body.aspect_type==='delete'){
