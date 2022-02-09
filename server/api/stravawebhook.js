@@ -75,20 +75,23 @@ exports.stravawebhook = async function(req, res){
                     if (workout && workout.id>0){
                         //TODO handle the case where Strava sends an activity as create that i already have saved
                     } else {
-                        const workoutNew = await db.sequelize.models.Workout.create({ 
-                            userid_creator: stravaAccount.userId,
-                            userid_currentowner: stravaAccount.userId,
-                            external_account_type: 'strava',
-                            external_account_id: stravaAccount.id,
-                            workout_date: workout?.start_date,
-                            workout_id: req.body.object_id,
-                            title: req.body.updates.title,
-                            url: 'https://www.strava.com/activities/'+req.body.object_id,
-                            strava_details: req.body.updates
-                        })
-                        console.log("stravawebhook created new workout.id="+workoutNew.id);
-                        //TODO ok so it just notifies you of the new workout, you still have to call them to go get it
-                    
+                        // const workoutNew = await db.sequelize.models.Workout.create({ 
+                        //     userid_creator: stravaAccount.userId,
+                        //     userid_currentowner: stravaAccount.userId,
+                        //     external_account_type: 'strava',
+                        //     external_account_id: stravaAccount.id,
+                        //     workout_date: workout?.start_date,
+                        //     workout_id: req.body.object_id,
+                        //     title: req.body.updates.title,
+                        //     url: 'https://www.strava.com/activities/'+req.body.object_id,
+                        //     strava_details: req.body.updates
+                        // })
+                        // console.log("stravawebhook created new workout.id="+workoutNew.id);
+                        
+                        //Queue up a job to go get this activity
+                        const str = require("../queue/strava-enqueuer-getSingleActivity");
+                        str.enqueue(stravaAccount, req.body.object_id);
+                        
                     
                     }
                     

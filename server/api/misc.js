@@ -3,7 +3,7 @@ const StravaThrottleError = require('../queue/strava-error-throttle.js');
 const StravaAuthError = require('../queue/strava-error-auth.js');
 
 exports.misc = async function(req, res){
-    console.log('/api/misc called');
+    console.log(__filename+' called');
 
 
     //STRAVA API THROTTLER
@@ -35,8 +35,10 @@ exports.misc = async function(req, res){
                 //Strava queue up harvest
                 //const str = require("../queue/strava-enqueuer-activitySync");
                 //str.enqueue(stravaAccount);
-                const str = require("../queue/strava-enqueuer-subscribeWebhook");
-                str.enqueue(stravaAccount);
+                //const str = require("../queue/strava-enqueuer-subscribeWebhook");
+                //str.enqueue(stravaAccount);
+                const str = require("../queue/strava-enqueuer-getSingleActivity");
+                str.enqueue(stravaAccount, 6656198544);
             },
             err => {console.log("/misc.js error "+err.message);}
         )
