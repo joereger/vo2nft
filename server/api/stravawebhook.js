@@ -53,7 +53,7 @@ exports.stravawebhook = async function(req, res){
                 const workout = await db.sequelize.models.Workout.findOne({
                     where: {
                         external_account_id: req.body.owner_id,
-                        object_id: req.body.object_id
+                        workout_id: req.body.object_id
                     }
                 });
 
