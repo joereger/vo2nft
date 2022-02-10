@@ -6,7 +6,7 @@ const StravaThrottleError = require('./strava-error-throttle.js');
 const StravaAuthError = require('./strava-error-auth.js');
 const StravaApiThrottler = require('./strava-api-throttler.js');
 
-var startStravaWorkers = exports.startStravaWorkers = () => {
+var startStravaWorkers1 = exports.startStravaWorkers = () => {
     console.log("strava-worker-activitySync.js startStravaWorkers called");
 
     const worker = new Worker('stravaActivitySyncComplete', async (job) => {
@@ -98,7 +98,7 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
 
 
 //console.log("strava-worker-activitySync.js will call startStravaWorkers()");
-startStravaWorkers();
+startStravaWorkers1();
 
 // Initialize the clustered worker process
 // See: https://devcenter.heroku.com/articles/node-concurrency for more info
