@@ -8,8 +8,8 @@ exports.enqueue = async (stravaAccount) => {
     
     const flowProducer = new FlowProducer({ connection: redis_client });
 
-    //This QueueScheduler is created so that stravaActivitySync jobs can be delayed
-    const qs = new QueueScheduler('stravaActivitySync', { connection: redis_client });
+    //This QueueScheduler is created so that jobs can be delayed
+    const qs = new QueueScheduler('primaryQueue', { connection: redis_client });
 
     //Don't re-enque the same account
     if (stravaAccount.is_syncing){
@@ -44,7 +44,7 @@ exports.enqueue = async (stravaAccount) => {
     per_page = 10;
 
     while (activitiesQueued<=totalActivities){
-        childrenToGet.push({ name: 'stravaActivitySync', queueName: 'stravaActivitySync', opts: {removeOnComplete: true}, data: { stravaAccountId: stravaAccount.id, page: page, per_page: per_page } });
+        childrenToGet.push({ name: 'stravaActivitySync', queueName: 'primaryQueue', opts: {removeOnComplete: true}, data: { stravaAccountId: stravaAccount.id, page: page, per_page: per_page } });
         page = page + 1;
         activitiesQueued = activitiesQueued + per_page;
     }
@@ -53,7 +53,7 @@ exports.enqueue = async (stravaAccount) => {
 
     const flow = flowProducer.add({
         name: 'stravaActivitySyncComplete',
-        queueName: 'stravaActivitySyncComplete',
+        queueName: 'primaryQueue',
         opts: {removeOnComplete: true},
         data: {stravaAccountId: stravaAccount.id},
         children: childrenToGet,

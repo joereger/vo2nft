@@ -25,7 +25,7 @@ exports.misc = async function(req, res){
         const StravaAccount = db.sequelize.models.StravaAccount;
         StravaAccount.findOne({
             where: {
-                id: 1
+                id: 7
             }
         }).then(
             stravaAccount => {

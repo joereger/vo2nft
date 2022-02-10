@@ -5,6 +5,7 @@ module.exports = {
     dialect: 'postgres',
     protocol: 'postgres',
     ssl: true,
+    logging: true,
     dialectOptions: {
       ssl: {
        require: true,
