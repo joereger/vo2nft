@@ -138,8 +138,8 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
     });
 
 
-    const worker4 = new Worker('stravaGetSingleActivity', async (job) => {
-        console.log("STARTING stravaGetSingleActivity job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName);
+    //const worker4 = new Worker('stravaGetSingleActivity', async (job) => {
+        //console.log("STARTING stravaGetSingleActivity job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName);
 
         // try { 
         //     const stravaApiWrapper = require("./strava-api-getSingleActivity"); 
@@ -172,14 +172,14 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
             
         // }
 
-        console.log("DONE stravaGetSingleActivity job.id="+job.id);
-        return;
-    }, { connection: redis_client, concurrency: 10 } );
+    //     console.log("DONE stravaGetSingleActivity job.id="+job.id);
+    //     return;
+    // }, { connection: redis_client, concurrency: 10 } );
 
-    worker4.on('error', err => {
-        console.log("ERROR in strava-worker-getSingleActivity");
-        console.error(err);
-    });
+    // worker4.on('error', err => {
+    //     console.log("ERROR in strava-worker-getSingleActivity");
+    //     console.error(err);
+    // });
 
 }
 
