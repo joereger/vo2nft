@@ -1,5 +1,5 @@
 //let throng = require('throng');
-const { Worker, Job, Queue, QueueScheduler } = require('bullmq');
+const { Worker, Job, Queue } = require('bullmq');
 let redis_client = require('../config/redis-client.js');
 const db = require('../models/index.js');
 const StravaThrottleError = require('./strava-error-throttle.js');
@@ -38,6 +38,7 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
     }, { connection: redis_client, concurrency: 50 } );
 
     worker.on('error', err => {
+        console.log("ERROR in strava-worker-activitySync worker");
         console.error(err);
     });
 
@@ -89,6 +90,7 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
     }, { connection: redis_client, concurrency: 50 } );
 
     worker2.on('error', err => {
+        console.log("ERROR in strava-worker-activitySync worker 2");
         console.error(err);
     });
 
