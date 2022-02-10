@@ -29,7 +29,7 @@ const PORT = process.env.PORT || 5001;
 
 //If in dev, light up worker process.  In prod will use Heroku worker processes.
 //if (process.env.NODE_ENV !== 'production') {
-    const workers = require("./queue/strava-worker-starter");
+    require("./queue/strava-worker-starter").startStravaWorkers();
 //}
 
 
