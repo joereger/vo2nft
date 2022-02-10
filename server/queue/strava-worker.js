@@ -37,7 +37,7 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
 
         console.log("DONE DONE DONE stravaActivitySyncComplete job.id="+job.id);
         return;
-    }, { connection: redis_client, concurrency: 50 } );
+    }, { connection: redis_client, concurrency: 1 } );
 
     worker.on('error', err => {
         console.error(err);
@@ -88,7 +88,7 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
         // This return value is unused in this demo application.
         console.log("DONE stravaGetActivity job.id="+job.id);
         return;
-    }, { connection: redis_client, concurrency: 50 } );
+    }, { connection: redis_client, concurrency: 1 } );
 
     worker2.on('error', err => {
         console.error(err);
@@ -131,7 +131,7 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
 
         console.log("DONE stravaSubscribeWebhook job.id="+job.id);
         return;
-    }, { connection: redis_client, concurrency: 50 } );
+    }, { connection: redis_client, concurrency: 1 } );
 
     worker3.on('error', err => {
         console.error(err);
@@ -139,93 +139,49 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
 
 
 
-    
 
-    const worker4 = new Worker('stravaSubscribeWebhook', async (job) => {
-        console.log("STARTING stravaSubscribeWebhook job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName);
+    const worker4 = new Worker('stravaGetSingleActivity', async (job) => {
+        console.log("STARTING stravaGetSingleActivity job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName);
 
         try { 
-            const stravaApiWrapper = require("./strava-api-wrapper"); 
+            const stravaApiWrapper = require("./strava-api-getSingleActivity"); 
             const StravaAccount = db.sequelize.models.StravaAccount;
             const stravaAccount = await StravaAccount.findOne({
                 where: {
                     id: job.data.stravaAccountId
                 }
             });
-            const res = await stravaApiWrapper.createWebhookSubscription(stravaAccount);
-            console.log("worker3.stravaSubscribeWebhook thinks it created a new subscription!");
-            
+            const res = await stravaApiWrapper.getSingleActivity(stravaAccount, job.data.activity_id);
+            console.log("worker.stravaGetSingleActivity thinks it got a single activity!");
+        
         } catch (error) {
 
             if (error instanceof StravaAuthError) {
-                console.log("worker3.stravaSubscribeWebhook caught StravaAuthError => TODO how to handle user experience when auth fails");
+                console.log("worker3.stravaGetSingleActivity caught StravaAuthError => TODO how to handle user experience when auth fails");
                 console.log(JSON.stringify(error));
                 //TODO how to handle user experience when auth fails
             } else if (error instanceof StravaThrottleError){
-                //console.log("worker2.stravaGetActivity caught StravaThrottleError");
+                //console.log("worker2.stravaGetSingleActivity caught StravaThrottleError");
                 //console.log(JSON.stringify(error));
                 const delay = await StravaApiThrottler.millisUntilApiAvailable();
-                const q = new Queue('stravaSubscribeWebhook', { connection: redis_client });
-                const newjob = await Job.create(q, "stravaSubscribeWebhook", job.data, {delay: delay, removeOnComplete: true});
+                const q = new Queue('stravaGetSingleActivity', { connection: redis_client });
+                const newjob = await Job.create(q, "stravaGetSingleActivity", job.data, {delay: delay, removeOnComplete: true});
                 console.log("worker3 caught StravaThrottleError=> new DELAYED child newjob.id="+newjob.id+" delay="+delay);
             } else {
-                console.log("worker3.stravaSubscribeWebhook caught ERROR");
+                console.log("worker3.stravaGetSingleActivity caught ERROR");
                 console.error(error);
             }
             
         }
 
-        console.log("DONE stravaSubscribeWebhook job.id="+job.id);
+        console.log("DONE stravaGetSingleActivity job.id="+job.id);
         return;
-    }, { connection: redis_client, concurrency: 50 } );
+    }, { connection: redis_client, concurrency: 1 } );
 
     worker4.on('error', err => {
+        console.log("ERROR in strava-worker-getSingleActivity");
         console.error(err);
     });
-
-
-    //const worker4 = new Worker('stravaGetSingleActivity', async (job) => {
-        //console.log("STARTING stravaGetSingleActivity job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName);
-
-        // try { 
-        //     const stravaApiWrapper = require("./strava-api-getSingleActivity"); 
-        //     const StravaAccount = db.sequelize.models.StravaAccount;
-        //     const stravaAccount = await StravaAccount.findOne({
-        //         where: {
-        //             id: job.data.stravaAccountId
-        //         }
-        //     });
-        //     const res = await stravaApiWrapper.getSingleActivity(stravaAccount, job.data.activity_id);
-        //     console.log("worker.stravaGetSingleActivity thinks it got a single activity!");
-        
-        // } catch (error) {
-
-        //     if (error instanceof StravaAuthError) {
-        //         console.log("worker3.stravaGetSingleActivity caught StravaAuthError => TODO how to handle user experience when auth fails");
-        //         console.log(JSON.stringify(error));
-        //         //TODO how to handle user experience when auth fails
-        //     } else if (error instanceof StravaThrottleError){
-        //         //console.log("worker2.stravaGetSingleActivity caught StravaThrottleError");
-        //         //console.log(JSON.stringify(error));
-        //         const delay = await StravaApiThrottler.millisUntilApiAvailable();
-        //         const q = new Queue('stravaGetSingleActivity', { connection: redis_client });
-        //         const newjob = await Job.create(q, "stravaGetSingleActivity", job.data, {delay: delay, removeOnComplete: true});
-        //         console.log("worker3 caught StravaThrottleError=> new DELAYED child newjob.id="+newjob.id+" delay="+delay);
-        //     } else {
-        //         console.log("worker3.stravaGetSingleActivity caught ERROR");
-        //         console.error(error);
-        //     }
-            
-        // }
-
-    //     console.log("DONE stravaGetSingleActivity job.id="+job.id);
-    //     return;
-    // }, { connection: redis_client, concurrency: 10 } );
-
-    // worker4.on('error', err => {
-    //     console.log("ERROR in strava-worker-getSingleActivity");
-    //     console.error(err);
-    // });
 
 }
 
