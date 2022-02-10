@@ -18,27 +18,43 @@ exports.misc = async function(req, res){
     // return res.send({message: 'ok', apiCallsSoFarInCurrentFifteenMinuteBlock, apiCallsSoFarToday, millisUntilApiAvailable, apiCallsRemainingToday, apiCallsRemainingThisFifteenMinutes })
    
     
-
+    console.log("JSON.stringify(req.query)="+JSON.stringify(req.query));
+    console.log("JSON.stringify(req.body)="+JSON.stringify(req.body));
 
     //Strava token refresh
+    var getStravaAccountId = 1;
+    if (process.env.NODE_ENV !== 'production') {
+        getStravaAccountId = 7;
+    }
+    if (req.query && req.query.stravaAccountId && req.query.stravaAccountId>0){
+        getStravaAccountId = req.query.stravaAccountId;
+    }
+    if (req.body && req.body.stravaAccountId && req.body.stravaAccountId>0){
+        getStravaAccountId = req.body.stravaAccountId;
+    }
+
     try { 
         const StravaAccount = db.sequelize.models.StravaAccount;
         StravaAccount.findOne({
             where: {
-                id: 7
+                id: getStravaAccountId
             }
         }).then(
             stravaAccount => {
-                console.log("misc.js FOUND stravaAccount="+JSON.stringify(stravaAccount));
-                //const sa = require("../queue/strava-api-getWorkoutsAndStoreInDatabase"); 
-                //sa.getWorkoutsAndStoreInDatabase(stravaAccount, 1);
-                //Strava queue up harvest
-                //const str = require("../queue/strava-enqueuer-activitySync");
-                //str.enqueue(stravaAccount);
-                //const str = require("../queue/strava-enqueuer-subscribeWebhook");
-                //str.enqueue(stravaAccount);
-                const str = require("../queue/strava-enqueuer-getSingleActivity");
-                str.enqueue(stravaAccount, 6656198544);
+                if (stravaAccount){
+                    console.log("misc.js FOUND stravaAccount.id="+stravaAccount.id);
+                    //const sa = require("../queue/strava-api-getWorkoutsAndStoreInDatabase"); 
+                    //sa.getWorkoutsAndStoreInDatabase(stravaAccount, 1);
+                    //Strava queue up harvest
+                    //const str = require("../queue/strava-enqueuer-activitySync");
+                    //str.enqueue(stravaAccount);
+                    //const str = require("../queue/strava-enqueuer-subscribeWebhook");
+                    //str.enqueue(stravaAccount);
+                    const str = require("../queue/strava-enqueuer-getSingleActivity");
+                    str.enqueue(stravaAccount, 6656198544);
+                } else {
+                    console.log(__filename+" no stravaAccount found for stravaAccountId="+getStravaAccountId);
+                }
             },
             err => {console.log("/misc.js error "+err.message);}
         )

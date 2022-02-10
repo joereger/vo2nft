@@ -42,7 +42,7 @@ exports.getSingleActivity = async (stravaAccount, activity_id) => {
 
             const workout = response.data;
             
-            console.log("/strava-api-getSingleActivity workout="+JSON.stringify(workout)); 
+            //console.log("/strava-api-getSingleActivity workout="+JSON.stringify(workout)); 
 
             const Workout = db.sequelize.models.Workout;
 
