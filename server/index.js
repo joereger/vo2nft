@@ -32,7 +32,7 @@ const PORT = process.env.PORT || 5001;
     //require("./queue/strava-worker-starter");
 
     require("./queue/strava-worker-activitySync");
-    //require("./queue/strava-worker-getSingleActivity");
+    require("./queue/strava-worker-getSingleActivity");
     //require("./queue/strava-worker-subscribeWebhook");
 //}
 
