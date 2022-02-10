@@ -9,13 +9,13 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
         console.log("START job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName);
         try { 
             if (job.name === 'stravaActivitySync'){
-                await require('./strava-worker-activitySync').stravaActivitySync(job);
+                await require('./strava-job-activitySync').work(job);
             } else if (job.name === 'stravaActivitySyncComplete'){
-                await require('./strava-worker-activitySync').stravaActivitySyncComplete(job);
+                await require('./strava-job-activitySync').workComplete(job);
             } else if (job.name === 'stravaGetSingleActivity'){
-                await require('./strava-worker-getSingleActivity').stravaGetSingleActivity(job);
+                await require('./strava-job-getSingleActivity').work(job);
             } else if (job.name === 'stravaSubscribeWebhook'){
-                await require('./strava-worker-subscribeWebhook').stravaSubscribeWebhook(job);
+                await require('./strava-job-subscribeWebhook').work(job);
             } else {
                 console.error("strava-worker.js unknown job name="+job.name);
             }

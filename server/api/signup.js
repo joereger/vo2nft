@@ -101,9 +101,9 @@ exports.signup = async function(req, res){
                                 console.log("/api/signup stravaAccount created stravaAccount.id="+stravaAccount.id);
                         
                                 //Kick off initial account sync and webhook subscriptions
-                                const str = require("../queue/strava-enqueuer-acvititySync");
+                                const str = require("../queue/strava-job-acvititySync");
                                 str.enqueue(stravaAccount);
-                                const str2 = require("../queue/strava-enqueuer-subscribeWebhook");
+                                const str2 = require("../queue/strava-job-subscribeWebhook");
                                 str2.enqueue(stravaAccount);
 
                                 //Respond to client including refreshToken as cookie

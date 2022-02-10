@@ -99,9 +99,9 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
                             console.log("/api/stravaconvertcodetoaccesstoken stravaAccount created stravaAccountNew.id="+stravaAccountNew.id);
 
                             //Kick off initial account sync and webhook subscriptions
-                            const str = require("../queue/strava-enqueuer-acvititySync");
+                            const str = require("../queue/strava-job-acvititySync");
                             str.enqueue(stravaAccountNew);
-                            const str2 = require("../queue/strava-enqueuer-subscribeWebhook");
+                            const str2 = require("../queue/strava-job-subscribeWebhook");
                             str2.enqueue(stravaAccountNew);
                         }
 

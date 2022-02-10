@@ -89,7 +89,7 @@ exports.stravawebhook = async function(req, res){
                         // console.log("stravawebhook created new workout.id="+workoutNew.id);
                         
                         //Queue up a job to go get this activity
-                        const str = require("../queue/strava-enqueuer-getSingleActivity");
+                        const str = require("../queue/strava-job-getSingleActivity");
                         str.enqueue(stravaAccount, req.body.object_id);
                         
                     

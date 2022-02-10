@@ -5,7 +5,18 @@ const StravaThrottleError = require('./strava-error-throttle.js');
 const StravaAuthError = require('./strava-error-auth.js');
 const StravaApiThrottler = require('./strava-api-throttler.js');
 
-exports.stravaGetSingleActivity = async (job) => {
+exports.enqueue = async (stravaAccount, activity_id) => {
+    console.log("strava-enqueuer-getSingleActivity.js enqueue() called");
+    const workQueue = new Queue('primaryQueue', { connection: redis_client });
+    const qs = new QueueScheduler('primaryQueue', { connection: redis_client });
+    let job = workQueue.add('stravaGetSingleActivity', { stravaAccountId: stravaAccount.id, activity_id: activity_id }).then((job) => {
+        console.log("stravaGetSingleActivity ADDED job.id="+job.id+" to queue");
+    }).catch((error) => {
+        console.error(error);
+    });
+}
+
+exports.work = async (job) => {
         console.log("START stravaGetSingleActivity job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName);
 
         try { 

@@ -46,11 +46,11 @@ exports.misc = async function(req, res){
                     //const sa = require("../queue/strava-api-getWorkoutsAndStoreInDatabase"); 
                     //sa.getWorkoutsAndStoreInDatabase(stravaAccount, 1);
                     //Strava queue up harvest
-                    //const str = require("../queue/strava-enqueuer-activitySync");
+                    //const str = require("../queue/strava-job-activitySync");
                     //str.enqueue(stravaAccount);
-                    //const str = require("../queue/strava-enqueuer-subscribeWebhook");
+                    //const str = require("../queue/strava-job-subscribeWebhook");
                     //str.enqueue(stravaAccount);
-                    const str = require("../queue/strava-enqueuer-getSingleActivity");
+                    const str = require("../queue/strava-job-getSingleActivity");
                     str.enqueue(stravaAccount, 6656198544);
                 } else {
                     console.log(__filename+" no stravaAccount found for stravaAccountId="+getStravaAccountId);
