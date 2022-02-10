@@ -45,7 +45,7 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
 
         console.log("DONE stravaGetSingleActivity job.id="+job.id);
         return;
-    }, { connection: redis_client, concurrency: 50 } );
+    }, { connection: redis_client, concurrency: 10 } );
 
     worker.on('error', err => {
         console.log("ERROR in strava-worker-getSingleActivity");

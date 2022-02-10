@@ -35,7 +35,7 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
 
         console.log("DONE DONE DONE stravaActivitySyncComplete job.id="+job.id);
         return;
-    }, { connection: redis_client, concurrency: 50 } );
+    }, { connection: redis_client, concurrency: 10 } );
 
     worker.on('error', err => {
         console.log("ERROR in strava-worker-activitySync worker");
@@ -87,7 +87,7 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
         // This return value is unused in this demo application.
         console.log("DONE stravaActivitySync job.id="+job.id);
         return;
-    }, { connection: redis_client, concurrency: 50 } );
+    }, { connection: redis_client, concurrency: 10 } );
 
     worker2.on('error', err => {
         console.log("ERROR in strava-worker-activitySync worker 2");
