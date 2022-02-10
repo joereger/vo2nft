@@ -31,7 +31,7 @@ const PORT = process.env.PORT || 5001;
 //if (process.env.NODE_ENV !== 'production') {
     require("./queue/strava-worker-activitySync");
     require("./queue/strava-worker-getSingleActivity");
-    require("./queue/strava-worker-subscribeWebhook");
+    //require("./queue/strava-worker-subscribeWebhook");
 //}
 
 
