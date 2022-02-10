@@ -21,7 +21,7 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
                 }
             });
             const res = await stravaApiWrapper.getSingleActivity(stravaAccount, job.data.activity_id);
-            console.log("worker3.stravaGetSingleActivity thinks it got a single activity!");
+            console.log("worker.stravaGetSingleActivity thinks it got a single activity!");
         
         } catch (error) {
 
