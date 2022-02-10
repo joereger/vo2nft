@@ -7,7 +7,7 @@ const StravaAuthError = require('./strava-error-auth.js');
 const StravaApiThrottler = require('./strava-api-throttler.js');
 
 var startStravaWorkers = exports.startStravaWorkers = () => {
-    console.log("strava-worker.js startStravaWorkers called");
+    console.log("strava-worker-subscribeWebhook.js startStravaWorkers called");
 
     const worker = new Worker('stravaSubscribeWebhook', async (job) => {
         console.log("STARTING stravaSubscribeWebhook job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName);
