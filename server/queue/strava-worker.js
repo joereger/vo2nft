@@ -44,10 +44,10 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
     });
 
 
-    const worker2 = new Worker('stravaGetActivity', async (job) => {
-        console.log("STARTING stravaGetActivity job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName+" job.data.page="+job.data.page+" job.data.per_page="+job.data.per_page);
-        //console.log("STARTING stravaGetActivity parentKey="+job?.parentKey);   
-        //console.log("STARTING stravaGetActivity parent="+JSON.stringify(job?.parent));
+    const worker2 = new Worker('stravaActivitySync', async (job) => {
+        console.log("STARTING stravaActivitySync job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName+" job.data.page="+job.data.page+" job.data.per_page="+job.data.per_page);
+        //console.log("STARTING stravaActivitySync parentKey="+job?.parentKey);   
+        //console.log("STARTING stravaActivitySync parent="+JSON.stringify(job?.parent));
     
 
         try{
@@ -65,19 +65,19 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
         } catch (error) {
 
             if (error instanceof StravaAuthError) {
-                console.log("worker2.stravaGetActivity caught StravaAuthError => TODO how to handle user experience when auth fails");
+                console.log("worker2.stravaActivitySync caught StravaAuthError => TODO how to handle user experience when auth fails");
                 console.log(JSON.stringify(error));
                 //TODO how to handle user experience when auth fails
             } else if (error instanceof StravaThrottleError){
-                //console.log("worker2.stravaGetActivity caught StravaThrottleError");
+                //console.log("worker2.stravaActivitySync caught StravaThrottleError");
                 //console.log(JSON.stringify(error));
                 const delay = await StravaApiThrottler.millisUntilApiAvailable();
-                const q = new Queue('stravaGetActivity', { connection: redis_client });
+                const q = new Queue('stravaActivitySync', { connection: redis_client });
                 const parentDetails = {id: job?.parent?.id, queue: job?.parent?.queueKey}
-                const newjob = await Job.create(q, "stravaGetActivity", job.data, {parent: parentDetails, delay: delay, removeOnComplete: true});
+                const newjob = await Job.create(q, "stravaActivitySync", job.data, {parent: parentDetails, delay: delay, removeOnComplete: true});
                 console.log("worker2 caught StravaThrottleError=> new DELAYED child newjob.id="+newjob.id+" delay="+delay);
             } else {
-                console.log("worker2.stravaGetActivity caught ERROR");
+                console.log("worker2.stravaActivitySync caught ERROR");
                 console.log(JSON.stringify(error));
             }
             
