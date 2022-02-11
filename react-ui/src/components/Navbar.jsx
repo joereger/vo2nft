@@ -92,13 +92,13 @@ const Navbar = ({ bg }) => {
         ?
           <div className="d-flex align-items-center order-lg-3 ms-lg-auto">
             <div className="navbar-tool dropdown">
-              <NavLink className="navbar-tool-icon-box" to="/account-profile">
+              <NavLink className="navbar-tool-icon-box" to="/account">
                 <img className="navbar-tool-icon-box-img" src={main} alt="" />
               </NavLink>
-              <NavLink className="navbar-tool-label dropdown-toggle" to="/account-profile"><small>Hello,</small>{userContext.user && userContext.user.name}</NavLink>
+              <NavLink className="navbar-tool-label dropdown-toggle" to="/account"><small>Hello,</small>{userContext.user && userContext.user.name}</NavLink>
               <ul className="dropdown-menu dropdown-menu-end" style={{width: '15rem'}}>
                 <li>
-                  <NavLink className="dropdown-item d-flex align-items-center" to="/account-profile">
+                  <NavLink className="dropdown-item d-flex align-items-center" to="/account">
                     <i className="ai-users fs-base opacity-60 me-2"></i>
                     Account Profile
                   </NavLink>

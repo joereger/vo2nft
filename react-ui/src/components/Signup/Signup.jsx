@@ -69,7 +69,7 @@ const Signup = () => {
               console.log("token set token="+json.token);
               setIsAlertOn(false);
               //Redirect user
-              navigate("/account-profile");
+              navigate("/account");
             });
           } else {
             response.json().then(json => {

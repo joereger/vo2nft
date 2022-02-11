@@ -13,10 +13,12 @@ import StravaCallback from "./components/Strava/StravaCallback";
 import Logout from "./components/Logout/Logout";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
-import ChangePassword from "./components/ChangePassword/ChangePassword";
+import ChangePassword from "./components/AccountProfile/ChangePassword";
+import StravaConnection from "./components/AccountProfile/StravaConnection";
 import Signup from "./components/Signup/Signup";
 import { UserContext } from "./components/UserContext"
 import RequireAuth from "./RequireAuth";
+import ProfileInfo from "./components/AccountProfile/ProfileInfo";
 
 function App() {
   //state = { storageValue: 0, web3: null, accounts: null, contract: null };
@@ -122,16 +124,22 @@ function App() {
     return (
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/signup" element={<Signup />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/logout" element={<Logout />} />
-          <Route exact path="/forgot-password" element={<ForgotPassword />} />
-          <Route exact path="/reset-password/:resetPasswordKeyParam" element={<ResetPassword />} />
-          <Route exact path="/connect-strava" element={<ConnectStrava />} />
-          <Route exact path="/strava-callback" element={<StravaCallback />} />
-          <Route exact path="/change-password" element={<RequireAuth><ChangePassword /></RequireAuth>} />
-          <Route exact path="/account-profile" element={<RequireAuth><AccountProfile /></RequireAuth>} />
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:resetPasswordKeyParam" element={<ResetPassword />} />
+          <Route path="/connect-strava" element={<ConnectStrava />} />
+          <Route path="/strava-callback" element={<StravaCallback />} />
+          {/* <Route path="/change-password" element={<RequireAuth><ChangePassword /></RequireAuth>} /> */}
+          <Route path="/account" element={<RequireAuth><AccountProfile /></RequireAuth>}>
+              <Route index element={<ProfileInfo />} />
+              <Route path="info" element={<ProfileInfo />} />
+              <Route path="changepassword" element={<ChangePassword />} />
+              <Route path="stravaconnection" element={<StravaConnection />} />
+          </Route>
+          {/* <Route path="/account-strava-connection" element={<RequireAuth><StravaConnection /></RequireAuth>} /> */}
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ScrollUp/>

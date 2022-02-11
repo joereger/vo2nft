@@ -74,7 +74,7 @@ const StravaCallback = () => {
                   setIsAlertOn(false);
 
                   //Redirect user
-                  //navigate("/account-profile");
+                  //navigate("/account");
                 });
               } else if (response.status >= 400 && response.status < 600){
                 console.log("/API/STRAVA_CONVERT_CODE_TO_ACCESS_TOKEN: /api/login 401 unauthorized");

@@ -53,7 +53,7 @@ const Login = () => {
               
               setIsAlertOn(false);
               //Redirect user
-              navigate("/account-profile");
+              navigate("/account");
             });
           } else if (response.status >= 400 && response.status < 600){
             console.log("/api/login 401 unauthorized");

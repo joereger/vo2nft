@@ -1,7 +1,9 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, Routes, Route, BrowserRouter } from "react";
+import { Outlet } from 'react-router-dom';
 import AccountNavbar from "../AccountNavbar";
-import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import SideBar from "./SideBar";
+import AccountSideBar from "./AccountSideBar";
+import ProfileInfo from "./ProfileInfo";
+import ChangePassword from "./ChangePassword";
 
 const AccountProfile = () => {
 
@@ -13,10 +15,21 @@ const AccountProfile = () => {
 
       <div class="container position-relative zindex-5 pb-4 mb-md-3" style={{marginTop: '-350px'}}>
         <div class="row">
-          <SideBar />
-          <ProfileInfo />
+          <AccountSideBar />
+
+          <Outlet />
+{/* 
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<ProfileInfo />} />
+              <Route path="changepassword" element={<ChangePassword />} />  
+            </Routes>
+          </BrowserRouter> */}
+
         </div>
       </div>
+
+
     </>
   )
 }

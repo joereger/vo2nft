@@ -3,11 +3,12 @@ import { NavLink } from 'react-router-dom';
 import main from '../../img/avatar.png';
 import { UserContext } from "../UserContext"
 
-const SideBar = () => {
+const AccountSideBar = () => {
 
   const [userContext, setUserContext] = useContext(UserContext)
 
   return(
+
     <div className="col-lg-4 mb-4 mb-lg-0">
       <div className="bg-light rounded-3 shadow-lg">
         <div className="px-4 py-4 mb-1 text-center">
@@ -29,9 +30,9 @@ const SideBar = () => {
             <a className="d-flex align-items-center nav-link-style px-4 py-3 border-top" href="dashboard-reviews.html"><i className="ai-star fs-lg opacity-60 me-2"></i>Reviews<span className="text-muted fs-sm fw-normal ms-auto">15</span></a>
             <a className="d-flex align-items-center nav-link-style px-4 py-3 border-top" href="dashboard-favorites.html"><i className="ai-heart fs-lg opacity-60 me-2"></i>Favorites<span className="text-muted fs-sm fw-normal ms-auto">6</span></a> */}
           <h3 className="d-block bg-secondary fs-sm fw-semibold text-muted mb-0 px-4 py-3">Account settings</h3>
-            <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/account-profile">Profile info</NavLink>
-            <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/change-password">Change Password</NavLink>
-            <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/connect-strava">Connect Strava</NavLink>
+            <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/account/info">Profile info</NavLink>
+            <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/account/changepassword">Change Password</NavLink>
+            <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/account/stravaconnection">Strava Account</NavLink>
             {/* <a className="d-flex align-items-center nav-link-style px-4 py-3 border-top" href="account-payment.html">Payment methods</a>
             <div className="d-flex align-items-center border-top"><a className="d-block w-100 nav-link-style px-4 py-3" href="account-notifications.html">Notifications</a>
               <div className="ms-auto px-3">
@@ -51,4 +52,4 @@ const SideBar = () => {
 
 }
 
-export default SideBar
+export default AccountSideBar

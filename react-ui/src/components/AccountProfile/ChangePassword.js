@@ -5,6 +5,7 @@ import AccountNavbar from "../AccountNavbar";
 import bgImage from '../../img/account/signin-img.jpg';
 import { UserContext } from "../UserContext"
 import { useNavigate, useParams } from "react-router-dom"
+import AccountSideBar from "./AccountSideBar";
 
 const ChangePassword = () => {
 
@@ -41,7 +42,7 @@ const ChangePassword = () => {
               setIsAlertOn(false);
 
               //Redirect user
-              navigate("/account-profile");
+              navigate("/account");
             });
           } else if (response.status >= 400 && response.status < 600){
             console.log("/API/CHANGEPASSWORD: /api/changepassword 401 unauthorized");
@@ -64,56 +65,35 @@ const ChangePassword = () => {
   useEffect(() => document.getElementById('root').style.background = '#f7f7fc')
   return (
     <>
-      <AccountNavbar />
-   
-      {/*  
-      <div className="d-none d-md-block position-absolute w-50 h-100 bg-size-cover" style={{top: "0px", right: "0px", backgroundImage: "url(" + bgImage + ")" }}></div>
-      */} 
+      
 
-      <div class="container position-relative zindex-5 pb-4 mb-md-3" style={{marginTop: '-350px'}}>
-        <div class="row">
-
-          <div className="col-lg-6 mb-4 mb-lg-0">
-            <div className="bg-light rounded-3 shadow-lg">
-
-              <section className="container d-flex align-items-center pt-7 pb-3 pb-md-4" style={{flex: '1 0 auto'}}>
-                <div className="w-100 pt-3">
-                  <div className="row">
-                    <div className="col-lg-9 col-md-6 offset-lg-1">
-                      <div className="view show" id="signin-view">
-
-                      {isAlertOn 
-                            ? <div class="alert d-flex alert-primary" role="alert"><i class="ai-bell fs-xl me-3"></i><div> {alertText} </div></div>
-                            : ''
-                      }
-
-                        <h1 className="h2">Change Password</h1>
-                        <p className="fs-ms text-muted mb-4">Please enter your current password and set a new password.</p>
-                        <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" noValidate>
-                          <div className="input-group mb-3"><i className="ai-lock position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-                            <div className="password-toggle w-100">
-                              <input value={newPassword} onChange={e => setNewPassword(e.target.value)} className="form-control" type="password" placeholder="New Password" required/>
-                              <label className="password-toggle-btn" aria-label="Show/hide password">
-                                <input className="password-toggle-check" type="checkbox"/><span className="password-toggle-indicator"></span>
-                              </label>
-                            </div>
-                          </div>
-                          <button className="btn btn-primary d-block w-100" type="submit">Reset Password</button>
-                          
-                        </form>
-                      </div>
-                      
+          <div class="col-lg-8">
+            <div class="d-flex flex-column h-100 bg-light rounded-3 shadow-lg p-4">
+              <div class="py-2 p-md-3">
+                <div class="d-sm-flex align-items-center justify-content-between pb-4 text-center text-sm-start">
+                  <h1 class="h3 mb-2 text-nowrap">Change Password</h1>
+                  {/* <a class="btn btn-link text-danger fw-medium btn-sm mb-2" href="/">
+                    <i class="ai-trash-2 fs-base me-2"></i>Delete account
+                  </a> */}
+                </div>
+                {isAlertOn 
+                      ? <div class="alert d-flex alert-primary" role="alert"><i class="ai-bell fs-xl me-3"></i><div> {alertText} </div></div>
+                      : ''
+                }
+                <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" noValidate>
+                  <div className="input-group mb-3"><i className="ai-lock position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                    <div className="password-toggle w-100">
+                      <input value={newPassword} onChange={e => setNewPassword(e.target.value)} className="form-control" type="password" placeholder="New Password" required/>
+                      <label className="password-toggle-btn" aria-label="Show/hide password">
+                        <input className="password-toggle-check" type="checkbox"/><span className="password-toggle-indicator"></span>
+                      </label>
                     </div>
                   </div>
-                </div>
-              </section>
-
+                  <button className="btn btn-primary d-block w-100" type="submit">Change Password</button>
+                </form>
+              </div>
             </div>
           </div>
-
-        </div>
-      </div>
-
     </>
   )
 }

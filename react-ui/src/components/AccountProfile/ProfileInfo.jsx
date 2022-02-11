@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useCallback } from "react"
 import { NavLink } from 'react-router-dom';
-import main from '../../../img/dashboard/avatar/main.jpg';
-import { UserContext } from "../../UserContext"
+import main from '../../img/dashboard/avatar/main.jpg';
+import { UserContext } from "../UserContext"
 
 const ProfileInfo = () => {
 

@@ -64,7 +64,6 @@ const ConnectStrava = () => {
                         <p className="fs-ms text-muted mb-4">We only look at public workouts and public profile info.  We don't post to your Strava account.</p>
                         <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" noValidate>
                    
-                          
                           <button className="btn btn-primary d-block w-100" type="submit">Connect Strava</button>
                           
                         </form>

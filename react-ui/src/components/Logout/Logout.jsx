@@ -93,7 +93,7 @@ const Logout = () => {
                           
                           
                           <button className="btn btn-primary d-block w-100" type="submit">Log out</button>
-                          <p className="fs-sm pt-3 mb-0">Just kidding? <NavLink className="fw-medium" to="/account-profile" activeclassname="active">Account Profile</NavLink></p>
+                          <p className="fs-sm pt-3 mb-0">Just kidding? <NavLink className="fw-medium" to="/account" activeclassname="active">Account Profile</NavLink></p>
                           <br/><br/>
                         </form>
                       </div>
