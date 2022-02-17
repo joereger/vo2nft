@@ -135,6 +135,9 @@ const Signup = () => {
                             <p className="fs-ms text-muted mb-4">Takes less than a minute but gives you access to a world of endurance sports NFTs.</p>
                             </>
                       }
+
+
+                    
                         
                         
                         

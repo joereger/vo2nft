@@ -18,13 +18,6 @@ const AccountProfile = () => {
           <AccountSideBar />
 
           <Outlet />
-{/* 
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<ProfileInfo />} />
-              <Route path="changepassword" element={<ChangePassword />} />  
-            </Routes>
-          </BrowserRouter> */}
 
         </div>
       </div>

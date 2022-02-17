@@ -19,6 +19,7 @@ import Signup from "./components/Signup/Signup";
 import { UserContext } from "./components/UserContext"
 import RequireAuth from "./RequireAuth";
 import ProfileInfo from "./components/AccountProfile/ProfileInfo";
+import Workouts from "./components/AccountProfile/Workouts";
 import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
@@ -134,12 +135,13 @@ function App() {
             <Route path="/reset-password/:resetPasswordKeyParam" element={<ResetPassword />} />
             <Route path="/connect-strava" element={<ConnectStrava />} />
             <Route path="/strava-callback" element={<StravaCallback />} />
-            {/* <Route path="/change-password" element={<RequireAuth><ChangePassword /></RequireAuth>} /> */}
-            <Route path="/account" element={<RequireAuth><AccountProfile /></RequireAuth>}>
+            {/* <Route path="/change-password" element={<RequireAuth><ChangePassword /></RequireAuth>} /> */} 
+            <Route path="/account/*" element={<RequireAuth><AccountProfile /></RequireAuth>}>
                 <Route index element={<ProfileInfo />} />
                 <Route path="info" element={<ProfileInfo />} />
                 <Route path="changepassword" element={<ChangePassword />} />
                 <Route path="stravaconnection" element={<StravaConnection />} />
+                <Route path="workouts" element={<Workouts />} />
             </Route>
             {/* <Route path="/account-strava-connection" element={<RequireAuth><StravaConnection /></RequireAuth>} /> */}
             <Route path="*" element={<NotFound />} />

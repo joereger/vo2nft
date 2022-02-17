@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { UserContext } from "./components/UserContext"
 
-function RequireAuth({ children }) {
+export function RequireAuth({ children }) {
     //const { authed } = useAuth();
     const [userContext, setUserContext] = useContext(UserContext)
     var authed = false;
@@ -12,7 +12,7 @@ function RequireAuth({ children }) {
     if (userContext.token){
         authed = true;
     }
-  
+
     return authed === true
       ? children
       : <Navigate
