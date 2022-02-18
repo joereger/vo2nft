@@ -1,4 +1,4 @@
-const { Job, Queue, QueueScheduler } = require('bullmq');
+const { Job, Queue, QueueScheduler, FlowProducer } = require('bullmq');
 let redis_client = require('../config/redis-client.js');
 const db = require('../models/index.js');
 const StravaThrottleError = require('./strava-error-throttle.js');

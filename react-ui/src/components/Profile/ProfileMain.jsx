@@ -1,20 +1,21 @@
 import React, { useContext, useState, useEffect, useCallback } from "react"
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import main from '../../img/dashboard/avatar/main.jpg';
 import { UserContext } from "../UserContext"
 
-const Workouts = () => {
+const ProfileMain = () => {
 
-  const [workouts, setWorkouts] = useState([]); 
-  
+  const [user, setUser] = useState();
+  const [workouts, setWorkouts] = useState([]);
   const [isAlertOn, setIsAlertOn] = useState(false);
   const [alertText, setAlertText] = useState("");
   const [userContext, setUserContext] = useContext(UserContext)
+  const { username } = useParams();
 
   useEffect(() => {
-      console.log("Loading User profile info");
-    
-      fetch(process.env.REACT_APP_NODE_URI + '/api/workouts', {
+      console.log("Loading User profile");
+
+      fetch(process.env.REACT_APP_NODE_URI + '/api/profile/'+ username, {
           method: 'GET',
           credentials: "include",
           headers: {
@@ -24,20 +25,26 @@ const Workouts = () => {
       }).then(response => {
           if (response.status >= 200 && response.status < 300) {
             //return(response);
-            console.log("Workouts: received a response");
+            console.log("ME: received a response;");
             response.json().then(json => {
                 console.log(json);
-                setWorkouts(json.workouts);
-        
+    
+                setUser(json.user);
+                if (json.workouts != null){
+                  setWorkouts(json.workouts);
+                  console.log("setting json.workouts="+json.workouts);
+                }
+                //setAlertText("Saved.  Thanks!");
+                //setIsAlertOn(false);
             });
           } else if (response.status >= 400 && response.status < 600){
-            console.log("/api/workouts 401 unauthorized");
+            console.log("/api/profile 401 unauthorized");
             setAlertText("Sorry, the login authorities tell me that your request is unauthorized.  Please try again or consider resetting your password.");
             setIsAlertOn(true);
           } else {
             response.json().then(json => {
               console.log(json);
-              console.log('Workouts UPDATE: Somthing blew up message='+json.message);
+              console.log('PROFILE: Somthing blew up message='+json.message);
               setAlertText(json.message);
               setIsAlertOn(true);
             });
@@ -47,22 +54,25 @@ const Workouts = () => {
     
     }, [])
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(`Workouts handleSubmit() called`)
-}
+  
 
 return(
 
-    <div className="col-lg-8">
-        <div className="d-flex flex-column h-100 bg-light rounded-3 shadow-lg p-4">
-          <div className="py-2 p-md-3">
-            <div className="d-sm-flex align-items-center justify-content-between pb-4 text-center text-sm-start">
-              <h1 className="h3 mb-2 text-nowrap">Workouts</h1>
+    <div class="col-lg-8">
+        <div class="d-flex flex-column h-100 bg-light rounded-3 shadow-lg p-4">
+          <div class="py-2 p-md-3">
+            <div class="d-sm-flex align-items-center justify-content-between pb-4 text-center text-sm-start">
+              <h1 class="h3 mb-2 text-nowrap">Profile</h1>
             </div>
             
+            <div class="row">
 
-            <div className="container">
+              {isAlertOn 
+                ? <div class="alert d-flex alert-primary" role="alert"><i class="ai-bell fs-xl me-3"></i><div> {alertText} </div></div>
+                : ''
+              }
+
+              <div className="container">
               <div className="row">
 
 
@@ -78,10 +88,17 @@ return(
                     </div>
                   </div>
                 </div>
+
+
+
               ))}
 
 
               </div>
+            </div>            
+
+
+
             </div>
 
           </div>
@@ -91,4 +108,4 @@ return(
 
 };
 
-export default Workouts
+export default ProfileMain

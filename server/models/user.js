@@ -71,10 +71,14 @@ module.exports = (sequelize, DataTypes) => {
   //Strip refresh_token from toJSON method so that it doesn't accidentally get sent to client
   User.prototype.toJSON =  function () {
     var values = Object.assign({}, this.get());
+    delete values.activation_key;
+    delete values.reset_password_count;
+    delete values.reset_password_key;
     delete values.refresh_token;
     delete values.password_hash;
     delete values.password_salt;
     delete values.reset_password_expiration;
+    delete values.email;
     return values;
   }
 

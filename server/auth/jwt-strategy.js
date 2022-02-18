@@ -37,7 +37,7 @@ passport.use(
         }).then(
           user => {
           if (user) {
-              console.log("jwt-strategy found User.id="+user.id);
+              //console.log("jwt-strategy found User.id="+user.id);
               return done(null, user)
           } else {
             console.log("jwt-strategy couldn't find user"); 

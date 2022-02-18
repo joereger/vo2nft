@@ -103,7 +103,7 @@ const StravaCallback = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    navigate("/account");
     
   }
 
