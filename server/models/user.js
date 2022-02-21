@@ -33,6 +33,9 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING
     },
+    profile_pic: {
+      type: DataTypes.TEXT
+    },
     password_hash: {
       type: DataTypes.TEXT
     },
@@ -78,7 +81,7 @@ module.exports = (sequelize, DataTypes) => {
     delete values.password_hash;
     delete values.password_salt;
     delete values.reset_password_expiration;
-    delete values.email;
+    delete values.verified;
     return values;
   }
 

@@ -14,7 +14,7 @@ const StravaConnection = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-      console.log("Loading User profile info");
+      console.log("Loading StravaAccount");
     
       fetch(process.env.REACT_APP_NODE_URI + '/api/stravaaccount', {
           method: 'GET',
@@ -50,7 +50,7 @@ const StravaConnection = () => {
 
 
     const disconnectStravaAccount = (e) => {
-      console.log("Loading User profile info");
+      console.log("Disconnect StravaAccount");
     
       fetch(process.env.REACT_APP_NODE_URI + '/api/stravaaccount', {
           method: 'DELETE',

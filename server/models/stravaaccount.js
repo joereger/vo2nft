@@ -19,24 +19,28 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       //console.log("Sequelize StravaAccount associate(models) started");
-      models.User.hasOne(models.StravaAccount, {
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-        foreignKey: 'id', 
-        constraints: false
-      });
-      models.StravaAccount.belongsTo(models.User, {
-        foreignKey: {
-            name: 'userId',
-            allowNull: false
-          },
-      });
+      // models.User.hasOne(models.StravaAccount, {
+      //   onDelete: 'CASCADE',
+      //   onUpdate: 'CASCADE',
+      //   foreignKey: 'id', 
+      //   constraints: false
+      // });
+      // models.StravaAccount.belongsTo(models.User, {
+      //   foreignKey: {
+      //       name: 'userId',
+      //       allowNull: false
+      //     },
+      // });
       //console.log("Sequelize StravaAccount associate(models) ended");
     }
   };
   StravaAccount.init({
     username: {
       type: DataTypes.TEXT
+    },
+    userId: {
+      type: INTEGER,
+      unique: true
     },
     athlete_id: {
       type: BIGINT

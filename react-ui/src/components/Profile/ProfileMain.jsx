@@ -32,7 +32,7 @@ const ProfileMain = () => {
                 setUser(json.user);
                 if (json.workouts != null){
                   setWorkouts(json.workouts);
-                  console.log("setting json.workouts="+json.workouts);
+                  //console.log("setting json.workouts="+json.workouts);
                 }
                 //setAlertText("Saved.  Thanks!");
                 //setIsAlertOn(false);

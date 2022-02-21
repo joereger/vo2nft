@@ -27,7 +27,10 @@ const Workouts = () => {
             console.log("Workouts: received a response");
             response.json().then(json => {
                 console.log(json);
-                setWorkouts(json.workouts);
+                if (json.workouts != null){
+                  setWorkouts(json.workouts);
+                  //console.log("setting json.workouts="+json.workouts);
+                }
         
             });
           } else if (response.status >= 400 && response.status < 600){

@@ -106,9 +106,15 @@ exports.signup = async function(req, res){
                                 const str2 = require("../queue/strava-job-subscribeWebhook");
                                 str2.enqueue(stravaAccount);
 
+                                //Update user profile_pic
+                                if (stravaAccount && stravaAccount.profile_pic){
+                                    user.profile_pic = stravaAccount.profile_pic;
+                                    user.save();
+                                }
+
                                 //Respond to client including refreshToken as cookie
                                 res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
-                                return res.send({ message: "Yay!  Signup was successful!", success: true, token, user: user })
+                                return res.send({ message: "Yay!  Signup was successful!", success: true, token, user: user, stravaAccount: stravaAccount })
 
                             }
                         }

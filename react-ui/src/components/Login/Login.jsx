@@ -40,7 +40,7 @@ const Login = () => {
               
               //Save the user in the UserContext
               setUserContext(oldValues => {
-                return { ...oldValues, user: json.user, token: json.token }
+                return { ...oldValues, user: json.user, token: json.token, stravaAccount: json?.stravaAccount }
               })
               //Save the token in the UserContext
               // setUserContext(oldValues => {

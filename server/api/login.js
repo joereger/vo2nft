@@ -36,9 +36,19 @@ exports.login = async function(req, res, next){
         console.log("req.user.refresh_token="+req.user.refresh_token);
     }
 
+    //Retreive StravaAccount
+    var stravaAccount;
+    if (req.user && req.user.id>0){
+        stravaAccount = db.sequelize.models.StravaAccount.findOne({
+            where: {
+                userId: req.user.id
+            }
+        })
+    }
+    
     //Respond to client including refreshToken as cookie
     res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
-    return res.send({ message: "Sweet!  Log in was successful!", success: true, token, user: req.user })
+    return res.send({ message: "Sweet!  Log in was successful!", success: true, token, user: req.user, stravaAccount: stravaAccount })
     
    
 };

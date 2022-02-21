@@ -65,9 +65,16 @@ const StravaCallback = () => {
                   console.log(json);
 
                   //Save the user in the UserContext
-                  setUserContext(oldValues => {
-                    return { ...oldValues, strava_code: code, strava_data: json.strava_data }
-                  })
+                  if (json.user!=null){
+                    setUserContext(oldValues => {
+                      return { ...oldValues, strava_code: code, user: json.user, strava_data: json.strava_data, stravaAccount: json.stravaAccount }
+                    })
+                  } else {
+                    setUserContext(oldValues => {
+                      return { ...oldValues, strava_code: code, strava_data: json.strava_data, stravaAccount: json.stravaAccount }
+                    }) 
+                  }
+                  
                   //console.log("/API/STRAVA_CONVERT_CODE_TO_ACCESS_TOKEN: token set token="+json.token);
                   //console.log("/API/STRAVA_CONVERT_CODE_TO_ACCESS_TOKEN: AFTER LOGIN/ABOUT TO REDIRECT userContext="+JSON.stringify(userContext));
                   
@@ -103,8 +110,10 @@ const StravaCallback = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+
+
     navigate("/account");
-    
   }
 
 

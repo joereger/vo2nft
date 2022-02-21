@@ -6,7 +6,7 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
     console.log("strava-worker.js startStravaWorkers called");
 
     const worker = new Worker('primaryQueue', async (job) => {
-        console.log("START job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName);
+        //console.log("START job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName);
         try { 
             if (job.name === 'stravaActivitySync'){
                 await require('./strava-job-activitySync').work(job);
@@ -23,7 +23,7 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
             console.log("strava-worker error");
             console.error(err);
         }
-        console.log("END job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName);
+        //console.log("END job.id="+job.id+" job.name="+job.name+" job.queueName="+job.queueName);
         return;
     }, { connection: redis_client, concurrency: 50 } );
 

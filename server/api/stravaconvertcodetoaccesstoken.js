@@ -7,7 +7,7 @@ const { DateTime } = require('luxon');
 
 exports.strava_convert_code_to_access_token = async function(req, res, next){
     console.log('/api/strava_convert_code_to_access_token code='+req.body.code);
-
+    var stravaAccount = null;
     try{
         //Build the Strava request to trade an auth code for an access token
         const form_data = new FormData();
@@ -61,25 +61,26 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
                         }
                     });
 
-                    var stravaUser = null;
+                    console.log("/api/stravaconvertcodetoaccesstoken user.id="+user?.id+" req.body.user_id="+req.body.user_id);
+
                     if (user && user.id === req.body.user_id){
                         stravaAccount = await db.sequelize.models.StravaAccount.findOne({
                             where: {
-                                id: req.body.user_id
+                                userId: req.body.user_id
                             }
                         });
                         
                         if (stravaAccount && stravaAccount.id>0 && stravaAccount.userId===req.body.user_id){
-                            stravaAccount.username = req.body.strava_data.athlete.username;
-                            stravaAccount.athlete_id = req.body.strava_data.athlete.id;
-                            stravaAccount.auth_token = req.body.strava_data.access_token;
+                            stravaAccount.username = strava_data.athlete.username;
+                            stravaAccount.athlete_id = strava_data.athlete.id;
+                            stravaAccount.auth_token = strava_data.access_token;
                             stravaAccount.auth_token_expires_at = auth_token_expires_at;
-                            stravaAccount.refresh_token = req.body.strava_data.refresh_token;
-                            stravaAccount.profile_pic = req.body.strava_data.athlete.profile;
-                            stravaAccount.bio =  req.body.strava_data.athlete.bio;
+                            stravaAccount.refresh_token = strava_data.refresh_token;
+                            stravaAccount.profile_pic = strava_data.athlete.profile;
+                            stravaAccount.bio =  strava_data.athlete.bio;
                             stravaAccount.firstname = strava_data.athlete.firstname;
-                            stravaAccount.lastname = req.body.strava_data.athlete.lastname;
-                            stravaAccount.strava_details = req.body.strava_data.athlete;
+                            stravaAccount.lastname = strava_data.athlete.lastname;
+                            stravaAccount.strava_details = strava_data.athlete;
                             stravaAccount.save();
                             console.log("/api/stravaconvertcodetoaccesstoken stravaAccount updated stravaAccount.id="+stravaAccount.id);
                         } else {
@@ -103,9 +104,19 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
                             str.enqueue(stravaAccountNew);
                             const str2 = require("../queue/strava-job-subscribeWebhook");
                             str2.enqueue(stravaAccountNew);
+                            stravaAccount = stravaAccountNew;
+                        }
+
+                        //Update user profile_pic
+                        if (stravaAccount && stravaAccount.profile_pic){
+                            user.profile_pic = stravaAccount.profile_pic;
+                            await user.save();
                         }
 
                     }
+
+                    
+                    
                     
                 
                 }
@@ -119,9 +130,16 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
             // console.log("AXIOS ERROR END");
         }
 
+        
+
         //Respond
         //res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
-        return res.send({ message: "Kaboom!  Strava connection was successful!", success: true, strava_data: strava_data })
+        if (user!=null){
+            return res.send({ message: "Kaboom!  Strava connection was successful!", success: true, user: user, strava_data: strava_data, stravaAccount: stravaAccount })
+        } else{
+            return res.send({ message: "Kaboom!  Strava connection was successful!", success: true, strava_data: strava_data, stravaAccount: stravaAccount })
+        }
+        
     } catch (error) {
         console.log("/api/strava_convert_code_to_access_token returning 401 ERROR #1");
         // console.log("AXIOS ERROR START");
