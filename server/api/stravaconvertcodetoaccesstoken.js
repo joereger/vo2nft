@@ -110,12 +110,8 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
 
                         //Update user profile_pic
                         if (stravaAccount && stravaAccount.profile_pic){
-                            console.log("/api/stravaconvertcodetoaccesstoken calling user.save() to capture profile_pic");
-                            console.log("/api/stravaconvertcodetoaccesstoken PRE user="+JSON.stringify(user));
                             user.profile_pic = stravaAccount.profile_pic;
                             await user.save();
-                            console.log("/api/stravaconvertcodetoaccesstoken POST user="+JSON.stringify(user));
-                            console.log("/api/stravaconvertcodetoaccesstoken done saving user")
                         }
 
                     }
@@ -133,7 +129,6 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
 
 
         //Respond
-        console.log("/api/stravaconvertcodetoaccesstoken RESPOND user="+JSON.stringify(user));
         //res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
         return res.send({ message: "Kaboom!  Strava connection was successful!", success: true, user: user, strava_data: strava_data, stravaAccount: stravaAccount })
 
