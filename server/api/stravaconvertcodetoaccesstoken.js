@@ -1,6 +1,6 @@
 const db = require('../models/index.js');
 const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../auth/authenticate");
-const user = require('../models/user.js');
+//const user = require('../models/user.js');
 const axios = require('axios');
 const FormData = require('form-data');
 const { DateTime } = require('luxon');
@@ -8,6 +8,7 @@ const { DateTime } = require('luxon');
 exports.strava_convert_code_to_access_token = async function(req, res, next){
     console.log('/api/strava_convert_code_to_access_token code='+req.body.code);
     var stravaAccount = null;
+    var user = null;
     try{
         //Build the Strava request to trade an auth code for an access token
         const form_data = new FormData();
@@ -33,6 +34,7 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
         //Get athlete details
         let data2 = null;
         let strava_data = null;
+        
         try{ 
 
             let response2 = await axios.get('https://www.strava.com/api/v3/athletes/'+data.athlete.id+'/stats', 
@@ -48,14 +50,13 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
                 console.log("/api/stravaconvertcodetoaccesstoken strava_data is present");
                 console.log(JSON.stringify(strava_data));
 
-                var user = null;
                 if (req?.body?.user_id && req?.body?.user_id>0){
 
                     console.log("/api/stravaconvertcodetoaccesstoken strava_data?.expires_at="+strava_data?.expires_at);
                     const auth_token_expires_at = DateTime.fromSeconds(strava_data?.expires_at).toUTC();
 
                     console.log("/api/stravaconvertcodetoaccesstoken we have a valid userid we can use");
-                    const user = await db.sequelize.models.User.findOne({
+                    user = await db.sequelize.models.User.findOne({
                         where: {
                             id: req.body.user_id
                         }
@@ -81,7 +82,7 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
                             stravaAccount.firstname = strava_data.athlete.firstname;
                             stravaAccount.lastname = strava_data.athlete.lastname;
                             stravaAccount.strava_details = strava_data.athlete;
-                            stravaAccount.save();
+                            await stravaAccount.save();
                             console.log("/api/stravaconvertcodetoaccesstoken stravaAccount updated stravaAccount.id="+stravaAccount.id);
                         } else {
                             const stravaAccountNew = await db.sequelize.models.StravaAccount.create({ 
@@ -109,16 +110,16 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
 
                         //Update user profile_pic
                         if (stravaAccount && stravaAccount.profile_pic){
+                            console.log("/api/stravaconvertcodetoaccesstoken calling user.save() to capture profile_pic");
+                            console.log("/api/stravaconvertcodetoaccesstoken PRE user="+JSON.stringify(user));
                             user.profile_pic = stravaAccount.profile_pic;
                             await user.save();
+                            console.log("/api/stravaconvertcodetoaccesstoken POST user="+JSON.stringify(user));
+                            console.log("/api/stravaconvertcodetoaccesstoken done saving user")
                         }
 
                     }
 
-                    
-                    
-                    
-                
                 }
            
             }
@@ -130,16 +131,12 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
             // console.log("AXIOS ERROR END");
         }
 
-        
 
         //Respond
+        console.log("/api/stravaconvertcodetoaccesstoken RESPOND user="+JSON.stringify(user));
         //res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
-        if (user!=null){
-            return res.send({ message: "Kaboom!  Strava connection was successful!", success: true, user: user, strava_data: strava_data, stravaAccount: stravaAccount })
-        } else{
-            return res.send({ message: "Kaboom!  Strava connection was successful!", success: true, strava_data: strava_data, stravaAccount: stravaAccount })
-        }
-        
+        return res.send({ message: "Kaboom!  Strava connection was successful!", success: true, user: user, strava_data: strava_data, stravaAccount: stravaAccount })
+
     } catch (error) {
         console.log("/api/strava_convert_code_to_access_token returning 401 ERROR #1");
         // console.log("AXIOS ERROR START");
