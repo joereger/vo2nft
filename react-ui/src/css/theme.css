@@ -1271,6 +1271,7 @@
   --bs-font-sans-serif: "Inter", sans-serif;
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(to right, #766df4 0%, #766df4 30%, #6a9bf4 100%);
+  --bs-gradient-vo2nft: linear-gradient(to right, #766df4 0%, #8bd832 30%, #6a9bf4 100%);
   --bs-body-font-family: var(--bs-font-sans-serif);
   --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
@@ -9699,6 +9700,10 @@ textarea.form-control-lg {
 
 .bg-gradient {
   background-image: var(--bs-gradient) !important;
+}
+
+.bg-gradient-vo2nft {
+  background-image: var(--bs-gradient-vo2nft) !important;
 }
 
 .user-select-all {
