@@ -14,7 +14,10 @@ const NavbarUserDropdown = () => {
           <div className="d-flex align-items-center order-lg-3 ms-lg-auto">
             <div className="navbar-tool dropdown">
               <NavLink className="navbar-tool-icon-box" to="/account">
-                <img className="navbar-tool-icon-box-img" src={main} alt="" />
+                {(userContext.user && userContext.user.profile_pic) 
+                  ? <img className="navbar-tool-icon-box-img" src={userContext.user.profile_pic} alt="" />
+                  : <img className="navbar-tool-icon-box-img" src={main} alt="" />
+                }
               </NavLink>
               <NavLink className="navbar-tool-label dropdown-toggle" to="/account"><small>Hello,</small>{userContext.user && userContext.user.name}</NavLink>
               <ul className="dropdown-menu dropdown-menu-end" style={{width: '15rem'}}>

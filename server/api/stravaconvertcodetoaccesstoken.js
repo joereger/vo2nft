@@ -1,6 +1,5 @@
 const db = require('../models/index.js');
 const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../auth/authenticate");
-//const user = require('../models/user.js');
 const axios = require('axios');
 const FormData = require('form-data');
 const { DateTime } = require('luxon');
