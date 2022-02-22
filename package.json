@@ -8,7 +8,8 @@
   "scripts": {
     "start": "node server",
     "startlocal": "node server",
-    "build": "cd react-ui/ && npm install && npm run build"
+    "build": "sequelize db:migrate --env production && cd react-ui/ && npm install && npm run build",
+    "buildlocal": "sequelize db:migrate --env development && cd react-ui/ && npm install && npm run build"
   },
   "cacheDirectories": [
     "node_modules",
