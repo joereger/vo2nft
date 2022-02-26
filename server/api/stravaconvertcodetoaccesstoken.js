@@ -5,7 +5,7 @@ const FormData = require('form-data');
 const { DateTime } = require('luxon');
 
 exports.strava_convert_code_to_access_token = async function(req, res, next){
-    console.log('/api/strava_convert_code_to_access_token code='+req.body.code);
+    //console.log('/api/strava_convert_code_to_access_token code='+req.body.code);
     var stravaAccount = null;
     var user = null;
     try{
@@ -44,10 +44,10 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
             strava_data = Object.assign(data, data2);
 
             //Save the Strava data
-            console.log("/api/stravaconvertcodetoaccesstoken user_id="+req.body.user_id);
+            //console.log("/api/stravaconvertcodetoaccesstoken user_id="+req.body.user_id);
             if (strava_data){
-                console.log("/api/stravaconvertcodetoaccesstoken strava_data is present");
-                console.log(JSON.stringify(strava_data));
+                //console.log("/api/stravaconvertcodetoaccesstoken strava_data is present");
+                //console.log(JSON.stringify(strava_data));
 
                 if (req?.body?.user_id && req?.body?.user_id>0){
 
@@ -99,18 +99,22 @@ exports.strava_convert_code_to_access_token = async function(req, res, next){
                             });
                             console.log("/api/stravaconvertcodetoaccesstoken stravaAccount created stravaAccountNew.id="+stravaAccountNew.id);
 
-                            //Kick off initial account sync and webhook subscriptions
-                            const str = require("../queue/strava-job-activitySync");
-                            str.enqueue(stravaAccountNew);
-                            const str2 = require("../queue/strava-job-subscribeWebhook");
-                            str2.enqueue(stravaAccountNew);
                             stravaAccount = stravaAccountNew;
                         }
+                    
+                        if (stravaAccount){
 
-                        //Update user profile_pic
-                        if (stravaAccount && stravaAccount.profile_pic){
-                            user.profile_pic = stravaAccount.profile_pic;
-                            await user.save();
+                            //Update user profile_pic
+                            if (stravaAccount.profile_pic){
+                                user.profile_pic = stravaAccount.profile_pic;
+                                await user.save();
+                            }
+                            
+                            //Kick off initial account sync and webhook subscriptions
+                            const str = require("../queue/strava-job-activitySync");
+                            str.enqueue(stravaAccount);
+                            const str2 = require("../queue/strava-job-subscribeWebhook");
+                            str2.enqueue(stravaAccount);
                         }
 
                     }

@@ -16,6 +16,8 @@ var startStravaWorkers = exports.startStravaWorkers = () => {
                 await require('./strava-job-getSingleActivity').work(job);
             } else if (job.name === 'stravaSubscribeWebhook'){
                 await require('./strava-job-subscribeWebhook').work(job);
+            } else if (job.name === 'getGoogleMapSaveToS3'){
+                await require('./strava-job-getGoogleMapSaveToS3').work(job);
             } else {
                 console.error("strava-worker.js unknown job name="+job.name);
             }

@@ -35,6 +35,7 @@
     "passport-local-sequelize": "^0.9.0",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
+    "s3-client": "^4.4.2",
     "sequelize": "^6.14.0",
     "sequelize-cli": "^6.4.1",
     "throng": "^5.0.0"

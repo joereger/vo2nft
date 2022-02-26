@@ -65,6 +65,9 @@ module.exports = (sequelize, DataTypes) => {
     description: {
       type: DataTypes.TEXT
     },
+    s3_maps_key: {
+      type: DataTypes.TEXT
+    },
     strava_details: {
       type: JSONB
     }

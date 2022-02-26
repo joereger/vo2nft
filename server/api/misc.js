@@ -74,7 +74,7 @@ exports.misc = async function(req, res){
     try{
 
         //https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyB59IXLwloEoHPDsfcaySxMZgZgzRmfV8o&size=640x640&path=weight:7%7Ccolor:blue%7Cenc:em_mEfhzaONZHHj@Fz@AP@JB?xFAtAEt@BfCCt@@TEl@@jAEfC@nEEbCBd@QlF@p@j@~DRlBH^@TELWXe@VwDjC\\fCCb@MRO?]VOFa@`@MHa@Dg@Eq@IaEa@}Ca@iD]aAOu@GiASc@MiBu@gBaAeBcB{@aAuB_DUe@KUE[Wg@h@t@|B|DpAdBd@f@bAz@lBhAfAd@dB`@|@D`ATj@@|@TfBR\\J|@JR?h@HpADr@CZDn@NDFRJL@f@?b@ILKh@m@`@QCkADa@OgAXyAh@IdCy@X]@UBCEGAUI}@_@qBQsA?S?{AJkENcTIW@k@Ec@By@?[@O?e@BUCg@BoAAi@@}AAg@?OMAa@BIC{@DQGESQc@
-        //TODO replace \\ with \ as per: https://gis.stackexchange.com/questions/83550/google-maps-decoded-polylines-showing-up-incorrectly
+        //Note: have had issues in some encodings and need to replace \\ with \ as per: https://gis.stackexchange.com/questions/83550/google-maps-decoded-polylines-showing-up-incorrectly
         var enc_polyline = 'im_mE|gzaOJXRV\\JP@fA?LFApC@bAMpN@^CfAFr@Ex@@^MzH@JMhEJvALv@Jz@j@~C@PGTONc@JaEfC^xCCZEL_@Zu@VQHKL]NS@_@CaD_@gBOyB[iD]eAOQBgCg@gCkAi@[}AeA_AaAeB{B{@uA_@kAy@mAh@r@hCpEp@|@j@r@r@p@f@b@lAv@l@Zx@^j@PJ?b@N\\Fl@@f@HLAn@FrAVlAPZFNFbEVz@Az@HZ?XBf@@XCZUdA[DQ?KOo@Ko@GQGq@`AsATMpDqAE@@[w@yFUsB@mAF}CAcCBc@?uCFu@?oABOEe@HWCe@@_ABMAYDmAAg@@UAaA@OCc@Bg@Ae@DeBCc@DsAAOIKy@?QBi@GOQQc@'
         const response = await axios.get('https://maps.googleapis.com/maps/api/staticmap?'+
         'path=weight:7%7Ccolor:blue%7Cenc:'+enc_polyline+
@@ -88,13 +88,16 @@ exports.misc = async function(req, res){
         if (response && response.data){
             console.log(JSON.stringify(response.config));
             console.log(response.headers)
-            const localFilePath = '/Users/joereger/Downloads/VO2NFT-temp/googlemap.png';
+            const localFilePath = process.env.GOOGLE_MAPS_LOCAL_TEMP_PATH+'googlemap.png';
             const w = response.data.pipe(fs.createWriteStream(localFilePath));
             w.on('finish', () => {
-            console.log('Successfully downloaded file!');
+                console.log('Successfully downloaded file!');
+
+                //Now let's save to S3, yo
+                require('../util/s3').uploadFile(localFilePath, 'googlemap.png');
+                //console.log('/misc seems to have uploaded to s3');
+
             });
-
-
         }
 
     } catch (err){

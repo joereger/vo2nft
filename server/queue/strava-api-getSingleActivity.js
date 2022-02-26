@@ -61,7 +61,11 @@ exports.getSingleActivity = async (stravaAccount, activity_id) => {
                     workoutDb.url = 'https://www.strava.com/activities/'+workout?.id;
                     workoutDb.strava_details = workout;
                     workoutDb.save().then((workoutDb) =>{
-                        console.log("/strava-api-getSingleActivity workout UPDATED workoutDb.id="+workoutDb.id+"in DB");
+                        if (workoutDb){
+                            console.log("/strava-api-getSingleActivity workout UPDATED workoutDb.id="+workoutDb.id+"in DB");
+                            //Enqueue Google Maps image
+                            require('./strava-job-getGoogleMapSaveToS3').enqueue(stravaAccount, workoutDb.id);
+                        }
                     })
                 } else {
                     //Insert new
@@ -79,6 +83,8 @@ exports.getSingleActivity = async (stravaAccount, activity_id) => {
                         workoutNew => {
                             if (workoutNew) {
                                 console.log("/strava-api-getSingleActivity workout CREATED workoutNew.id="+workoutNew.id+"in DB");
+                                //Enqueue Google Maps image
+                                require('./strava-job-getGoogleMapSaveToS3').enqueue(stravaAccount, workoutNew.id);
                             }
                         }
                     )
