@@ -72,15 +72,24 @@ return(
               {workouts.map((workout) => (
                 
                 <div key={workout.id} className="col">
-                  <div className="card" style={{marginTop: '10px'}}>
+                  <div className="card">
+
+
+                    {(workout.s3_maps_key)
+                        ? <img src={"https://"+process.env.REACT_APP_S3_BUCKET_NAME+".s3.amazonaws.com/"+workout.s3_maps_key} className="card-img-top" alt=""/>
+                        : <img src="" className="card-img-top" alt=""/> 
+                    }
+
+                
                     <div className="card-body">
                       <h5 className="card-title">{workout.title}</h5>
-                      <p className="card-text fs-sm">{workout.description}</p>
                       <p className="card-text fs-sm">{workout.workout_date}</p>
                       <a href="#" className="btn btn-sm btn-primary">Buy Workout NFT</a>
                     </div>
                   </div>
                 </div>
+
+
               ))}
 
 
