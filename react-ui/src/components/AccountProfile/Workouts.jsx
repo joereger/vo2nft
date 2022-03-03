@@ -2,6 +2,13 @@ import React, { useContext, useState, useEffect, useCallback } from "react"
 import { NavLink } from 'react-router-dom';
 import main from '../../img/dashboard/avatar/main.jpg';
 import { UserContext } from "../UserContext"
+import { DateTime } from "luxon";
+
+const getHumanReadable = (inDate) => {
+  if (inDate){
+    return DateTime.fromISO(inDate).toRelative()
+  }
+}
 
 const Workouts = () => {
 
@@ -53,9 +60,9 @@ const Workouts = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(`Workouts handleSubmit() called`)
-}
+  }
 
-return(
+  return(
 
     <div className="col-lg-8">
         <div className="d-flex flex-column h-100 bg-light rounded-3 shadow-lg p-4">
@@ -83,7 +90,7 @@ return(
                 
                     <div className="card-body">
                       <h5 className="card-title">{workout.title}</h5>
-                      <p className="card-text fs-sm">{workout.workout_date}</p>
+                      <p className="card-text fs-sm">{getHumanReadable(workout.workout_date)}</p>
                       <a href="#" className="btn btn-sm btn-primary">Buy Workout NFT</a>
                     </div>
                   </div>

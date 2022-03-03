@@ -29,9 +29,9 @@ const ProfileSideBar = () => {
           </a>
         </div>
         <div className="d-lg-block collapse pb-2" id="account-menu">
-          <h3 className="d-block bg-secondary fs-sm fw-semibold text-muted mb-0 px-4 py-3">Dashboard</h3>
-            <NavLink className="d-flex align-items-center nav-link-style px-4 py-3" to="/account/workouts"><i className="ai-shopping-bag fs-lg opacity-60 me-2"></i>Workouts{/* <span className="nav-indicator"></span> */}<span className="text-muted fs-sm fw-normal ms-auto">2</span></NavLink>
-            <a className="d-flex align-items-center nav-link-style px-4 py-3 border-top" href="dashboard-sales.html"><i className="ai-dollar-sign fs-lg opacity-60 me-2"></i>NFTs Sold<span className="text-muted fs-sm fw-normal ms-auto">$735.00</span></a>
+          <h3 className="d-block bg-secondary fs-sm fw-semibold text-muted mb-0 px-4 py-3">Profile</h3>
+            <NavLink className="d-flex align-items-center nav-link-style px-4 py-3" to="/account/workouts"><i className="ai-shopping-bag fs-lg opacity-60 me-2"></i>Workouts{/* <span className="nav-indicator"></span> */}</NavLink>
+            {/* <a className="d-flex align-items-center nav-link-style px-4 py-3 border-top" href="dashboard-sales.html"><i className="ai-dollar-sign fs-lg opacity-60 me-2"></i>NFTs Sold<span className="text-muted fs-sm fw-normal ms-auto">$735.00</span></a> */}
         </div>
       </div>
     </div>
