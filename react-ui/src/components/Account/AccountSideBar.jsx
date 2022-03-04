@@ -34,7 +34,7 @@ const AccountSideBar = () => {
             <a className="d-flex align-items-center nav-link-style px-4 py-3 border-top" href="dashboard-followers.html"><i className="ai-users fs-lg opacity-60 me-2"></i>Followers<span className="text-muted fs-sm fw-normal ms-auto">34</span></a>
             <a className="d-flex align-items-center nav-link-style px-4 py-3 border-top" href="dashboard-reviews.html"><i className="ai-star fs-lg opacity-60 me-2"></i>Reviews<span className="text-muted fs-sm fw-normal ms-auto">15</span></a>
             <a className="d-flex align-items-center nav-link-style px-4 py-3 border-top" href="dashboard-favorites.html"><i className="ai-heart fs-lg opacity-60 me-2"></i>Favorites<span className="text-muted fs-sm fw-normal ms-auto">6</span></a> */}
-          <h3 className="d-block bg-secondary fs-sm fw-semibold text-muted mb-0 px-4 py-3">Your Account</h3>
+          <h3 className="d-block bg-secondary fs-sm fw-semibold text-muted mb-0 px-4 py-3">Account Settings</h3>
             <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/account/info">Profile Info</NavLink>
             <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/account/changepassword">Change Password</NavLink>
             <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/account/stravaconnection">Strava Account</NavLink>

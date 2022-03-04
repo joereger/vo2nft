@@ -22,18 +22,19 @@ const NavbarUserDropdown = () => {
               <NavLink className="navbar-tool-label dropdown-toggle" to="/account"><small>Hello,</small>{userContext.user && userContext.user.name}</NavLink>
               <ul className="dropdown-menu dropdown-menu-end" style={{width: '15rem'}}>
                 <li>
-                  <NavLink className="dropdown-item d-flex align-items-center" to="/account">
-                    <i className="ai-users fs-base opacity-60 me-2"></i>
-                    Account & Settings
-                  </NavLink>
                   {(userContext.user && userContext.user.username) 
                     ? <NavLink className="dropdown-item d-flex align-items-center" to={'/u/'+userContext.user.username}>
                         <i className="ai-users fs-base opacity-60 me-2"></i>
-                        Profile & Workouts
+                        Public Profile
                       </NavLink>
                     : ""
                   }
+
                 </li>
+                <li><NavLink className="dropdown-item d-flex align-items-center" to="/account">
+                    <i className="ai-users fs-base opacity-60 me-2"></i>
+                    Account Settings
+                  </NavLink></li>
                 
                 <li className="dropdown-divider"></li>
                 <li>

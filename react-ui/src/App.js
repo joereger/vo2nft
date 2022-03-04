@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 //import getWeb3 from "./getWeb3";
 import "./App.css";
 import Home from "./components/Home/Home";
-import AccountProfile from "./components/AccountProfile/AccountProfile";
+import Account from "./components/Account/Account";
 import ScrollUp from "./components/ScrollUp";
 import NotFound from "./components/NotFound";
 import Login from "./components/Login/Login";
@@ -13,12 +13,12 @@ import StravaCallback from "./components/Strava/StravaCallback";
 import Logout from "./components/Logout/Logout";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
-import ChangePassword from "./components/AccountProfile/ChangePassword";
-import StravaConnection from "./components/AccountProfile/StravaConnection";
+import ChangePassword from "./components/Account/ChangePassword";
+import StravaConnection from "./components/Account/StravaConnection";
 import Signup from "./components/Signup/Signup";
 import { UserContext } from "./components/UserContext"
 import RequireAuth from "./RequireAuth";
-import ProfileInfo from "./components/AccountProfile/ProfileInfo";
+import ProfileInfo from "./components/Account/ProfileInfo";
 import ScrollToTop from "./components/ScrollToTop";
 import Profile from "./components/Profile/Profile";
 import ProfileMain from "./components/Profile/ProfileMain";
@@ -136,7 +136,7 @@ function App() {
             <Route path="/reset-password/:resetPasswordKeyParam" element={<ResetPassword />} />
             <Route path="/connect-strava" element={<ConnectStrava />} />
             <Route path="/strava-callback" element={<StravaCallback />} />
-            <Route path="/account/*" element={<RequireAuth><AccountProfile /></RequireAuth>}>
+            <Route path="/account/*" element={<RequireAuth><Account /></RequireAuth>}>
                 <Route index element={<ProfileInfo />} />
                 <Route path="info" element={<ProfileInfo />} />
                 <Route path="changepassword" element={<ChangePassword />} />

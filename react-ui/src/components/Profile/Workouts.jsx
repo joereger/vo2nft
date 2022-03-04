@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect, useCallback } from "react"
 import { NavLink } from 'react-router-dom';
-import main from '../../img/dashboard/avatar/main.jpg';
+import workoutDefaultImg from '../../img/workout-default.png';
 import { UserContext } from "../UserContext"
 import { DateTime } from "luxon";
 
@@ -84,7 +84,7 @@ const Workouts = () => {
 
                     {(workout.s3_maps_key)
                         ? <img src={"https://"+process.env.REACT_APP_S3_BUCKET_NAME+".s3.amazonaws.com/"+workout.s3_maps_key} className="card-img-top" alt=""/>
-                        : <img src="" className="card-img-top" alt=""/> 
+                        : <img src={workoutDefaultImg} className="card-img-top" alt=""/> 
                     }
 
                 
