@@ -99,7 +99,7 @@ return(
         <div class="d-flex flex-column h-100 bg-light rounded-3 shadow-lg p-4">
           <div class="py-2 p-md-3">
             <div class="d-sm-flex align-items-center justify-content-between pb-4 text-center text-sm-start">
-              <h1 class="h3 mb-2 text-nowrap">Profile info</h1>
+              <h1 class="h3 mb-2 text-nowrap">Profile Info</h1>
               {/* <a class="btn btn-link text-danger fw-medium btn-sm mb-2" href="/">
                 <i class="ai-trash-2 fs-base me-2"></i>Delete account
               </a> */}

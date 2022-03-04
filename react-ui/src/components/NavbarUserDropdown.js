@@ -24,9 +24,15 @@ const NavbarUserDropdown = () => {
                 <li>
                   <NavLink className="dropdown-item d-flex align-items-center" to="/account">
                     <i className="ai-users fs-base opacity-60 me-2"></i>
-                    Account Profile
-                    {/* <span className="ms-auto fs-xs text-muted">2</span> */}
+                    Account & Settings
                   </NavLink>
+                  {(userContext.user && userContext.user.username) 
+                    ? <NavLink className="dropdown-item d-flex align-items-center" to={'/u/'+userContext.user.username}>
+                        <i className="ai-users fs-base opacity-60 me-2"></i>
+                        Profile & Workouts
+                      </NavLink>
+                    : ""
+                  }
                 </li>
                 
                 <li className="dropdown-divider"></li>

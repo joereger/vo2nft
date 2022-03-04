@@ -5,7 +5,7 @@ import AccountSideBar from "./AccountSideBar";
 import ProfileInfo from "./ProfileInfo";
 import ChangePassword from "./ChangePassword";
 
-const AccountProfile = () => {
+const Account = () => {
 
   
   useEffect(() => document.getElementById('root').style.background = '#f7f7fc')
@@ -27,4 +27,4 @@ const AccountProfile = () => {
   )
 }
 
-export default AccountProfile;
+export default Account;

@@ -3,6 +3,7 @@ import { NavLink, useParams } from 'react-router-dom';
 import main from '../../img/dashboard/avatar/main.jpg';
 import { UserContext } from "../UserContext"
 import { DateTime } from "luxon";
+import Workouts from "./Workouts";
 
 const getHumanReadable = (inDate) => {
   if (inDate){
@@ -79,7 +80,9 @@ return(
                 : ''
               }
 
-              <div className="container">
+              <Workouts/>
+
+              {/* <div className="container">
               <div className="row">
 
 
@@ -109,7 +112,7 @@ return(
 
 
               </div>
-            </div>            
+            </div>             */}
 
 
 

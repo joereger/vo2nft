@@ -19,7 +19,6 @@ import Signup from "./components/Signup/Signup";
 import { UserContext } from "./components/UserContext"
 import RequireAuth from "./RequireAuth";
 import ProfileInfo from "./components/AccountProfile/ProfileInfo";
-import Workouts from "./components/AccountProfile/Workouts";
 import ScrollToTop from "./components/ScrollToTop";
 import Profile from "./components/Profile/Profile";
 import ProfileMain from "./components/Profile/ProfileMain";
@@ -142,7 +141,6 @@ function App() {
                 <Route path="info" element={<ProfileInfo />} />
                 <Route path="changepassword" element={<ChangePassword />} />
                 <Route path="stravaconnection" element={<StravaConnection />} />
-                <Route path="workouts" element={<Workouts />} />
             </Route>
             <Route path="/u/:username/*" element={<Profile />}>
                 <Route index element={<ProfileMain />} />

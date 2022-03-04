@@ -21,21 +21,21 @@ const AccountSideBar = () => {
             <span className="text-muted fs-sm">@{userContext.user && userContext.user.username}</span>
           </Link>
         </div>
-        <div className="d-lg-none px-4 pb-4 text-center">
+        {/* <div className="d-lg-none px-4 pb-4 text-center">
           <a className="btn btn-primary px-5 mb-2" href="#account-menu" data-bs-toggle="collapse">
             <i className="ai-menu me-2"></i>Account menu
           </a>
-        </div>
+        </div> */}
         <div className="d-lg-block collapse pb-2" id="account-menu">
-          <h3 className="d-block bg-secondary fs-sm fw-semibold text-muted mb-0 px-4 py-3">Dashboard</h3>
-            <NavLink className="d-flex align-items-center nav-link-style px-4 py-3" to="/account/workouts"><i className="ai-shopping-bag fs-lg opacity-60 me-2"></i>Workouts{/* <span className="nav-indicator"></span> */}</NavLink>
+          {/* <h3 className="d-block bg-secondary fs-sm fw-semibold text-muted mb-0 px-4 py-3">Dashboard</h3> */}
+            {/* <NavLink className="d-flex align-items-center nav-link-style px-4 py-3" to="/account/workouts"><i className="ai-shopping-bag fs-lg opacity-60 me-2"></i>Workouts</NavLink> */}
             {/* <a className="d-flex align-items-center nav-link-style px-4 py-3 border-top" href="dashboard-sales.html"><i className="ai-dollar-sign fs-lg opacity-60 me-2"></i>NFTs Sold<span className="text-muted fs-sm fw-normal ms-auto">$735.00</span></a> */}
             {/* <a className="d-flex align-items-center nav-link-style px-4 py-3 border-top" href="dashboard-messages.html"><i className="ai-message-square fs-lg opacity-60 me-2"></i>Messages<span className="nav-indicator"></span><span className="text-muted fs-sm fw-normal ms-auto">1</span></a>
             <a className="d-flex align-items-center nav-link-style px-4 py-3 border-top" href="dashboard-followers.html"><i className="ai-users fs-lg opacity-60 me-2"></i>Followers<span className="text-muted fs-sm fw-normal ms-auto">34</span></a>
             <a className="d-flex align-items-center nav-link-style px-4 py-3 border-top" href="dashboard-reviews.html"><i className="ai-star fs-lg opacity-60 me-2"></i>Reviews<span className="text-muted fs-sm fw-normal ms-auto">15</span></a>
             <a className="d-flex align-items-center nav-link-style px-4 py-3 border-top" href="dashboard-favorites.html"><i className="ai-heart fs-lg opacity-60 me-2"></i>Favorites<span className="text-muted fs-sm fw-normal ms-auto">6</span></a> */}
-          <h3 className="d-block bg-secondary fs-sm fw-semibold text-muted mb-0 px-4 py-3">Account settings</h3>
-            <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/account/info">Profile info</NavLink>
+          <h3 className="d-block bg-secondary fs-sm fw-semibold text-muted mb-0 px-4 py-3">Your Account</h3>
+            <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/account/info">Profile Info</NavLink>
             <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/account/changepassword">Change Password</NavLink>
             <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/account/stravaconnection">Strava Account</NavLink>
             {/* <a className="d-flex align-items-center nav-link-style px-4 py-3 border-top" href="account-payment.html">Payment methods</a>

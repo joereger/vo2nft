@@ -64,12 +64,12 @@ const Workouts = () => {
 
   return(
 
-    <div className="col-lg-8">
-        <div className="d-flex flex-column h-100 bg-light rounded-3 shadow-lg p-4">
-          <div className="py-2 p-md-3">
-            <div className="d-sm-flex align-items-center justify-content-between pb-4 text-center text-sm-start">
-              <h1 className="h3 mb-2 text-nowrap">Workouts</h1>
-            </div>
+    // <div className="col-lg-8">
+    //     <div className="d-flex flex-column h-100 bg-light rounded-3 shadow-lg p-4">
+    //       <div className="py-2 p-md-3">
+    //         <div className="d-sm-flex align-items-center justify-content-between pb-4 text-center text-sm-start">
+    //           <h1 className="h3 mb-2 text-nowrap">Workouts</h1>
+    //         </div>
             
 
             <div className="container">
@@ -103,9 +103,9 @@ const Workouts = () => {
               </div>
             </div>
 
-          </div>
-        </div>
-      </div>
+      //     </div>
+      //   </div>
+      // </div>
       )
 
 };
