@@ -111,6 +111,7 @@ if (!isDev && cluster.isMaster) {
   app.get('/api/stravaaccount', verifyUser, require('./api/stravaaccount.js').stravaaccount);
   app.delete('/api/stravaaccount', verifyUser, require('./api/stravaaccount.js').stravaaccountdisconnect);
   app.get('/api/profile/:username', require('./api/profile.js').profile);
+  app.get('/api/workout/:workout_id', require('./api/workout.js').workout);
 
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', function(request, response) {

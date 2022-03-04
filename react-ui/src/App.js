@@ -22,6 +22,7 @@ import ProfileInfo from "./components/Account/ProfileInfo";
 import ScrollToTop from "./components/ScrollToTop";
 import Profile from "./components/Profile/Profile";
 import ProfileMain from "./components/Profile/ProfileMain";
+import Workout from "./components/Workout/Workout";
 
 function App() {
   //state = { storageValue: 0, web3: null, accounts: null, contract: null };
@@ -146,6 +147,7 @@ function App() {
                 <Route index element={<ProfileMain />} />
                 <Route path="main" element={<ProfileMain />} />
             </Route>
+            <Route path="/workout/:workout_id_param" element={<Workout />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </ScrollToTop>
