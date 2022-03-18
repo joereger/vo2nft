@@ -2,6 +2,7 @@ import { useCallback, useContext, useEffect } from "react"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 //import SimpleStorageContract from "./contracts/SimpleStorage.json";
 //import getWeb3 from "./getWeb3";
+import { QueryClient, QueryClientProvider } from 'react-query'
 import "./App.css";
 import Home from "./components/Home/Home";
 import Account from "./components/Account/Account";
@@ -23,6 +24,8 @@ import ScrollToTop from "./components/ScrollToTop";
 import Profile from "./components/Profile/Profile";
 import ProfileMain from "./components/Profile/ProfileMain";
 import Workout from "./components/Workout/Workout";
+
+const queryClient = new QueryClient()
 
 function App() {
   //state = { storageValue: 0, web3: null, accounts: null, contract: null };
@@ -126,33 +129,35 @@ function App() {
   //};
 
     return (
-      <BrowserRouter>
-        <ScrollToTop>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password/:resetPasswordKeyParam" element={<ResetPassword />} />
-            <Route path="/connect-strava" element={<ConnectStrava />} />
-            <Route path="/strava-callback" element={<StravaCallback />} />
-            <Route path="/account/*" element={<RequireAuth><Account /></RequireAuth>}>
-                <Route index element={<ProfileInfo />} />
-                <Route path="info" element={<ProfileInfo />} />
-                <Route path="changepassword" element={<ChangePassword />} />
-                <Route path="stravaconnection" element={<StravaConnection />} />
-            </Route>
-            <Route path="/u/:username/*" element={<Profile />}>
-                <Route index element={<ProfileMain />} />
-                <Route path="main" element={<ProfileMain />} />
-            </Route>
-            <Route path="/workout/:workout_id_param" element={<Workout />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </ScrollToTop>
-        <ScrollUp/>
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <ScrollToTop>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/logout" element={<Logout />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password/:resetPasswordKeyParam" element={<ResetPassword />} />
+              <Route path="/connect-strava" element={<ConnectStrava />} />
+              <Route path="/strava-callback" element={<StravaCallback />} />
+              <Route path="/account/*" element={<RequireAuth><Account /></RequireAuth>}>
+                  <Route index element={<ProfileInfo />} />
+                  <Route path="info" element={<ProfileInfo />} />
+                  <Route path="changepassword" element={<ChangePassword />} />
+                  <Route path="stravaconnection" element={<StravaConnection />} />
+              </Route>
+              <Route path="/u/:username/*" element={<Profile />}>
+                  <Route index element={<ProfileMain />} />
+                  <Route path="main" element={<ProfileMain />} />
+              </Route>
+              <Route path="/workout/:workout_id_param" element={<Workout />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </ScrollToTop>
+          <ScrollUp/>
+        </BrowserRouter>
+      </QueryClientProvider>
     );
 }
 
