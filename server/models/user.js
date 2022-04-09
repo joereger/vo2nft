@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model, INET
+  Model, INET, DOUBLE
 } = require('sequelize');
 
 const passportLocalSequelize = require('passport-local-sequelize');
@@ -56,6 +56,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     verified: {
         type: DataTypes.BOOLEAN
+    },
+    default_price_in_eth: {
+      type: DOUBLE
     },
     refresh_token: { 
         type: DataTypes.TEXT, 

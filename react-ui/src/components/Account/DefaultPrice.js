@@ -1,11 +1,10 @@
 //import { useEffect, useState } from "react";
 import React, { useContext, useState, useEffect } from "react"
 import { NavLink } from 'react-router-dom';
-import AccountNavbar from "../AccountNavbar";
-import bgImage from '../../img/account/signin-img.jpg';
 import { UserContext } from "../UserContext"
 import { useNavigate, useParams } from "react-router-dom"
-import AccountSideBar from "./AccountSideBar";
+import axios from "axios";
+import { useQuery } from 'react-query'
 
 
 const DefaultPrice = () => {
@@ -17,9 +16,28 @@ const DefaultPrice = () => {
   const navigate = useNavigate();
   const [userContext, setUserContext] = useContext(UserContext)
 
+  const { data: me } = useQuery(["me", userContext.user.id], () =>
+    axios.get( process.env.REACT_APP_NODE_URI + '/api/me/',
+      { enabled: true, withCredentials: true, headers: { Authorization: `Bearer ${userContext.token}` } }
+    ).then((res) => res.data),
+    {
+      onSuccess: (data) => {
+        console.log("got data from backend: "+JSON.stringify(data));
+        if (data?.default_price_in_eth && data?.default_price_in_eth>0){
+          setNewDefaultPrice(data.default_price_in_eth);
+        } else {
+          //setNewDefaultPrice(.001);
+        }
+        
+      }
+    }
+  );
+
   useEffect(() => {
-    console.log("Loading eth price");
+    
+    
   
+    //Get current ETH->USD price
     fetch(process.env.REACT_APP_NODE_URI + '/api/ethtousd', {
         method: 'GET',
         credentials: "include",
@@ -38,6 +56,9 @@ const DefaultPrice = () => {
           console.log("/api/ethtousd api error");
         }
     }).catch(err => err);
+
+    //Set catch-all price
+    setNewDefaultPrice(1); 
   
   }, [])
 
@@ -88,7 +109,6 @@ const DefaultPrice = () => {
   }
 
   const handleRangeSlide = (e) => {
-    console.log(e);
     setNewDefaultPrice(e.target.value);
   }
 
@@ -118,6 +138,7 @@ const DefaultPrice = () => {
                   <div class="mb-4 mt-4">
                     <center><h2>{(newDefaultPrice/1000).toFixed(6)} ETH</h2></center>
                     <center><h4>${((newDefaultPrice/1000) * ethPriceInUSD).toFixed(2)}</h4></center>
+                    {me?.username}
                   </div>
 
                   <div class="mb-4 mt-4">
