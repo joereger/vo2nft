@@ -20,6 +20,7 @@ import Signup from "./components/Signup/Signup";
 import { UserContext } from "./components/UserContext"
 import RequireAuth from "./RequireAuth";
 import ProfileInfo from "./components/Account/ProfileInfo";
+import DefaultPrice from "./components/Account/DefaultPrice";
 import ScrollToTop from "./components/ScrollToTop";
 import Profile from "./components/Profile/Profile";
 import ProfileMain from "./components/Profile/ProfileMain";
@@ -144,6 +145,7 @@ function App() {
               <Route path="/account/*" element={<RequireAuth><Account /></RequireAuth>}>
                   <Route index element={<ProfileInfo />} />
                   <Route path="info" element={<ProfileInfo />} />
+                  <Route path="defaultprice" element={<DefaultPrice />} />
                   <Route path="changepassword" element={<ChangePassword />} />
                   <Route path="stravaconnection" element={<StravaConnection />} />
               </Route>

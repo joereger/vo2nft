@@ -36,6 +36,7 @@ const AccountSideBar = () => {
             <a className="d-flex align-items-center nav-link-style px-4 py-3 border-top" href="dashboard-favorites.html"><i className="ai-heart fs-lg opacity-60 me-2"></i>Favorites<span className="text-muted fs-sm fw-normal ms-auto">6</span></a> */}
           <h3 className="d-block bg-secondary fs-sm fw-semibold text-muted mb-0 px-4 py-3">Account Settings</h3>
             <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/account/info">Profile Info</NavLink>
+            <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/account/defaultprice">Default Price</NavLink>
             <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/account/changepassword">Change Password</NavLink>
             <NavLink className="d-flex align-items-center nav-link-style px-4 py-3 " to="/account/stravaconnection">Strava Account</NavLink>
             {/* <a className="d-flex align-items-center nav-link-style px-4 py-3 border-top" href="account-payment.html">Payment methods</a>

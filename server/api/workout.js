@@ -16,7 +16,7 @@ exports.workout = async function(req, res){
             id: req.params.workout_id  
         } });
 
-        console.log("workout = "+JSON.stringify(workout));
+        //console.log("workout = "+JSON.stringify(workout));
 
     }
     

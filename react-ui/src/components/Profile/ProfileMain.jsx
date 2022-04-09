@@ -70,7 +70,7 @@ return(
         <div class="d-flex flex-column h-100 bg-light rounded-3 shadow-lg p-4">
           <div class="py-2 p-md-3">
             <div class="d-sm-flex align-items-center justify-content-between pb-4 text-center text-sm-start">
-              <h1 class="h3 mb-2 text-nowrap">Profile</h1>
+              <h1 class="h3 mb-2 text-nowrap">@{username}'s Workout NFTs</h1>
             </div>
             
             <div class="row">
