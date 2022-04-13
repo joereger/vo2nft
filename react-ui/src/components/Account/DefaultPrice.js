@@ -24,7 +24,7 @@ const DefaultPrice = () => {
       onSuccess: (data) => {
         console.log("got data from backend: "+JSON.stringify(data));
         if (data?.default_price_in_eth && data?.default_price_in_eth>0){
-          setNewDefaultPrice(data.default_price_in_eth);
+          setNewDefaultPrice(data.default_price_in_eth * 1000);
         } else {
           //setNewDefaultPrice(.001);
         }
@@ -35,8 +35,6 @@ const DefaultPrice = () => {
 
   useEffect(() => {
     
-    
-  
     //Get current ETH->USD price
     fetch(process.env.REACT_APP_NODE_URI + '/api/ethtousd', {
         method: 'GET',
@@ -47,9 +45,7 @@ const DefaultPrice = () => {
         }
     }).then(response => {
         if (response.status >= 200 && response.status < 300) {
-          console.log("/api/ethtousd: sent a response;");
           response.json().then(json => {
-              console.log(json);
               setEthPriceInUSD(json.usd);
           });
         } else {
@@ -64,47 +60,41 @@ const DefaultPrice = () => {
 
   const handleSubmit = (e) => {
       e.preventDefault();
-      console.log(`/API/DEFAULTPRICE Submitted: ${newDefaultPrice}`)
+      console.log(`/API/DEFAULTPRICE saving: ${newDefaultPrice/1000}`)
 
-      // return fetch(process.env.REACT_APP_NODE_URI + '/api/defaultprice', {
-      //     method: 'POST',
-      //     credentials: "include",
-      //     body: JSON.stringify({ newPassword }),
-      //     headers: {
-      //         'Content-Type': 'application/json',
-      //         Authorization: `Bearer ${userContext.token}`
-      //     }
-      // }).then(response => {
-      //     if (response.status >= 200 && response.status < 300) {
-      //       console.log("/API/CHANGEPASSWORD: received a response; user password is reset");
-      //       response.json().then(json => {
-      //         console.log(json);
-      //         //Save the user in the UserContext
-      //         setUserContext(oldValues => {
-      //           return { ...oldValues, user: json.user }
-      //         })
-      //         console.log("/API/CHANGEPASSWORD: token set token="+json.token);
-      //         console.log("/API/CHANGEPASSWORD: AFTER LOGIN/ABOUT TO REDIRECT userContext="+JSON.stringify(userContext));
+      return fetch(process.env.REACT_APP_NODE_URI + '/api/defaultprice', {
+          method: 'POST',
+          credentials: "include",
+          body: JSON.stringify({ default_price_in_eth: newDefaultPrice/1000 }),
+          headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${userContext.token}`
+          }
+      }).then(response => {
+          if (response.status >= 200 && response.status < 300) {
+            console.log("/API/DEFAULTPRICE: received a response; default price is set");
+            response.json().then(json => {
+              console.log(json);
+              //Save the user in the UserContext
+              setUserContext(oldValues => {
+                return { ...oldValues, user: json.user }
+              })
+              console.log("/API/DEFAULTPRICE: token set token="+json.token);
               
-      //         setIsAlertOn(false);
+              setAlertText("Saved!");
+              setIsAlertOn(true);
 
-      //         //Redirect user
-      //         navigate("/account");
-      //       });
-      //     } else if (response.status >= 400 && response.status < 600){
-      //       console.log("/API/CHANGEPASSWORD: /api/changepassword 401 unauthorized");
-      //       setAlertText("Sorry, the login authorities tell me that your request is not authorized.  Please try again.");
-      //       setIsAlertOn(true);
-      //     } else {
-      //       response.json().then(json => {
-      //         console.log(json);
-      //         console.log('/API/CHANGEPASSWORD:: Somthing blew up message='+json.message);
-      //         setAlertText(json.message);
-      //         setIsAlertOn(true);
-      //       });
+            });
+          } else {
+            response.json().then(json => {
+              console.log(json);
+              console.log('/API/CHANGEPASSWORD:: Somthing blew up message='+json.message);
+              setAlertText(json.message);
+              setIsAlertOn(true);
+            });
             
-      //     }
-      // }).catch(err => err);
+          }
+      }).catch(err => err);
 
   }
 
@@ -125,7 +115,7 @@ const DefaultPrice = () => {
                   <h1 class="h3 mb-2 text-nowrap">Default Price</h1>
                 </div>
                 {isAlertOn 
-                      ? <div class="alert d-flex alert-primary" role="alert"><i class="ai-bell fs-xl me-3"></i><div> {alertText} </div></div>
+                      ? <div className="alert d-flex alert-primary" role="alert"><i class="ai-bell fs-xl me-3"></i><div> {alertText} </div></div>
                       : ''
                 }
                 <form onSubmit={e => {handleSubmit(e)}} className="needs-validation" noValidate>
@@ -135,14 +125,13 @@ const DefaultPrice = () => {
                     </div>
                   </div> */}
 
-                  <div class="mb-4 mt-4">
+                  <div className="mb-4 mt-4">
                     <center><h2>{(newDefaultPrice/1000).toFixed(6)} ETH</h2></center>
                     <center><h4>${((newDefaultPrice/1000) * ethPriceInUSD).toFixed(2)}</h4></center>
-                    {me?.username}
                   </div>
 
                   <div class="mb-4 mt-4">
-                    <input type="range" className="form-range" min="1" max="100" step=".01" id="customRange1" onChange={handleRangeSlide}></input>
+                    <input type="range" value={newDefaultPrice} className="form-range" min="1" max="100" step=".01" id="customRange1" onChange={handleRangeSlide}></input>
                   </div>
 
                   <button className="btn btn-primary d-block w-100" type="submit">Save</button>

@@ -17,7 +17,7 @@ var enforce = require('express-sslify');
 
 //Auth
 const cors = require("cors")
-const bodyParser = require("body-parser")
+//const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
 
 
@@ -114,6 +114,7 @@ if (!isDev && cluster.isMaster) {
   app.get('/api/workout/:workout_id', require('./api/workout.js').workout);
   app.get('/api/user/:user_id', require('./api/user.js').user);
   app.get('/api/ethtousd', require('./api/ethtousd.js').ethtousd);
+  app.post('/api/defaultprice', verifyUser, require('./api/defaultprice.js').defaultprice);
 
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', function(request, response) {
