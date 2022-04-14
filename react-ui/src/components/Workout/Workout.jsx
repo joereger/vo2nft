@@ -165,25 +165,32 @@ const Workout = () => {
                           <button type="button" class="btn btn-primary">Buy This Workout NFT</button>
                         </div>
                         <div class="col justify-content-center">
-                        {(workout_data?.workout?.userid_currentowner === me?.id)
-                            ? <center><h4><EditableLabel text={(workout_data.workout.price_in_eth).toFixed(6)}
-                            labelClassName='myLabelClass'
-                            inputClassName='myInputClass'
-                            inputWidth='200px'
-                            inputHeight='25px'
-                            inputMaxLength='50'
-                            labelFontWeight='bold'
-                            inputFontWeight='bold'
-                            onFocus={_handleFocus}
-                            onFocusOut={_handleFocusOut}
-                        /> ETH</h4></center>
-                            : <center><h4>{(workout_data.workout.price_in_eth).toFixed(6)} ETH</h4></center> 
+                        {(workout_data.workout.price_in_eth)
+                          ? <> 
+                            {(workout_data?.workout?.userid_currentowner === me?.id)
+                                ? <center><h4>
+                                  <EditableLabel text={(workout_data?.workout?.price_in_eth).toFixed(6)}
+                                    labelClassName='myLabelClass'
+                                    inputClassName='myInputClass'
+                                    inputWidth='200px'
+                                    inputHeight='25px'
+                                    inputMaxLength='50'
+                                    labelFontWeight='bold'
+                                    inputFontWeight='bold'
+                                    onFocus={_handleFocus}
+                                    onFocusOut={_handleFocusOut}
+                                  /> 
+                                  ETH</h4></center>
+                                : <center><h4>{(workout_data?.workout?.price_in_eth).toFixed(6)} ETH</h4></center> 
+                            } 
+                            </>
+                          : <></>
                         }
-
-
                         
-                        
-                        <center><h4>${(workout_data.workout.price_in_eth * currentEthPriceInUSD).toFixed(2)}</h4></center>
+                        {(workout_data.workout.price_in_eth)
+                          ? <center><h4>${(workout_data.workout.price_in_eth * currentEthPriceInUSD).toFixed(2)}</h4></center>
+                          : <></>
+                        }
                         </div>
                         <div class="col justify-content-center">
                           <div>Creator: <Link to={'/u/'+(creator_data?.user.username)}>{creator_data?.user.username}</Link></div>
