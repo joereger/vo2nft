@@ -2,6 +2,7 @@ const db = require('../models/index.js');
 const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../auth/authenticate");
 const user = require('../models/user.js');
 var util = require('util')
+const { Op } = require("sequelize");
 
 exports.defaultprice = async function(req, res, next){
     console.log('/API/DEFAULTPRICE: req.body='+JSON.stringify(req.body));
@@ -13,13 +14,11 @@ exports.defaultprice = async function(req, res, next){
                 id: req.user.id
             }
         });
-        // console.log("START LOGGING USER");
-        // console.log(util.inspect(user));
-        // console.log("END LOGGING USER");
         if (user) {
             console.log("/API/DEFAULTPRICE: found user where id="+user.id);
             user.default_price_in_eth = req.body.default_price_in_eth;
             await user.save();
+            updateWorkoutsWithNewDefaultPrice(user);
             console.log("/API/DEFAULTPRICE: user saved!");
             return res.send({ message: "Success!", user: user })
 
@@ -36,4 +35,36 @@ exports.defaultprice = async function(req, res, next){
     }
 
     //return res.send({ message: "Success!" })
+};
+
+var updateWorkoutsWithNewDefaultPrice = exports.updateWorkoutsWithNewDefaultPrice = async function(user){
+
+    if (user && user.default_price_in_eth){
+
+        var result1 = await db.sequelize.models.Workout.update(
+            {
+                price_in_eth: user.default_price_in_eth
+            },
+            { where: 
+                { userid_currentowner: user.id,  
+                    is_price_default: true   
+                }
+            }  
+        );
+        console.log("updateWorkoutsWithNewDefaultPrice result1 = "+JSON.stringify(result1));
+
+        var result2 = await db.sequelize.models.Workout.update(
+            {
+                price_in_eth: user.default_price_in_eth
+            },
+            { where: 
+                { userid_currentowner: user.id,  
+                    is_price_default: null   
+                }
+            }  
+        );
+        console.log("updateWorkoutsWithNewDefaultPrice result2 = "+JSON.stringify(result2));
+
+    }
+
 };

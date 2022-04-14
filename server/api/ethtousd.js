@@ -5,7 +5,7 @@ const axios = require('axios');
 
 global.one_eth_in_usd = 0;
 global.one_eth_in_usd_last_updated_at = null;
-var max_age_of_quote = 10000; //milliseconds
+var max_age_of_quote = 1200000; //milliseconds
 
 exports.ethtousd = async function(req, res){
     console.log('/api/ethtousd called');

@@ -34,9 +34,17 @@ exports.getWorkoutsAndStoreInDatabase = async (stravaAccount, page, per_page=200
         //Record the API call
         strava_throttler.recordApiCall();
 
+        //Call Strava API
         let response = await axios.get('https://www.strava.com/api/v3/athlete/activities?page='+page+'&per_page='+per_page, 
             { headers: {Authorization: 'Bearer ' + stravaAccount.auth_token} }
         );
+
+        //Pull up the user and get the default price
+        const user = await db.sequelize.models.User.findOne({ where: { id: stravaAccount.userId } });
+        var defaultPriceInEth = .003;
+        if (user && user.id>0 && user.default_price_in_eth && user.default_price_in_eth>0){
+            defaultPriceInEth = user.default_price_in_eth;
+        }
 
         if (response && response.data){
 
@@ -44,55 +52,48 @@ exports.getWorkoutsAndStoreInDatabase = async (stravaAccount, page, per_page=200
             response.data.forEach(function(workout) { 
                 //console.log("workout.id="+workout.id); 
 
-                const Workout = db.sequelize.models.Workout;
-
                 //Have to make sure we don't insert dupes
-                Workout.findOne({ where: {
+                const workoutDb = await db.sequalize.models.Workout.findOne({ where: {
                     workout_id: workout?.id,
                     external_account_id: stravaAccount.id   
-                } })
-                .then(function(workoutDb) {
-                    
-                    if(workoutDb){
-                        //Update existing
-                        workoutDb.external_account_type = 'strava';
-                        workoutDb.workout_date = workout?.start_date;
-                        workoutDb.title = workout?.name;
-                        workoutDb.url = 'https://www.strava.com/activities/'+workout?.id;
-                        workoutDb.strava_details = workout;
-                        workoutDb.save().then((workoutDb) =>{
-                            if (workoutDb){
-                                //console.log("workout UPDATED workoutDb.id="+workoutDb.id+"in DB");
-                                //Enqueue Google Maps image
-                                require('./strava-job-getGoogleMapSaveToS3').enqueue(stravaAccount, workoutDb.id);
-                            }
-                        })
-                    } else {
-                        //Insert new
-                        Workout.create({ 
-                            userid_creator: stravaAccount.userId,
-                            userid_currentowner: stravaAccount.userId,
-                            external_account_type: 'strava',
-                            external_account_id: stravaAccount.id,
-                            workout_date: workout?.start_date,
-                            workout_id: workout?.id,
-                            title: workout?.name,
-                            url: 'https://www.strava.com/activities/'+workout?.id,
-                            strava_details: workout
-                        }).then(
-                            workoutNew => {
-                                if (workoutNew) {
-                                    //console.log("workout CREATED workoutNew.id="+workoutNew.id+"in DB");
-                                    //Enqueue Google Maps image
-                                    require('./strava-job-getGoogleMapSaveToS3').enqueue(stravaAccount, workoutNew.id);
-                                }
-                            }
-                        )
-                    }
+                } });
+               
+                if(workoutDb){
+                    //Update existing
+                    workoutDb.external_account_type = 'strava';
+                    workoutDb.workout_date = workout?.start_date;
+                    workoutDb.title = workout?.name;
+                    workoutDb.url = 'https://www.strava.com/activities/'+workout?.id;
+                    workoutDb.strava_details = workout;
+                    await workoutDb.save()
+                    //console.log("workout UPDATED workoutDb.id="+workoutDb.id+"in DB");
+                    //Enqueue Google Maps image
+                    require('./strava-job-getGoogleMapSaveToS3').enqueue(stravaAccount, workoutDb.id);
+                } else {
+                    //Insert new
+                    const workoutNew = await db.sequelize.models.Workout.create({ 
+                        userid_creator: stravaAccount.userId,
+                        userid_currentowner: stravaAccount.userId,
+                        external_account_type: 'strava',
+                        external_account_id: stravaAccount.id,
+                        workout_date: workout?.start_date,
+                        workout_id: workout?.id,
+                        title: workout?.name,
+                        url: 'https://www.strava.com/activities/'+workout?.id,
+                        strava_details: workout,
+                        price_in_eth: defaultPriceInEth,
+                        is_price_default: true
+                    })
+                    if (workoutNew) {
+                        //console.log("workout CREATED workoutNew.id="+workoutNew.id+"in DB");
+                        //Enqueue Google Maps image
+                        require('./strava-job-getGoogleMapSaveToS3').enqueue(stravaAccount, workoutNew.id);
+                    } 
+                }
    
                 })
 
-            });
+    
             
         } 
         

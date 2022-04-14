@@ -23,16 +23,15 @@ exports.signup = async function(req, res){
 
     //See if this email is already in use
     try {
-        const User = db.sequelize.models.User;
     
-        usercount = await User.count({ where: { email: req.body.email } });
-            if (usercount>0){ 
-                console.log("Signup.js Email already exists "+req.body.email);
-                res.set('Content-Type', 'application/json');
-                return res.send(400, { message: "Oops, that email already exists.  Consider logging in instead?" });
-            } else {
-                console.log("Signup.js Email doesn't appear to exist:  "+req.body.email);    
-            }  
+        usercount = await db.sequelize.models.User.count({ where: { email: req.body.email } });
+        if (usercount>0){ 
+            console.log("Signup.js Email already exists "+req.body.email);
+            res.set('Content-Type', 'application/json');
+            return res.send(400, { message: "Oops, that email already exists.  Consider logging in instead?" });
+        } else {
+            console.log("Signup.js Email doesn't appear to exist:  "+req.body.email);    
+        }  
     } catch (error){
         console.error('Signup failed: ', error);
         res.set('Content-Type', 'application/json');
@@ -70,6 +69,7 @@ exports.signup = async function(req, res){
                 user.refresh_token = [refreshToken];
                 user.name = req.body.name;
                 user.username = req.body.username;
+                user.default_price_in_eth = .003;
                 user.save();
 
                 //Save the Strava data

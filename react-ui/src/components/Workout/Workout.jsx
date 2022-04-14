@@ -7,6 +7,7 @@ import { DateTime, Duration } from "luxon";
 import axios from "axios";
 import { useQuery } from 'react-query'
 import AccountNavbar from "../AccountNavbar";
+import { ethPriceInUSD } from "../Util/util.js";
 
 const getHumanReadable = (inDate) => {
   if (inDate){
@@ -18,6 +19,8 @@ const Workout = () => {
 
   const [userContext, setUserContext] = useContext(UserContext);
   const { workout_id_param } = useParams();
+  const [currentEthPriceInUSD, setCurrentEthPriceInUSD] = useState("");
+  //console.log("at top currentEthPriceInUSD="+currentEthPriceInUSD);
 
   const { isLoading, error, data: workout_data } = useQuery(["workout", workout_id_param], () =>
     axios.get( process.env.REACT_APP_NODE_URI + '/api/workout/'+workout_id_param,
@@ -25,12 +28,12 @@ const Workout = () => {
     ).then((res) => res.data)
   );
 
-  console.dir(workout_data);
+  //console.dir(workout_data);
 
   const userid_creator = workout_data?.workout?.userid_creator;
   const userid_currentowner = workout_data?.workout?.userid_creator;
 
-  console.log("userid_creator: "+userid_creator);
+  //console.log("userid_creator: "+userid_creator);
 
   const { data: creator_data } = useQuery(["user", userid_creator], () =>
     axios.get( process.env.REACT_APP_NODE_URI + '/api/user/'+userid_creator,
@@ -38,13 +41,29 @@ const Workout = () => {
     ).then((res) => res.data)
   );
 
-  console.dir(creator_data);
+  //console.dir(creator_data);
 
   const { data: currentowner_data } = useQuery(["user", userid_currentowner], () =>
     axios.get( process.env.REACT_APP_NODE_URI + '/api/user/'+userid_currentowner,
       { enabled: !!userid_currentowner, withCredentials: true, headers: { Authorization: `Bearer ${userContext.token}` } }
     ).then((res) => res.data)
   );
+
+  useEffect(() => {
+    
+
+
+    (async function() {
+        try {
+          setCurrentEthPriceInUSD( await ethPriceInUSD() );
+          console.log("in useEffect() currentEthPriceInUSD="+currentEthPriceInUSD);    
+        } catch (e) {
+            console.error(e);
+        }
+    })();
+
+
+  }, [])
 
 
 
@@ -124,7 +143,8 @@ const Workout = () => {
                           <button type="button" class="btn btn-primary">Buy This Workout NFT</button>
                         </div>
                         <div class="col justify-content-center">
-                          <h2>$13.87</h2>
+                        <center><h4>{(workout_data.workout.price_in_eth).toFixed(6)} ETH</h4></center>
+                        <center><h4>${(workout_data.workout.price_in_eth * currentEthPriceInUSD).toFixed(2)}</h4></center>
                         </div>
                         <div class="col justify-content-center">
                           <div>Creator: <Link to={'/u/'+(creator_data?.user.username)}>{creator_data?.user.username}</Link></div>

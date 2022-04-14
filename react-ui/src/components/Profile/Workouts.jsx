@@ -91,7 +91,7 @@ const Workouts = () => {
                     <div className="card-body">
                       <h5 className="card-title">{workout.title}</h5>
                       <p className="card-text fs-sm">{getHumanReadable(workout.workout_date)}</p>
-                      <NavLink to={'/workout/'+workout.id} className="btn btn-sm btn-primary">Buy Workout NFT</NavLink>
+                      <NavLink to={'/workout/'+workout.id} className="btn btn-sm btn-primary">Buy Workout NFT {workout.price_in_eth}</NavLink>
                     </div>
                   </div>
                 </div>

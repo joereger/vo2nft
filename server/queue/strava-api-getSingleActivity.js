@@ -34,9 +34,17 @@ exports.getSingleActivity = async (stravaAccount, activity_id) => {
         //Record the API call
         strava_throttler.recordApiCall();
 
+        //Make the API call to Strava
         let response = await axios.get('https://www.strava.com/api/v3/activities/'+activity_id, 
             { headers: {Authorization: 'Bearer ' + stravaAccount.auth_token} }
         );
+
+        //Pull up the user and get the default price
+        const user = await db.sequelize.models.User.findOne({ where: { id: stravaAccount.userId } });
+        var defaultPriceInEth = .003;
+        if (user && user.id>0 && user.default_price_in_eth && user.default_price_in_eth>0){
+            defaultPriceInEth = user.default_price_in_eth;
+        }
 
         if (response && response.data){
 
@@ -78,7 +86,9 @@ exports.getSingleActivity = async (stravaAccount, activity_id) => {
                         workout_id: workout?.id,
                         title: workout?.name,
                         url: 'https://www.strava.com/activities/'+workout?.id,
-                        strava_details: workout
+                        strava_details: workout,
+                        price_in_eth: defaultPriceInEth,
+                        is_price_default: true
                     }).then(
                         workoutNew => {
                             if (workoutNew) {

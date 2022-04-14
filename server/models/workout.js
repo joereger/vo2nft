@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model, INET
+  Model, INET, BOOLEAN, DOUBLE
 } = require('sequelize');
 
 const { DATE } = require('sequelize');
@@ -70,6 +70,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     strava_details: {
       type: JSONB
+    },
+    price_in_eth: {
+      type: DOUBLE
+    },
+    is_price_default: {
+      type: BOOLEAN
     }
     
   }, {
