@@ -111,7 +111,8 @@ if (!isDev && cluster.isMaster) {
   app.get('/api/stravaaccount', verifyUser, require('./api/stravaaccount.js').stravaaccount);
   app.delete('/api/stravaaccount', verifyUser, require('./api/stravaaccount.js').stravaaccountdisconnect);
   app.get('/api/profile/:username', require('./api/profile.js').profile);
-  app.get('/api/workout/:workout_id', require('./api/workout.js').workout);
+  app.get('/api/workout/:workout_id', require('./api/workout.js').get_workout);
+  app.patch('/api/workout/:workout_id', verifyUser, require('./api/workout.js').patch_workout);
   app.get('/api/user/:user_id', require('./api/user.js').user);
   app.get('/api/ethtousd', require('./api/ethtousd.js').ethtousd);
   app.post('/api/defaultprice', verifyUser, require('./api/defaultprice.js').defaultprice);

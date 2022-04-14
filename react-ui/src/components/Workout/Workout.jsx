@@ -8,6 +8,7 @@ import axios from "axios";
 import { useQuery } from 'react-query'
 import AccountNavbar from "../AccountNavbar";
 import { ethPriceInUSD } from "../Util/util.js";
+import EditableLabel from 'react-inline-editing';
 
 const getHumanReadable = (inDate) => {
   if (inDate){
@@ -22,7 +23,7 @@ const Workout = () => {
   const [currentEthPriceInUSD, setCurrentEthPriceInUSD] = useState("");
   //console.log("at top currentEthPriceInUSD="+currentEthPriceInUSD);
 
-  const { isLoading, error, data: workout_data } = useQuery(["workout", workout_id_param], () =>
+  const { isLoading, error, data: workout_data, refetch } = useQuery(["workout", workout_id_param], () =>
     axios.get( process.env.REACT_APP_NODE_URI + '/api/workout/'+workout_id_param,
       { withCredentials: true, headers: { Authorization: `Bearer ${userContext.token}` } }
     ).then((res) => res.data)
@@ -49,10 +50,14 @@ const Workout = () => {
     ).then((res) => res.data)
   );
 
+  const { data: me } = useQuery(["me", 1], () =>
+    axios.get( process.env.REACT_APP_NODE_URI + '/api/me',
+      { withCredentials: true, headers: { Authorization: `Bearer ${userContext.token}` } }
+    ).then((res) => res.data)
+  );
+
   useEffect(() => {
     
-
-
     (async function() {
         try {
           setCurrentEthPriceInUSD( await ethPriceInUSD() );
@@ -62,9 +67,26 @@ const Workout = () => {
         }
     })();
 
-
   }, [])
 
+  const _handleFocus = (text) => {
+    console.log('Focused with text: ' + text);
+  }
+
+  const _handleFocusOut = async (text) => {
+    console.log('Left editor with text: ' + text);
+
+    const response = await axios.patch( process.env.REACT_APP_NODE_URI + '/api/workout/'+workout_id_param,
+      { price_in_eth: text},
+      { withCredentials: true, headers: { Authorization: `Bearer ${userContext.token}` } }
+    )
+
+    //Refetch the workout data
+    refetch();
+
+    //Update the $$$
+
+  }
 
 
   if (isLoading) return "Loading...";
@@ -143,7 +165,24 @@ const Workout = () => {
                           <button type="button" class="btn btn-primary">Buy This Workout NFT</button>
                         </div>
                         <div class="col justify-content-center">
-                        <center><h4>{(workout_data.workout.price_in_eth).toFixed(6)} ETH</h4></center>
+                        {(workout_data?.workout?.userid_currentowner === me?.id)
+                            ? <center><h4><EditableLabel text={(workout_data.workout.price_in_eth).toFixed(6)}
+                            labelClassName='myLabelClass'
+                            inputClassName='myInputClass'
+                            inputWidth='200px'
+                            inputHeight='25px'
+                            inputMaxLength='50'
+                            labelFontWeight='bold'
+                            inputFontWeight='bold'
+                            onFocus={_handleFocus}
+                            onFocusOut={_handleFocusOut}
+                        /> ETH</h4></center>
+                            : <center><h4>{(workout_data.workout.price_in_eth).toFixed(6)} ETH</h4></center> 
+                        }
+
+
+                        
+                        
                         <center><h4>${(workout_data.workout.price_in_eth * currentEthPriceInUSD).toFixed(2)}</h4></center>
                         </div>
                         <div class="col justify-content-center">
