@@ -12,18 +12,46 @@ exports.signup = async function(req, res){
 
     //console.log('/api/signup req.body.strava_data='+JSON.stringify(req?.body?.strava_data));
 
+    //Username can't be blank
+    if (req.body.username==null || req.body.username==''){ 
+        console.log('Username cannot be blank'); 
+        res.set('Content-Type', 'application/json');
+        return res.send(400, { message: "Doh, the username can't be blank." });
+    }
+
+    //TODO verify username checking works
+    var usernameRegex = /^[a-zA-Z0-9]+$/;
+    if (!usernameRegex.test(req.body.username.toLowerCase())){
+        console.log('Username can only use letters and numbers.'); 
+        res.set('Content-Type', 'application/json');
+        return res.send(400, { message: "Doh, the username can only use letters and numbers.  No spaces are allowed." });    
+    }
+
     //Email can't be blank
     if (req.body.email==null || req.body.email==''){
-        //res.set('Content-Type', 'application/json');
-        //res.send('{"message":"Email cannot be blank"}'); 
         console.log('Signup email cannot be blank'); 
         res.set('Content-Type', 'application/json');
         return res.send(400, { message: "Doh, the email can't be blank." });
     }
 
+    //See if this username is already in use
+    try {
+        usercount = await db.sequelize.models.User.count({ where: { username: req.body.username.toLowerCase() } });
+        if (usercount>0){ 
+            console.log("Signup.js username already exists "+req.body.username);
+            res.set('Content-Type', 'application/json');
+            return res.send(400, { message: "Oops, that username already exists.  Please choose another." });
+        } else {
+            console.log("Signup.js username doesn't appear to exist:  "+req.body.username);    
+        }  
+    } catch (error){
+        console.error('Signup failed: ', error);
+        res.set('Content-Type', 'application/json');
+        return res.send(500, { message: "Durn, an unspecified server error has occurred.  This isn't your fault.  Please try again." });
+    }
+
     //See if this email is already in use
     try {
-    
         usercount = await db.sequelize.models.User.count({ where: { email: req.body.email } });
         if (usercount>0){ 
             console.log("Signup.js Email already exists "+req.body.email);
@@ -53,7 +81,7 @@ exports.signup = async function(req, res){
 
         const User = db.sequelize.models.User;
         await User.register(
-            User.build({ email: req.body.email, username: req.body.username }),
+            User.build({ email: req.body.email, username: req.body.username.toLowerCase() }),
             req.body.password,
             (err, user) => {
               if (err) {

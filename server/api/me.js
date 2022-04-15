@@ -16,13 +16,21 @@ exports.meUpdate = async function(req, res, next){
     try {   
         const User = db.sequelize.models.User;
 
+        //TODO verify username checking works
+        var usernameRegex = /^[a-zA-Z0-9]+$/;
+        if (!usernameRegex.test(req.body.username.toLowerCase())){
+            console.log('Username can only use letters and numbers.'); 
+            res.set('Content-Type', 'application/json');
+            return res.send(400, { message: "Oops, the username can only use letters and numbers.  No spaces are allowed." });    
+        }
+
         //Validation of username uniqueness
         const numWithUsername = await User.count({
             where: {
                 id: {
                 [Op.ne]: req.user.id
                 },
-                username: req.body.username
+                username: req.body.username.toLowerCase()
             }
          });
          if (numWithUsername>0){

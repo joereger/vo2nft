@@ -1,26 +1,39 @@
 import React, { useContext } from "react"
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useParams } from 'react-router-dom';
 import main from '../../img/avatar.png';
 import { UserContext } from "../UserContext"
+import axios from "axios";
+import { useQuery } from 'react-query'
 
 const ProfileSideBar = () => {
 
   const [userContext, setUserContext] = useContext(UserContext)
+  const { username } = useParams();
 
-  
+  const { data: user, isLoading, error } = useQuery(["profile", username], () =>
+    axios.get( process.env.REACT_APP_NODE_URI + '/api/profile/'+username,
+      { withCredentials: true, headers: { Authorization: `Bearer ${userContext.token}` } }
+    ).then((res) => res.data.user)
+  ); 
+
+  console.log("user: "+JSON.stringify(user));
+
+  if (isLoading) return "Loading...";
+
+  if (error) return "An error has occurred: " + error.message;
 
   return(
 
     <div className="col-lg-4 mb-4 mb-lg-0">
       <div className="bg-light rounded-3 shadow-lg">
         <div className="px-4 py-4 mb-1 text-center">
-          <Link to={'/u/'+(userContext.user && userContext.user.username)}>
-              {(userContext.user && userContext.user.profile_pic) 
-                ? <img className="d-block rounded-circle mx-auto my-2" src={userContext.user.profile_pic} alt="" width="110" />
+          <Link to={'/u/'+(user && user.username)}>
+              {(user && user.profile_pic) 
+                ? <img className="d-block rounded-circle mx-auto my-2" src={user.profile_pic} alt="" width="110" />
                 : <img className="d-block rounded-circle mx-auto my-2" src={main} alt="" width="110" />
               }
-              <h6 className="mb-0 pt-1">{userContext.user && userContext.user.name}</h6>
-              <span className="text-muted fs-sm">@{userContext.user && userContext.user.username}</span>
+              <h6 className="mb-0 pt-1">{user.name}</h6>
+              <span className="text-muted fs-sm">@{user && user.username}</span>
             </Link>
         </div>
         <div className="d-lg-none px-4 pb-4 text-center">

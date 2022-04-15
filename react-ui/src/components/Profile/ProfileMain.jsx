@@ -23,42 +23,40 @@ const ProfileMain = () => {
   useEffect(() => {
       console.log("Loading User profile");
 
-      fetch(process.env.REACT_APP_NODE_URI + '/api/profile/'+ username, {
-          method: 'GET',
-          credentials: "include",
-          headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${userContext.token}`
-          }
-      }).then(response => {
-          if (response.status >= 200 && response.status < 300) {
-            //return(response);
-            console.log("ME: received a response;");
-            response.json().then(json => {
-                console.log(json);
+      // fetch(process.env.REACT_APP_NODE_URI + '/api/profile/'+ username, {
+      //     method: 'GET',
+      //     credentials: "include",
+      //     headers: {
+      //         'Content-Type': 'application/json',
+      //         Authorization: `Bearer ${userContext.token}`
+      //     }
+      // }).then(response => {
+      //     if (response.status >= 200 && response.status < 300) {
+      //       //return(response);
+      //       console.log("/api/profile: received a response.");
+      //       response.json().then(json => {
+      //           console.log(json);
     
-                setUser(json.user);
-                if (json.workouts != null){
-                  setWorkouts(json.workouts);
-                  //console.log("setting json.workouts="+json.workouts);
-                }
-                //setAlertText("Saved.  Thanks!");
-                //setIsAlertOn(false);
-            });
-          } else if (response.status >= 400 && response.status < 600){
-            console.log("/api/profile 401 unauthorized");
-            setAlertText("Sorry, the login authorities tell me that your request is unauthorized.  Please try again or consider resetting your password.");
-            setIsAlertOn(true);
-          } else {
-            response.json().then(json => {
-              console.log(json);
-              console.log('PROFILE: Somthing blew up message='+json.message);
-              setAlertText(json.message);
-              setIsAlertOn(true);
-            });
+      //           setUser(json.user);
+      //           if (json.workouts != null){
+      //             setWorkouts(json.workouts);
+      //             console.log("setting json.workouts="+json.workouts);
+      //           }
+      //       });
+      //     } else if (response.status >= 400 && response.status < 600){
+      //       console.log("/api/profile 401 unauthorized");
+      //       setAlertText("Sorry, the login authorities tell me that your request is unauthorized.  Please try again or consider resetting your password.");
+      //       setIsAlertOn(true);
+      //     } else {
+      //       response.json().then(json => {
+      //         console.log(json);
+      //         console.log('PROFILE: Somthing blew up message='+json.message);
+      //         setAlertText(json.message);
+      //         setIsAlertOn(true);
+      //       });
             
-          }
-      }).catch(err => err);
+      //     }
+      // }).catch(err => err);
     
     }, [])
 
