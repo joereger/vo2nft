@@ -16,12 +16,17 @@ exports.meUpdate = async function(req, res, next){
     try {   
         const User = db.sequelize.models.User;
 
-        //TODO verify username checking works
         var usernameRegex = /^[a-zA-Z0-9]+$/;
-        if (!usernameRegex.test(req.body.username.toLowerCase())){
+        if (!usernameRegex.test(req.body?.username.toLowerCase())){
             console.log('Username can only use letters and numbers.'); 
             res.set('Content-Type', 'application/json');
             return res.send(400, { message: "Oops, the username can only use letters and numbers.  No spaces are allowed." });    
+        }
+
+        if (req.body.username && req.body.username.length>15){
+            console.log('Username must be <= 15 characters.'); 
+            res.set('Content-Type', 'application/json');
+            return res.send(400, { message: "Oops, the username must be 15 characters or less." });    
         }
 
         //Validation of username uniqueness
@@ -75,7 +80,7 @@ exports.meUpdate = async function(req, res, next){
 
                     user.email = req.body.email;
                     user.name = req.body.name;
-                    user.username = req.body.username;
+                    user.username = req.body.username.toLowerCase();
 
                     user.save().then(
                         () => {

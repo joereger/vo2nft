@@ -32,7 +32,7 @@ const ProfileSideBar = () => {
                 ? <img className="d-block rounded-circle mx-auto my-2" src={user.profile_pic} alt="" width="110" />
                 : <img className="d-block rounded-circle mx-auto my-2" src={main} alt="" width="110" />
               }
-              <h6 className="mb-0 pt-1">{user.name}</h6>
+              <h6 className="mb-0 pt-1">{user && user.name}</h6>
               <span className="text-muted fs-sm">@{user && user.username}</span>
             </Link>
         </div>
